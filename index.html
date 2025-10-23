@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aditya Jhaveri - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #e0e0e0;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+
+        .nav-links a:hover {
+            color: #00ff88;
+        }
+
+        .space-hero {
+            height: 100vh;
+            padding-top: 300px; /* match header height */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .orbit-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 0; /* remove bottom margin */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hello-world {
+            position: relative; /* no absolute needed now */
+            font-size: 25px;
+            font-weight: bold;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            z-index: 2;
+            text-align: center;
+        }
+
+        .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit1 {
+            width: 200px;
+            height: 200px;
+            animation: rotate 10s linear infinite;
+        }
+
+        .orbit2 {
+            width: 280px;
+            height: 280px;
+            animation: rotate 15s linear infinite reverse;
+        }
+
+        .orbit3 {
+            width: 360px;
+            height: 360px;
+            animation: rotate 20s linear infinite;
+        }
+
+        .dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
+        }
+
+        .dot1 {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .dot2 {
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+        }
+
+        .dot3 {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-top: 40px;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid #00ff88;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+            margin-bottom: 30px;
+            object-fit: cover;
+        }
+
+        .intro-text {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .intro-text h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+        }
+
+        .intro-text h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #b0b0b0;
+        }
+
+        .intro-text p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            color: #a0a0a0;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+        }
+
+        .btn-primary {
+            background: #00ff88;
+            color: #0a0a0a;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #00ff88;
+            border: 2px solid #00ff88;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        section {
+            background: rgba(20, 20, 20, 0.8);
+            margin: 40px 0;
+            padding: 60px 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: #00ff88;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .experience-grid, .project-grid {
+            display: grid;
+            gap: 30px;
+        }
+
+        .experience-card, .project-card {
+            padding: 30px;
+            border-left: 4px solid #00ff88;
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 10px;
+            transition: all 0.3s;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .experience-card:hover, .project-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 25px rgba(0, 255, 136, 0.2);
+            border-left: 4px solid #00ff88;
+        }
+
+        .experience-card h3, .project-card h3 {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .company {
+            color: #00ff88;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .date {
+            color: #888;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .experience-card ul, .project-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .experience-card li, .project-card li {
+            padding: 8px 0 8px 25px;
+            position: relative;
+            color: #b0b0b0;
+        }
+
+        .experience-card li:before, .project-card li:before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-category {
+            background: rgba(30, 30, 30, 0.6);
+            padding: 25px;
+            border-radius: 10px;
+            transition: all 0.3s;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 25px rgba(0, 255, 136, 0.2);
+        }
+
+        .skill-category h3 {
+            font-size: 20px;
+            color: #00ff88;
+            margin-bottom: 15px;
+        }
+
+        .skill-category p {
+            color: #b0b0b0;
+            line-height: 1.8;
+        }
+
+        .education-card {
+            background: rgba(30, 30, 30, 0.6);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #00ff88;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .education-card h3 {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .education-card h4 {
+            color: #00ff88;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .project-links {
+            margin-top: 15px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .project-link {
+            padding: 8px 20px;
+            background: #00ff88;
+            color: #0a0a0a;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+
+        .project-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        footer {
+            background: rgba(20, 20, 20, 0.95);
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #b0b0b0;
+        }
+
+        .contact-item a {
+            color: #00ff88;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .orbit-container {
+                width: 300px;
+                height: 300px;
+            }
+
+            .hello-world {
+                font-size: 15px;
+            }
+
+            .intro-text h1 {
+                font-size: 32px;
+            }
+
+            .intro-text h2 {
+                font-size: 20px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            section {
+                padding: 40px 20px;
+            }
+        }
+
+        .highlight-card {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 200, 100, 0.2) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .highlight-card h3 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #00ff88;
+        }
+
+        .highlight-card p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: rgba(30, 30, 30, 0.6);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 25px rgba(0, 255, 136, 0.2);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #00ff88;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <header>
+        <nav>
+            <div class="logo">&lt;AJ /&gt;</div>
+            <ul class="nav-links">
+                <li><a href="#about">./about</a></li>
+                <li><a href="#experience">./experience</a></li>
+                <li><a href="#projects">./projects</a></li>
+                <li><a href="#skills">./skills</a></li>
+                <li><a href="#contact">./contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="space-hero">
+        <div class="orbit-container">
+            <div class="hello-world">&lt;Hello World /&gt;</div>
+            <div class="orbit orbit1">
+                <div class="dot dot1"></div>
+            </div>
+            <div class="orbit orbit2">
+                <div class="dot dot2"></div>
+            </div>
+            <div class="orbit orbit3">
+                <div class="dot dot3"></div>
+            </div>
+        </div>
+        
+        <div class="profile-section">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aditya" alt="Aditya Jhaveri" class="profile-image">
+            <div class="intro-text">
+                <h1>Aditya Jhaveri</h1>
+                <h2>Software Engineer | AI/ML Enthusiast | Distributed Systems Developer</h2>
+                <p>Computer Science graduate student at NYU Tandon with 2+ years of experience building scalable systems and leveraging AI to solve complex problems. Specialized in distributed systems, big data processing, and full-stack development.</p>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                    <a href="https://github.com/swooshie" class="btn btn-secondary" target="_blank">View GitHub</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <section id="about">
+            <h2>&lt; About Me /&gt;</h2>
+            <div class="highlight-card">
+                <h3>2+ Years</h3>
+                <p>of Professional Software Engineering Experience</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3B+</div>
+                    <div class="stat-label">Daily Records Processed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50%</div>
+                    <div class="stat-label">Performance Improvements</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Records Migrated to Cloud</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">78%</div>
+                    <div class="stat-label">ML Model Accuracy</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2>&lt; Professional Experience /&gt;</h2>
+            <div class="experience-grid">
+                <div class="experience-card">
+                    <h3>Software Developer</h3>
+                    <div class="company">New York University</div>
+                    <div class="date">Feb 2025 - Present</div>
+                    <ul>
+                        <li>Architected proof of concept for migrating 1000+ records from Google Sheets to NoSQL Firestore and Google Cloud SQL</li>
+                        <li>Enhanced data retrieval speed by 50% using Google Sheets API on Google Cloud Console</li>
+                        <li>Built GitLab-style label-based filtering system for 2,000+ records</li>
+                        <li>Engineered concurrency-safe form delivery system with 40% reduction in failure retries</li>
+                    </ul>
+                </div>
+
+                <div class="experience-card">
+                    <h3>Software Development Engineer</h3>
+                    <div class="company">Sainapse</div>
+                    <div class="date">July 2022 - May 2024</div>
+                    <ul>
+                        <li>Optimized file transfer processes with Apache Kafka achieving 50% reduction in time complexity</li>
+                        <li>Implemented HDFS for storing 3 billion+ daily records using Apache Hive and Pig</li>
+                        <li>Designed custom data adapter for transferring 2B+ rows from Google BigQuery</li>
+                        <li>Accelerated data extraction from XLSX/DOCX files by 30% using Apryse Java SDK</li>
+                        <li>Mentored 4 university interns on product system architecture</li>
+                    </ul>
+                </div>
+
+                <div class="experience-card">
+                    <h3>Data Science Intern</h3>
+                    <div class="company">AiDash</div>
+                    <div class="date">Jan 2022 - June 2022</div>
+                    <ul>
+                        <li>Investigated LANDSAT classification with ResNet models achieving 75% accuracy</li>
+                        <li>Ranked 1st among peers with 78% accuracy in grassland classification</li>
+                        <li>Sped up manual labeling of satellite images by 80% on QGIS</li>
+                        <li>Performed CRUD operations on 10K+ shapefiles using GeoPandas</li>
+                    </ul>
+                </div>
+
+                <div class="experience-card">
+                    <h3>Data Analyst Intern</h3>
+                    <div class="company">PayPal</div>
+                    <div class="date">May 2020 - June 2020</div>
+                    <ul>
+                        <li>Developed forecasting models identifying 10+ customer demand trends with R² scores closer to 0.9</li>
+                        <li>Achieved R² scores of 0.98, 0.91, and 0.85 for squared, absolute, and infinite loss functions</li>
+                        <li>Collaborated with team of 4 peers to deliver comprehensive presentation on customer demand forecasting</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>&lt; Featured Projects /&gt;</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <h3>Market Data Service</h3>
+                    <p>Real-time stock price analytics microservice using FastAPI, Kafka, and PostgreSQL</p>
+                    <ul>
+                        <li>40% improvement in data processing scalability</li>
+                        <li>25% reduction in average API response time</li>
+                        <li>Event-driven architecture with Finnhub SDK integration</li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="https://github.com/swooshie/market-data-microservice" class="project-link" target="_blank">View Code</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>AI Project Suite</h3>
+                    <p>Advanced AI implementations covering multiple domains</p>
+                    <ul>
+                        <li>Anomaly Detection (PatchCore, Efficient-AD, SimCLR)</li>
+                        <li>Similarity Search with Qdrant</li>
+                        <li>PDDL-based LLM routing via OpenRouter API</li>
+                        <li>Polynomial Regression & Information Theory applications</li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="https://github.com/swooshie/Artificial-Intelligence-Project" class="project-link" target="_blank">View Code</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>Apple Wallet Coupon System</h3>
+                    <p>Automated coupon generation and redemption system</p>
+                    <ul>
+                        <li>Generated 500+ Apple Wallet coupons using Google Apps Script</li>
+                        <li>PassKit API integration for seamless redemption</li>
+                        <li>40% boost in operational efficiency</li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="https://github.com/swooshie/apple-wallet-coupon-maker" class="project-link" target="_blank">View Code</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>Welcome Home</h3>
+                    <p>Donation management web application</p>
+                    <ul>
+                        <li>Built with Thymeleaf, Spring Boot, and MySQL</li>
+                        <li>Optimized database queries improving engagement by 30%</li>
+                        <li>RESTful API design for donation tracking</li>
+                    </ul>
+                    <div class="project-links">
+                        <a href="https://github.com/adityajhaveri/welcome-home" class="project-link" target="_blank">View Code</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2>&lt; Technical Skills /&gt;</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3>Languages</h3>
+                    <p>Java, Python, JavaScript, C++, SQL, Bash, HTML5/CSS</p>
+                </div>
+                <div class="skill-category">
+                    <h3>Frameworks & Tools</h3>
+                    <p>SpringBoot, Kafka, Hadoop, Spark, Maven, React, Docker, Git, AWS, GCP</p>
+                </div>
+                <div class="skill-category">
+                    <h3>AI/ML Libraries</h3>
+                    <p>TensorFlow, Keras, NumPy, Pandas, SciPy, Qdrant, OpenCV</p>
+                </div>
+                <div class="skill-category">
+                    <h3>Databases</h3>
+                    <p>PostgreSQL, MySQL, MongoDB, Google BigQuery, Apache Hive/Pig, JPA Hibernate</p>
+                </div>
+                <div class="skill-category">
+                    <h3>Dev Tools</h3>
+                    <p>Postman API, Thrift, IntelliJ, Jupyter Notebook, PyCharm, JIRA, VS Code, QGIS</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2>&lt; Education /&gt;</h2>
+            <div class="education-card">
+                <h3>Master of Science in Computer Science</h3>
+                <h4>New York University - Tandon School of Engineering</h4>
+                <div class="date">Sep 2024 - May 2026</div>
+                <p><strong>Coursework:</strong> Algorithms, Big Data, Options Pricing and Stochastic Calculus, Search Engines</p>
+            </div>
+            <div class="education-card">
+                <h3>Bachelor of Engineering in Computer Science</h3>
+                <h4>Birla Institute of Technology and Science, Pilani</h4>
+                <div class="date">Aug 2018 - July 2022 | Minor in Data Science</div>
+                <p><strong>Coursework:</strong> Data Mining, Deep Learning, Machine Learning, Natural Language Processing</p>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>&lt; Let's Connect! /&gt;</h2>
+            <p style="text-align: center; margin-bottom: 30px; color: #b0b0b0;">I'm always interested in collaborating on projects involving AI/ML, distributed systems, or big data. Feel free to reach out!</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>[@]</span>
+                    <a href="mailto:adityaajhaveri@gmail.com">adityaajhaveri@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <span>[>>]</span>
+                    <a href="https://www.linkedin.com/in/adityaalokjhaveri/" target="_blank">LinkedIn</a>
+                </div>
+                <div class="contact-item">
+                    <span>[&lt;/&gt;]</span>
+                    <a href="https://github.com/swooshie" target="_blank">GitHub</a>
+                </div>
+                <div class="contact-item">
+                    <span>[*]</span>
+                    <span>Jersey City, NJ</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p style="color: #888;">&copy; 2025 Aditya Jhaveri. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
