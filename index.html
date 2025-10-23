@@ -541,6 +541,43 @@
             color: #888;
             font-size: 14px;
         }
+        .story {
+            font-family: 'Courier New', monospace; /* classic CS vibe */
+            color: #e0e0e0;                        /* light grey text */
+            line-height: 1.6;                       /* comfortable spacing */
+            text-align: center;                     /* center the paragraph */
+            max-width: 700px;                       /* limit width for readability */
+            margin: 20px auto;                      /* center horizontally with spacing */
+            font-size: 18px;                        /* readable size */
+        }
+
+        /* Highlight the "Hello World" code */
+        .story code {
+            color: #00ff88;                         /* neon green */
+            font-weight: bold;
+            background: rgba(0, 255, 136, 0.1);     /* subtle glow effect */
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* Highlight personal touch words like Age of Empires */
+        .story em {
+            color: #ffaa00;                         /* orange highlight */
+            font-style: normal;                      /* optional: remove italic if you want */
+            font-weight: bold;
+        }
+
+        /* Optional: subtle fade-in animation for the whole paragraph */
+        .story {
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -578,7 +615,9 @@
             <div class="intro-text">
                 <h1>Aditya Jhaveri</h1>
                 <h2>Software Engineer | AI/ML Enthusiast | Distributed Systems Developer</h2>
-                <p>Computer Science graduate student at NYU Tandon with 2+ years of experience building scalable systems and leveraging AI to solve complex problems. Specialized in distributed systems, big data processing, and full-stack development.</p>
+                <p class="story">
+                    Every Computer Science journey begins with <code>Hello World</code>. Mine began with <em>Age of Empires</em>, learning strategies and problem-solving before writing my first line of code. Today, I’m a Computer Science graduate student at NYU Tandon with 2+ years of experience building scalable systems and leveraging AI to solve complex problems. I specialize in distributed systems, big data processing, and full-stack development.
+                </p>
                 <div class="cta-buttons">
                     <a href="#contact" class="btn btn-primary">Get In Touch</a>
                     <a href="https://github.com/swooshie" class="btn btn-secondary" target="_blank">View GitHub</a>
