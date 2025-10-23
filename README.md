@@ -39,6 +39,12 @@ I'm a Computer Science graduate student at NYU Tandon, passionate about building
 - Improved satellite image labeling speed by 80% with QGIS automation
 - Performed CRUD operations on 10K+ shapefiles using GeoPandas
 
+### Data Analyst Intern @ PayPal
+*May 2020 - June 2020*
+- Developed forecasting models identifying 10+ customer demand trends with R² scores closer to 0.9
+- Achieved R² scores of 0.98, 0.91, and 0.85 for squared, absolute, and infinite loss functions in linear regression
+- Collaborated with team of 4 peers to deliver comprehensive presentation on customer demand forecasting
+
 ---
 
 ## >> Education
@@ -102,6 +108,7 @@ Donation management web application
 - [^] Scaled distributed systems processing billions of records daily
 - [+] Achieved 30-50% performance improvements in production systems
 - [*] Mentored interns and contributed to team knowledge sharing
+- [~] Developed forecasting models with R² scores up to 0.98 at PayPal
 
 ---
 
