@@ -1,16 +1,16 @@
-# Hi there, I'm Aditya Jhaveri 👋
+# Hello World, I'm Aditya Jhaveri
 
 ### Software Engineer | AI/ML Enthusiast | Distributed Systems Developer
 
 I'm a Computer Science graduate student at NYU Tandon, passionate about building scalable systems and leveraging AI to solve complex problems. With 2+ years of professional experience, I specialize in distributed systems, big data processing, and full-stack development.
 
-📍 Based in Jersey City, NJ  
-📧 Reach me at: adityaajhaveri@gmail.com  
-💼 [LinkedIn](https://www.linkedin.com/in/adityaalokjhaveri/) | 🌐 [Portfolio](https://github.com/swooshie)
+[*] Based in Jersey City, NJ  
+[@] Reach me at: adityaajhaveri@gmail.com  
+[>>] [LinkedIn](https://www.linkedin.com/in/adityaalokjhaveri/) | [Portfolio](https://github.com/swooshie)
 
 ---
 
-## 🚀 What I'm Currently Working On
+## >> What I'm Currently Working On
 
 - Building SAAS tools in JavaScript for NYU Admissions department
 - Architecting cloud-native solutions with Google Cloud Platform
@@ -18,7 +18,7 @@ I'm a Computer Science graduate student at NYU Tandon, passionate about building
 
 ---
 
-## 💼 Professional Experience
+## >> Professional Experience
 
 ### Software Developer @ New York University
 *Feb 2025 - Present*
@@ -41,7 +41,7 @@ I'm a Computer Science graduate student at NYU Tandon, passionate about building
 
 ---
 
-## 🎓 Education
+## >> Education
 
 **Master of Science in Computer Science** | NYU Tandon School of Engineering  
 *Sep 2024 - May 2026*  
@@ -53,7 +53,7 @@ Coursework: Data Mining, Deep Learning, Machine Learning, NLP
 
 ---
 
-## 🛠️ Technical Skills
+## >> Technical Skills
 
 **Languages:** Java, Python, JavaScript, C++, SQL, Bash, HTML5/CSS
 
@@ -67,7 +67,7 @@ Coursework: Data Mining, Deep Learning, Machine Learning, NLP
 
 ---
 
-## 🔥 Featured Projects
+## >> Featured Projects
 
 ### [Market Data Service](https://github.com/swooshie/market-data-microservice)
 Real-time stock price analytics microservice using FastAPI, Kafka, and PostgreSQL
@@ -96,22 +96,22 @@ Donation management web application
 
 ---
 
-## 🌟 Highlights
+## >> Highlights
 
-- 🏆 Ranked 1st among peers for grassland classification accuracy (78%)
-- 📈 Scaled distributed systems processing billions of records daily
-- 🚀 Achieved 30-50% performance improvements in production systems
-- 👥 Mentored interns and contributed to team knowledge sharing
+- [#1] Ranked 1st among peers for grassland classification accuracy (78%)
+- [^] Scaled distributed systems processing billions of records daily
+- [+] Achieved 30-50% performance improvements in production systems
+- [*] Mentored interns and contributed to team knowledge sharing
 
 ---
 
-## 📫 Let's Connect!
+## >> Let's Connect!
 
 I'm always interested in collaborating on projects involving AI/ML, distributed systems, or big data. Feel free to reach out!
 
-- 📧 Email: adityaajhaveri@gmail.com
-- 💼 LinkedIn: [Connect with me](https://www.linkedin.com/in/adityaalokjhaveri/)
+- [@] Email: adityaajhaveri@gmail.com
+- [>>] LinkedIn: [Connect with me](https://www.linkedin.com/in/adityaalokjhaveri/)
 
 ---
 
-⭐️ From [adityajhaveri](https://github.com/adityajhaveri)
+From [Swooshie](https://github.com/swooshie)
