@@ -6,7 +6,7 @@ I'm a Computer Science graduate student at NYU Tandon, passionate about building
 
 [*] Based in Jersey City, NJ  
 [@] Reach me at: adityaajhaveri@gmail.com  
-[>>] [LinkedIn](https://www.linkedin.com/in/adityaalokjhaveri/) | [Portfolio](https://github.com/swooshie)
+[>>] [LinkedIn](https://www.linkedin.com/in/adityaalokjhaveri/) | [Portfolio](https://github.com/swooshie) | [Kaggle](https://www.kaggle.com/swooshiekaggle)
 
 ---
 
