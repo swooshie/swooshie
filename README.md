@@ -75,6 +75,12 @@ Coursework: Data Mining, Deep Learning, Machine Learning, NLP
 
 ## >> Featured Projects
 
+### [Python Script Execution Sandbox (Cloud Run + nsjail)](https://github.com/swooshie/python-executor)
+A secure Python code execution service running inside a sandboxed environment.
+- Uses nsjail to safely execute untrusted scripts
+- Docker-containerized and deployed on Google Cloud Run
+- Supports numpy and pandas with stdout + return value capture
+
 ### [Market Data Service](https://github.com/swooshie/market-data-microservice)
 Real-time stock price analytics microservice using FastAPI, Kafka, and PostgreSQL
 - 40% improvement in data processing scalability
