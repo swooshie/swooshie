@@ -100,7 +100,7 @@ Automated coupon generation and redemption system
 - PassKit API integration for seamless redemption
 - 40% boost in operational efficiency
 
-### [Welcome Home](https://github.com/adityajhaveri/welcome-home)
+### [Welcome Home](https://github.com/swooshie/welcome_home)
 Donation management web application
 - Built with Thymeleaf, Spring Boot, and MySQL
 - Optimized database queries improving engagement by 30%
