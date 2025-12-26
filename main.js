@@ -200,3 +200,14 @@ form.addEventListener("submit", function(event) {
     status.style.color = "red";
     });
 });
+
+const resumeToggle = document.getElementById("resume-toggle");
+const resumeFrame = document.getElementById("resume-frame");
+
+if (resumeToggle && resumeFrame) {
+    resumeToggle.addEventListener("click", () => {
+        const expanded = resumeFrame.classList.toggle("expanded");
+        resumeToggle.textContent = expanded ? "Collapse Viewer" : "Expand Viewer";
+        resumeToggle.setAttribute("aria-pressed", expanded);
+    });
+}

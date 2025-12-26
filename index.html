@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aditya Jhaveri - Portfolio</title>
+    <link rel="icon" type="image/png" href="images/black-hole.png">
     <style>
         * {
             margin: 0;
@@ -620,46 +621,108 @@
             margin-bottom: 20px;
         }
 
-        #resume p {
+        .resume-subtitle {
             font-family: 'Courier New', monospace;
             color: #b0b0b0;
             font-size: 18px;
-            max-width: 700px;
+            max-width: 720px;
             margin: 0 auto 30px auto;
             line-height: 1.6;
         }
 
-        .resume-download {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+        .resume-viewer {
+            max-width: 960px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 30px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+            text-align: left;
         }
 
-        .download-item {
+        .viewer-status {
             display: flex;
             align-items: center;
-            gap: 10px;
-            background: rgba(0, 255, 136, 0.05);
-            padding: 12px 20px;
-            border-radius: 8px;
-            transition: background 0.3s, transform 0.2s;
+            gap: 12px;
+            font-family: 'Courier New', monospace;
+            color: #9adfbf;
+            font-size: 14px;
+            letter-spacing: 0.5px;
         }
 
-        .download-item span {
-            font-family: 'Courier New', monospace;
-            color: #00ff88;
+        .viewer-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00ff88 0%, #018d4a 60%);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
         }
 
-        .download-item a {
-            font-family: 'Courier New', monospace;
+        .resume-frame {
+            width: 100%;
+            height: 460px;
+            border: none;
+            border-radius: 12px;
+            margin: 25px 0;
+            background: #050505;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+            transition: height 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .resume-frame.expanded {
+            height: 80vh;
+            box-shadow: inset 0 0 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .resume-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .resume-btn {
+            border: 1px solid #00ff88;
             color: #00ff88;
-            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            background: transparent;
+            font-family: 'Courier New', monospace;
             font-weight: bold;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 160px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .download-item:hover {
-            background: rgba(0, 255, 136, 0.15);
-            transform: translateY(-2px);
+        .resume-btn.primary {
+            background: #00ff88;
+            color: #0a0a0a;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .resume-btn.ghost {
+            border-color: rgba(0, 255, 136, 0.4);
+            color: #c4ffe3;
+        }
+
+        .resume-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .resume-viewer {
+                padding: 20px;
+            }
+
+            .resume-frame {
+                height: 360px;
+            }
         }
         /* ===== Contact Section ===== */
 .contact-section {
@@ -844,7 +907,7 @@ input:focus, textarea:focus {
         </div>
         
         <div class="profile-section">
-            <img src="images/me.png" alt="Aditya Jhaveri" class="profile-image">
+            <img src="images/me.jpeg" alt="Aditya Jhaveri" class="profile-image">
             <!-- <img src="https://drive.google.com/uc?export=view&id=1_2iSVaO0eXCpL2Hd7KT1Rs9DAfk5YS0K" 
                 alt="Aditya Jhaveri" 
                 class="profile-image"> -->
@@ -1066,14 +1129,26 @@ input:focus, textarea:focus {
             </div>
         </section>
         <section id="resume">
-            <h2>&lt; Download My Resume /&gt;</h2>
-            <p style="text-align: center; margin-bottom: 30px; color: #b0b0b0;">
-                You can download my latest resume in PDF format to learn more about my experience, projects, and skills.
+            <h2>&lt; Resume /&gt;</h2>
+            <p class="resume-subtitle">
+                Preview my latest experience right here on the site or grab a copy to review later.
             </p>
-            <div class="resume-download">
-                <div class="download-item">
-                    <span>[PDF]</span>
-                    <a href="https://drive.google.com/file/d/1o6Gh0A9jSZ_Yh2HIn_yNfd5DdysULmsF/view?usp=drive_link" download>Download Resume</a>
+            <div class="resume-viewer">
+                <div class="viewer-status">
+                    <span class="viewer-dot"></span>
+                    <span>docs/resume.pdf · updated 2025</span>
+                </div>
+                <iframe
+                    src="docs/resume.pdf#toolbar=0&navpanes=0&scrollbar=0"
+                    title="Aditya Jhaveri Resume"
+                    class="resume-frame"
+                    id="resume-frame"
+                    loading="lazy">
+                </iframe>
+                <div class="resume-actions">
+                    <button type="button" id="resume-toggle" class="resume-btn" aria-pressed="false">Expand Viewer</button>
+                    <a href="docs/resume.pdf" download class="resume-btn primary">Download PDF</a>
+                    <a href="docs/resume.pdf" target="_blank" rel="noopener" class="resume-btn ghost">Open in New Tab</a>
                 </div>
             </div>
         </section>
