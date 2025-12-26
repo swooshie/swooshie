@@ -16,6 +16,33 @@
             background: #0a0a0a;
             color: #e0e0e0;
             overflow-x: hidden;
+            cursor: none;
+        }
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 10px;
+            height: 10px;
+            background-color: #00ff88;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%); /* keeps it centered */
+            z-index: 9999;
+        }
+
+        /* Trail container */
+        .cursor-trail {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background-color: #00ff88;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;  /* start invisible */
+            z-index: 9998;
+            transition: transform 0.1s, opacity 0.3s;
+            transform: translate(-50%, -50%); /* center the trail */
         }
 
         .stars {
@@ -634,6 +661,155 @@
             background: rgba(0, 255, 136, 0.15);
             transform: translateY(-2px);
         }
+        /* ===== Contact Section ===== */
+.contact-section {
+  padding: 80px 0;
+  text-align: center;
+  color: #00ff99;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8), #050505);
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #00ff99;
+  text-shadow: 0 0 10px #00ff99;
+}
+
+.contact-section p {
+  color: #cfcfcf;
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #00ff99;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #00ff99;
+  background-color: rgba(0, 0, 0, 0.6);
+  outline: none;
+  transition: 0.3s ease;
+  box-shadow: 0 0 8px rgba(0, 255, 153, 0.3);
+}
+
+input:focus, textarea:focus {
+  box-shadow: 0 0 12px rgba(0, 255, 153, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#send-btn {
+  background-color: transparent;
+  border: 2px solid #00ff99;
+  color: #00ff99;
+  padding: 12px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s ease;
+  text-shadow: 0 0 5px #00ff99;
+}
+
+#send-btn:hover {
+  background-color: #00ff99;
+  color: #000;
+  box-shadow: 0 0 20px #00ff99;
+}
+
+.form-status {
+  margin-top: 20px;
+  font-size: 1rem;
+  text-shadow: 0 0 10px #00ff99;
+}
+
+/* ===== Rocket Animation ===== */
+/* Rocket setup */
+.rocket-container {
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.rocket {
+    width: 60px;
+    transition: transform 2.5s ease-in-out;
+}
+
+/* Fire particles container */
+.fire-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 900;
+}
+
+/* Individual fire particles */
+.fire-particle {
+    position: absolute;
+    bottom: 0;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, orange 0%, red 70%, transparent 100%);
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: fire-rise 2s linear infinite;
+}
+
+/* Particle rise animation */
+@keyframes fire-rise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-100vh) scale(0.5);
+        opacity: 0;
+    }
+}
+
+/* Rocket launch */
+.launch {
+    transform: translateY(-100vh);
+}
+
+@keyframes rocketLaunch {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-300px) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-800px) scale(1.2);
+    opacity: 0;
+  }
+}
     </style>
 </head>
 <body>
@@ -668,7 +844,7 @@
         </div>
         
         <div class="profile-section">
-            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aditya" alt="Aditya Jhaveri" class="profile-image">
+            <img src="images/me.png" alt="Aditya Jhaveri" class="profile-image">
             <!-- <img src="https://drive.google.com/uc?export=view&id=1_2iSVaO0eXCpL2Hd7KT1Rs9DAfk5YS0K" 
                 alt="Aditya Jhaveri" 
                 class="profile-image"> -->
@@ -721,10 +897,11 @@
                     <div class="company">New York University</div>
                     <div class="date">Feb 2025 - Present</div>
                     <ul>
-                        <li>Architected proof of concept for migrating 1000+ records from Google Sheets to NoSQL Firestore and Google Cloud SQL</li>
-                        <li>Enhanced data retrieval speed by 50% using Google Sheets API on Google Cloud Console</li>
-                        <li>Built GitLab-style label-based filtering system for 2,000+ records</li>
-                        <li>Engineered concurrency-safe form delivery system with 40% reduction in failure retries</li>
+                        <li>Engineered a concurrency-safe form delivery system, leading to a 40% reduction in failure retries and 100% consistency in sent records</li>
+                        <li>Designed and implemented a Gmail-like Rich Text Editor using HTML, CSS, and JavaScript, boosting email template efficiency by 45%</li>
+                        <li>Built a GitLab-style label-based filtering system, optimizing navigation for 2,000+ records</li>
+                        <li>Enhanced data retrieval speed by 50% in Google Apps Script by shifting from service functions to Sheets API on Google Cloud Console</li>
+                        <li>Architected a proof of concept for migrating 1000+ records from Google Sheets to NoSQL FIRESTORE and Google Cloud SQL, improving data accessibility and security</li>
                     </ul>
                 </div>
 
@@ -900,56 +1077,39 @@
                 </div>
             </div>
         </section>
+        <!-- ================= Contact Section ================= -->
+        <section id="contact" class="contact-section">
+        <h2>Contact Me</h2>
+        <p>Have a question or want to collaborate? Drop a message below!</p>
+
+        <form id="contact-form">
+            <div class="form-group">
+            <input type="text" id="name" name="name" placeholder="Your Name" required />
+            </div>
+            <div class="form-group">
+            <input type="email" id="email" name="email" placeholder="Your Email" required />
+            </div>
+            <div class="form-group">
+            <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+            </div>
+            <button type="submit" id="send-btn">Send Message</button>
+        </form>
+
+        <p id="form-status" class="form-status"></p>
+
+        <!-- Rocket animation container -->
+        <div class="rocket-container" id="rocket-container">
+            <img src="images/rocket.webp" alt="Rocket" class="rocket" />
+        </div>
+        <div class="fire-container"></div>
+        </section>
     </div>
 
     <footer>
         <p style="color: #888;">&copy; 2025 Aditya Jhaveri. All rights reserved.</p>
     </footer>
 
-    <script>
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 150; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            starsContainer.appendChild(star);
-        }
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('section').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(30px)';
-            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(section);
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
