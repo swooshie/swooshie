@@ -80,6 +80,17 @@ document.addEventListener('mousemove', e => {
         });
     }, 200);
 });
+
+const interactiveElements = document.querySelectorAll('a, button');
+interactiveElements.forEach(element => {
+    element.addEventListener('mouseenter', () => {
+        cursor.classList.add('active');
+    });
+    element.addEventListener('mouseleave', () => {
+        cursor.classList.remove('active');
+    });
+});
+
 (function() {
     emailjs.init("K5YHHoBJEybkJKtUb");
 })();
