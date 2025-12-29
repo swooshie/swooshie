@@ -100,6 +100,8 @@ const status = document.getElementById("form-status");
 const fireContainer = document.querySelector(".fire-container");
 const rocket = document.querySelector(".rocket-container");
 
+const getThemeColor = (variable) => getComputedStyle(document.body).getPropertyValue(variable).trim();
+
 // Function to generate fire particles
 function generateFire() {
     for (let i = 0; i < 50; i++) {
@@ -182,7 +184,7 @@ form.addEventListener("submit", function(event) {
     }
 
     status.textContent = "Sending message...";
-    status.style.color = "#00ff99";
+    status.style.color = getThemeColor("--form-status-color") || "#00ff99";
 
     emailjs.send("service_do57gr2", "template_b6i4nff", {
         name: name,
@@ -191,7 +193,7 @@ form.addEventListener("submit", function(event) {
     })
     .then(() => {
     status.textContent = "Message sent successfully! Launching rocket...";
-    status.style.color = "#00ff99";
+    status.style.color = getThemeColor("--form-status-color") || "#00ff99";
     form.reset();
 
     // Trigger rocket animation
@@ -220,5 +222,35 @@ if (resumeToggle && resumeFrame) {
         const expanded = resumeFrame.classList.toggle("expanded");
         resumeToggle.textContent = expanded ? "Collapse Viewer" : "Expand Viewer";
         resumeToggle.setAttribute("aria-pressed", expanded);
+    });
+}
+
+const themeToggle = document.getElementById("theme-toggle");
+const themeToggleText = document.getElementById("theme-toggle-text");
+const THEME_STORAGE_KEY = "preferred-theme";
+
+const applyTheme = (theme) => {
+    const isMatrix = theme === "matrix";
+    document.body.classList.toggle("theme-matrix", isMatrix);
+    if (themeToggle) {
+        themeToggle.classList.toggle("active", isMatrix);
+        themeToggle.setAttribute("aria-pressed", String(isMatrix));
+    }
+    if (themeToggleText) {
+        themeToggleText.textContent = isMatrix ? "Matrix" : "Modern";
+    }
+    if (status && status.textContent) {
+        status.style.color = getThemeColor("--form-status-color") || status.style.color;
+    }
+};
+
+const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+applyTheme(storedTheme === "matrix" ? "matrix" : "modern");
+
+if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+        const nextTheme = document.body.classList.contains("theme-matrix") ? "modern" : "matrix";
+        applyTheme(nextTheme);
+        localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
     });
 }
