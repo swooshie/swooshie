@@ -48,6 +48,15 @@ document.body.appendChild(cursor);
 const trailCount = 8; // number of trail dots
 const trails = [];
 
+const hideCustomCursor = () => {
+    cursor.style.opacity = '0';
+    trails.forEach(trail => { trail.style.opacity = '0'; });
+};
+
+const showCustomCursor = () => {
+    cursor.style.opacity = '1';
+};
+
 for (let i = 0; i < trailCount; i++) {
     const t = document.createElement('div');
     t.classList.add('cursor-trail');
@@ -90,6 +99,89 @@ interactiveElements.forEach(element => {
         cursor.classList.remove('active');
     });
 });
+
+const pdfInteractiveAreas = document.querySelectorAll('.pdf-scroll');
+pdfInteractiveAreas.forEach(area => {
+    area.addEventListener('mouseenter', hideCustomCursor);
+    area.addEventListener('mouseleave', showCustomCursor);
+});
+
+const showPDFFallback = (container) => {
+    const fallback = container.nextElementSibling;
+    if (fallback && fallback.classList.contains('pdf-fallback')) {
+        fallback.style.display = 'block';
+    }
+};
+
+const PDF_WORKER_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+let pdfWorkerConfigured = false;
+let pdfEngine = null;
+
+const initPdfEngine = () => {
+    if (pdfEngine) return pdfEngine;
+    const globalPdf = window.pdfjsLib || window['pdfjs-dist/build/pdf'];
+    if (!globalPdf) return null;
+    pdfEngine = globalPdf;
+    if (!pdfWorkerConfigured) {
+        pdfEngine.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
+        pdfWorkerConfigured = true;
+    }
+    return pdfEngine;
+};
+
+const renderPDFPreview = async (container) => {
+    const src = container?.dataset?.pdfSrc;
+    if (!src) {
+        showPDFFallback(container);
+        return;
+    }
+    const engine = initPdfEngine();
+    if (!engine) {
+        showPDFFallback(container);
+        return;
+    }
+    if (container.dataset.pdfLoaded === 'true') return;
+
+    container.classList.add('loading');
+    try {
+        const pdf = await engine.getDocument(src).promise;
+        const scale = parseFloat(container.dataset.pdfScale || '1.05');
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum += 1) {
+            const page = await pdf.getPage(pageNum);
+            const viewport = page.getViewport({ scale });
+            const canvas = document.createElement('canvas');
+            canvas.classList.add('pdf-page');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            container.appendChild(canvas);
+            await page.render({ canvasContext: context, viewport }).promise;
+        }
+        container.dataset.pdfLoaded = 'true';
+    } catch (error) {
+        console.error(`Failed to render PDF preview for ${src}`, error);
+        showPDFFallback(container);
+    } finally {
+        container.classList.remove('loading');
+    }
+};
+
+const pdfContainers = document.querySelectorAll('.pdf-scroll[data-pdf-src]');
+
+const bootPdfRendering = () => {
+    if (!pdfContainers.length) return;
+    const engine = initPdfEngine();
+    if (!engine) {
+        console.warn('PDF.js library unavailable; falling back to download link.');
+        pdfContainers.forEach(showPDFFallback);
+        return;
+    }
+    pdfContainers.forEach(renderPDFPreview);
+};
+
+if (pdfContainers.length) {
+    window.addEventListener('load', bootPdfRendering);
+}
 
 (function() {
     emailjs.init("K5YHHoBJEybkJKtUb");
@@ -216,12 +308,28 @@ form.addEventListener("submit", function(event) {
 
 const resumeToggle = document.getElementById("resume-toggle");
 const resumeFrame = document.getElementById("resume-frame");
+const transcriptToggles = document.querySelectorAll(".transcript-toggle");
 
 if (resumeToggle && resumeFrame) {
     resumeToggle.addEventListener("click", () => {
         const expanded = resumeFrame.classList.toggle("expanded");
         resumeToggle.textContent = expanded ? "Collapse Viewer" : "Expand Viewer";
         resumeToggle.setAttribute("aria-pressed", expanded);
+    });
+}
+
+if (transcriptToggles.length) {
+    transcriptToggles.forEach((button) => {
+        const panelId = button.getAttribute("aria-controls");
+        const panel = panelId ? document.getElementById(panelId) : button.closest(".transcript-viewer")?.querySelector(".transcript-panel");
+        if (!panel) return;
+
+        button.addEventListener("click", () => {
+            const expanded = panel.classList.toggle("open");
+            panel.setAttribute("aria-hidden", String(!expanded));
+            button.textContent = expanded ? "Hide Transcript" : "View Transcript";
+            button.setAttribute("aria-pressed", expanded);
+        });
     });
 }
 

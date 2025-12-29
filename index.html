@@ -636,6 +636,104 @@
             margin-bottom: 10px;
         }
 
+        .transcript-viewer {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(var(--shadow-rgb), 0.15);
+        }
+
+        .transcript-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .transcript-details h3 {
+            font-size: 24px;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+
+        .transcript-details p {
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .transcript-panel {
+            margin-top: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--resume-border);
+            background: var(--resume-frame-bg);
+            box-shadow: var(--resume-frame-shadow);
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.4s ease, opacity 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .transcript-panel.open {
+            max-height: 1200px;
+            opacity: 1;
+            box-shadow: var(--resume-frame-expanded-shadow);
+        }
+
+        .pdf-scroll {
+            position: relative;
+            width: 100%;
+            max-height: 520px;
+            overflow: auto;
+            border-radius: 12px;
+            background: var(--resume-frame-bg);
+            box-shadow: inset 0 0 10px rgba(var(--shadow-rgb), 0.08);
+            padding: 15px;
+        }
+
+        .resume-frame .pdf-scroll {
+            max-height: 100%;
+            height: 100%;
+        }
+
+        .pdf-scroll.loading::after {
+            content: 'Rendering preview...';
+            display: block;
+            text-align: center;
+            color: var(--text-muted);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .pdf-page {
+            width: 100%;
+            display: block;
+            margin: 0 auto 20px auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(var(--shadow-rgb), 0.15);
+            background: var(--text-contrast);
+        }
+
+        .pdf-page:last-child {
+            margin-bottom: 0;
+        }
+
+        .pdf-fallback {
+            display: none;
+            margin-top: 15px;
+            text-align: center;
+            color: var(--text-muted);
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+        }
+
+        .pdf-fallback a {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
         .project-links {
             margin-top: 15px;
             display: flex;
@@ -897,13 +995,12 @@
         .resume-frame {
             width: 100%;
             height: 460px;
-            border: none;
             border-radius: 12px;
             margin: 25px 0;
             background: var(--resume-frame-bg);
             box-shadow: var(--resume-frame-shadow);
             transition: height 0.4s ease, box-shadow 0.4s ease;
-            cursor: none;
+            overflow: hidden;
         }
 
         .resume-frame.expanded {
@@ -1351,12 +1448,42 @@ form {
                 <h4>New York University - Tandon School of Engineering</h4>
                 <div class="date">Sep 2024 - May 2026</div>
                 <p><strong>Coursework:</strong> Algorithms, Big Data, Options Pricing and Stochastic Calculus, Search Engines</p>
+                <div class="transcript-viewer">
+                    <div class="transcript-header">
+                        <div class="transcript-details">
+                            <h3>NYU Transcript</h3>
+                            <p>See the graduate-level coursework, grades, and milestones that define my Tandon journey.</p>
+                        </div>
+                        <button type="button" class="resume-btn transcript-toggle" aria-controls="transcript-nyu" aria-pressed="false">View Transcript</button>
+                    </div>
+                    <div class="transcript-panel" id="transcript-nyu" aria-hidden="true">
+                        <div class="pdf-scroll" data-pdf-src="docs/transcript-nyu.pdf"></div>
+                        <div class="pdf-fallback">
+                            <p>Preview unavailable? <a href="docs/transcript-nyu.pdf" download>Download the NYU transcript.</a></p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="education-card">
                 <h3>Bachelor of Engineering in Computer Science</h3>
                 <h4>Birla Institute of Technology and Science, Pilani</h4>
                 <div class="date">Aug 2018 - July 2022 | Minor in Data Science</div>
                 <p><strong>Coursework:</strong> Data Mining, Deep Learning, Machine Learning, Natural Language Processing</p>
+                <div class="transcript-viewer">
+                    <div class="transcript-header">
+                        <div class="transcript-details">
+                            <h3>BITS Transcript</h3>
+                            <p>Explore the foundational CS curriculum, electives, and achievements from my undergraduate years.</p>
+                        </div>
+                        <button type="button" class="resume-btn transcript-toggle" aria-controls="transcript-bits" aria-pressed="false">View Transcript</button>
+                    </div>
+                    <div class="transcript-panel" id="transcript-bits" aria-hidden="true">
+                        <div class="pdf-scroll" data-pdf-src="docs/transcript-bits.pdf"></div>
+                        <div class="pdf-fallback">
+                            <p>Preview unavailable? <a href="docs/transcript-bits.pdf" download>Download the BITS transcript.</a></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1392,16 +1519,13 @@ form {
                     <span class="viewer-dot"></span>
                     <span>open docs/resume.pdf · updated 2025</span>
                 </div>
-                <object
-                    data="docs/resume.pdf#toolbar=0&navpanes=0&scrollbar=0"
-                    type="application/pdf"
-                    class="resume-frame"
-                    id="resume-frame">
-                    <div class="resume-fallback">
+                <div class="resume-frame" id="resume-frame">
+                    <div class="pdf-scroll" data-pdf-src="docs/resume.pdf"></div>
+                    <div class="pdf-fallback resume-fallback">
                         <p>Preview unavailable in this browser.</p>
                         <a href="docs/resume.pdf" download class="resume-btn primary">Download PDF</a>
                     </div>
-                </object>
+                </div>
                 <div class="resume-actions">
                     <button type="button" id="resume-toggle" class="resume-btn" aria-pressed="false">Expand Viewer</button>
                     <a href="docs/resume.pdf" download class="resume-btn primary">Download PDF</a>
@@ -1442,6 +1566,7 @@ form {
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha512-q+4liFwdPC/bNdhUpZx6aXDx/h77yEQtn4I1slHydcbZK34nLaR3cAeYSJshoxIOq3mjEf7xJE8YWIUHMn+oCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="main.js"></script>
 </body>
 </html>
