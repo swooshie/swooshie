@@ -41,70 +41,94 @@ document.querySelectorAll('section').forEach(section => {
     section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     observer.observe(section);
 });
-const cursor = document.createElement('div');
-cursor.classList.add('cursor');
-document.body.appendChild(cursor);
-
+const supportsCustomCursor = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+let cursor = null;
 const trailCount = 8; // number of trail dots
 const trails = [];
+let moveTimeout;
 
 const hideCustomCursor = () => {
+    if (!cursor) return;
     cursor.style.opacity = '0';
     trails.forEach(trail => { trail.style.opacity = '0'; });
 };
 
 const showCustomCursor = () => {
+    if (!cursor) return;
     cursor.style.opacity = '1';
 };
 
-for (let i = 0; i < trailCount; i++) {
-    const t = document.createElement('div');
-    t.classList.add('cursor-trail');
-    t.style.opacity = '0'; // initially invisible
-    document.body.appendChild(t);
-    trails.push(t);
+if (supportsCustomCursor) {
+    cursor = document.createElement('div');
+    cursor.classList.add('cursor');
+    document.body.appendChild(cursor);
+
+    for (let i = 0; i < trailCount; i++) {
+        const t = document.createElement('div');
+        t.classList.add('cursor-trail');
+        t.style.opacity = '0'; // initially invisible
+        document.body.appendChild(t);
+        trails.push(t);
+    }
+
+    document.addEventListener('mousemove', e => {
+        cursor.style.top = e.clientY + 'px';
+        cursor.style.left = e.clientX + 'px';
+
+        trails.forEach((trail, index) => {
+            trail.style.opacity = '1'; // make trail visible
+            setTimeout(() => {
+                trail.style.top = e.clientY + 'px';
+                trail.style.left = e.clientX + 'px';
+            }, index * 20); // stagger trail positions
+        });
+
+        // Clear previous timeout
+        if (moveTimeout) clearTimeout(moveTimeout);
+
+        // Hide trails after 200ms of no movement
+        moveTimeout = setTimeout(() => {
+            trails.forEach(trail => {
+                trail.style.opacity = '0';
+            });
+        }, 200);
+    });
+
+    const interactiveElements = document.querySelectorAll('a, button');
+    interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            cursor.classList.add('active');
+        });
+        element.addEventListener('mouseleave', () => {
+            cursor.classList.remove('active');
+        });
+    });
+
+    const pdfInteractiveAreas = document.querySelectorAll('.pdf-scroll');
+    pdfInteractiveAreas.forEach(area => {
+        area.addEventListener('mouseenter', hideCustomCursor);
+        area.addEventListener('mouseleave', showCustomCursor);
+    });
+} else {
+    document.body.classList.add('native-cursor');
 }
 
-let moveTimeout;
-
-document.addEventListener('mousemove', e => {
-    cursor.style.top = e.clientY + 'px';
-    cursor.style.left = e.clientX + 'px';
-
-    trails.forEach((trail, index) => {
-        trail.style.opacity = '1'; // make trail visible
-        setTimeout(() => {
-            trail.style.top = e.clientY + 'px';
-            trail.style.left = e.clientX + 'px';
-        }, index * 20); // stagger trail positions
-    });
-
-    // Clear previous timeout
-    if (moveTimeout) clearTimeout(moveTimeout);
-
-    // Hide trails after 200ms of no movement
-    moveTimeout = setTimeout(() => {
-        trails.forEach(trail => {
-            trail.style.opacity = '0';
+const profileImage = document.querySelector('.profile-image');
+const profilePlaceholder = document.querySelector('.profile-placeholder');
+if (profileImage) {
+    const revealProfileImage = () => {
+        profileImage.classList.add('visible');
+        profilePlaceholder?.classList.add('hidden');
+    };
+    if (profileImage.complete && profileImage.naturalWidth !== 0) {
+        revealProfileImage();
+    } else {
+        profileImage.addEventListener('load', revealProfileImage);
+        profileImage.addEventListener('error', () => {
+            profilePlaceholder?.classList.remove('hidden');
         });
-    }, 200);
-});
-
-const interactiveElements = document.querySelectorAll('a, button');
-interactiveElements.forEach(element => {
-    element.addEventListener('mouseenter', () => {
-        cursor.classList.add('active');
-    });
-    element.addEventListener('mouseleave', () => {
-        cursor.classList.remove('active');
-    });
-});
-
-const pdfInteractiveAreas = document.querySelectorAll('.pdf-scroll');
-pdfInteractiveAreas.forEach(area => {
-    area.addEventListener('mouseenter', hideCustomCursor);
-    area.addEventListener('mouseleave', showCustomCursor);
-});
+    }
+}
 
 const showPDFFallback = (container) => {
     const fallback = container.nextElementSibling;
@@ -129,6 +153,42 @@ const initPdfEngine = () => {
     return pdfEngine;
 };
 
+const createPaginationControls = (container, totalPages) => {
+    const controls = document.createElement('div');
+    controls.classList.add('pdf-pagination');
+
+    const prevBtn = document.createElement('button');
+    prevBtn.type = 'button';
+    prevBtn.className = 'resume-btn ghost pdf-nav';
+    prevBtn.textContent = 'Previous';
+
+    const nextBtn = document.createElement('button');
+    nextBtn.type = 'button';
+    nextBtn.className = 'resume-btn ghost pdf-nav';
+    nextBtn.textContent = 'Next';
+
+    const pageIndicator = document.createElement('span');
+    pageIndicator.className = 'pdf-page-indicator';
+
+    controls.appendChild(prevBtn);
+    controls.appendChild(pageIndicator);
+    controls.appendChild(nextBtn);
+    container.parentElement.appendChild(controls);
+
+    return { controls, prevBtn, nextBtn, pageIndicator };
+};
+
+const renderPageToCanvas = async (page, scale) => {
+    const viewport = page.getViewport({ scale });
+    const canvas = document.createElement('canvas');
+    canvas.classList.add('pdf-page');
+    const context = canvas.getContext('2d');
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+    await page.render({ canvasContext: context, viewport }).promise;
+    return canvas;
+};
+
 const renderPDFPreview = async (container) => {
     const src = container?.dataset?.pdfSrc;
     if (!src) {
@@ -146,17 +206,52 @@ const renderPDFPreview = async (container) => {
     try {
         const pdf = await engine.getDocument(src).promise;
         const scale = parseFloat(container.dataset.pdfScale || '1.05');
-        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum += 1) {
+        const preloadCount = parseInt(container.dataset.pdfPreload || '3', 10);
+        const pagination = pdf.numPages > preloadCount ? createPaginationControls(container, pdf.numPages) : null;
+        const state = {
+            currentPage: 1,
+            renderedPages: new Map()
+        };
+
+        const renderPage = async (pageNum) => {
+            if (state.renderedPages.has(pageNum)) return state.renderedPages.get(pageNum);
             const page = await pdf.getPage(pageNum);
-            const viewport = page.getViewport({ scale });
-            const canvas = document.createElement('canvas');
-            canvas.classList.add('pdf-page');
-            const context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
+            const canvas = await renderPageToCanvas(page, scale);
+            state.renderedPages.set(pageNum, canvas);
+            return canvas;
+        };
+
+        const showPage = async (pageNum) => {
+            container.innerHTML = '';
+            const canvas = await renderPage(pageNum);
             container.appendChild(canvas);
-            await page.render({ canvasContext: context, viewport }).promise;
+            state.currentPage = pageNum;
+            if (pagination) {
+                pagination.pageIndicator.textContent = `Page ${pageNum} of ${pdf.numPages}`;
+                pagination.prevBtn.disabled = pageNum === 1;
+                pagination.nextBtn.disabled = pageNum === pdf.numPages;
+            }
+        };
+
+        const pagesToPreload = Math.min(preloadCount, pdf.numPages);
+        for (let i = 1; i <= pagesToPreload; i += 1) {
+            await renderPage(i);
         }
+        await showPage(1);
+
+        if (pagination) {
+            pagination.prevBtn.addEventListener('click', () => {
+                if (state.currentPage > 1) {
+                    showPage(state.currentPage - 1);
+                }
+            });
+            pagination.nextBtn.addEventListener('click', () => {
+                if (state.currentPage < pdf.numPages) {
+                    showPage(state.currentPage + 1);
+                }
+            });
+        }
+
         container.dataset.pdfLoaded = 'true';
     } catch (error) {
         console.error(`Failed to render PDF preview for ${src}`, error);

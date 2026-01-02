@@ -168,6 +168,10 @@
             cursor: none;
         }
 
+        body.native-cursor {
+            cursor: auto;
+        }
+
         a, button {
             cursor: inherit;
         }
@@ -438,14 +442,51 @@
             animation: fadeInUp 1s ease 0.5s both;
         }
 
-        .profile-image {
+        .profile-image-wrapper {
             width: 200px;
             height: 200px;
             border-radius: 50%;
             border: 4px solid var(--accent-color);
             box-shadow: 0 0 30px rgba(var(--accent-rgb), 0.3);
-            margin-bottom: 30px;
+            margin: 0 auto 30px auto;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(var(--shadow-rgb), 0.05);
+        }
+
+        .profile-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: var(--accent-color);
+            background: rgba(var(--accent-rgb), 0.08);
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-placeholder.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .profile-image.visible {
+            opacity: 1;
         }
 
         .intro-text {
@@ -732,6 +773,24 @@
         .pdf-fallback a {
             color: var(--accent-color);
             text-decoration: underline;
+        }
+
+        .pdf-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .pdf-nav {
+            min-width: 120px;
+        }
+
+        .pdf-page-indicator {
+            font-family: 'Courier New', monospace;
+            color: var(--text-muted);
         }
 
         .project-links {
@@ -1088,14 +1147,22 @@
           margin-bottom: 30px;
         }
 
-form {
-  max-width: 500px;
-  margin: 0 auto;
-}
+        .contact-section form {
+          max-width: 500px;
+          margin: 0 auto;
+          padding: 0 20px;
+          box-sizing: border-box;
+        }
 
-.form-group {
-  margin-bottom: 20px;
-}
+        .form-group {
+          margin-bottom: 20px;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+          .contact-section form {
+            padding: 0;
+          }
+        }
 
         input, textarea {
           width: 100%;
@@ -1258,10 +1325,12 @@ form {
         </div>
         
         <div class="profile-section">
-            <img src="images/me.jpeg" alt="Aditya Jhaveri" class="profile-image">
-            <!-- <img src="https://drive.google.com/uc?export=view&id=1_2iSVaO0eXCpL2Hd7KT1Rs9DAfk5YS0K" 
-                alt="Aditya Jhaveri" 
-                class="profile-image"> -->
+            <div class="profile-image-wrapper">
+                <div class="profile-placeholder" aria-hidden="true">
+                    <span>AJ</span>
+                </div>
+                <img src="images/me.jpeg" alt="Aditya Jhaveri" class="profile-image" loading="lazy" decoding="async">
+            </div>
             <div class="intro-text">
                 <h1>Aditya Jhaveri</h1>
                 <h2>Software Engineer | AI/ML Enthusiast | Distributed Systems Developer</h2>
