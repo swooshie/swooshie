@@ -431,6 +431,8 @@ if (transcriptToggles.length) {
 
 const themeToggle = document.getElementById("theme-toggle");
 const themeToggleText = document.getElementById("theme-toggle-text");
+const logoEl = document.querySelector(".logo");
+const profilePlaceholderText = document.querySelector(".profile-placeholder span");
 const THEME_STORAGE_KEY = "preferred-theme";
 
 const applyTheme = (theme) => {
@@ -442,6 +444,12 @@ const applyTheme = (theme) => {
     }
     if (themeToggleText) {
         themeToggleText.textContent = isMatrix ? "Matrix" : "Modern";
+    }
+    if (logoEl) {
+        logoEl.textContent = isMatrix ? "<SWSH />" : "<AJ />";
+    }
+    if (profilePlaceholderText) {
+        profilePlaceholderText.textContent = isMatrix ? "SWSH" : "AJ";
     }
     if (status && status.textContent) {
         status.style.color = getThemeColor("--form-status-color") || status.style.color;

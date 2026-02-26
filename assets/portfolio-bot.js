@@ -60,6 +60,9 @@
         cursor: pointer;
         transition: transform 160ms ease, box-shadow 160ms ease;
       }
+      .chat-toggle.nudge {
+        animation: botNudge 900ms ease 2;
+      }
       .chat-toggle:hover {
         transform: translateY(-2px);
         box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
@@ -266,6 +269,13 @@
         from { transform: rotate(0deg); }
         to { transform: rotate(360deg); }
       }
+      @keyframes botNudge {
+        0% { transform: translateY(0) scale(1); }
+        20% { transform: translateY(-4px) scale(1.03); }
+        40% { transform: translateY(0) scale(1); }
+        60% { transform: translateY(-3px) scale(1.02); }
+        100% { transform: translateY(0) scale(1); }
+      }
       .error {
         padding: 10px 12px;
         background: rgba(239, 68, 68, 0.08);
@@ -345,6 +355,9 @@
   let isSending = false;
   let notesOnlyMode = false;
   let activeModelId = null;
+  let didAutoOpen = false;
+  let pendingReadyChime = false;
+  let interactionAudioUnlocked = false;
 
   const setStatus = (text) => {
     statusEl.textContent = text;
@@ -379,6 +392,80 @@
   const showLoader = (text) => {
     loaderText.textContent = text;
     loaderRow.classList.remove("hidden");
+  };
+
+  const openPanel = () => {
+    panel.classList.add("open");
+    setTimeout(() => textarea.focus(), 120);
+  };
+
+  const playReadyChime = async () => {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return false;
+      const ctx = new AudioCtx();
+      if (ctx.state === "suspended") {
+        await ctx.resume();
+      }
+      const now = ctx.currentTime;
+      const master = ctx.createGain();
+      master.gain.setValueAtTime(0.0001, now);
+      master.connect(ctx.destination);
+
+      // A short notification swoosh/chime inspired cue (not an Apple audio asset).
+      const o1 = ctx.createOscillator();
+      const g1 = ctx.createGain();
+      o1.type = "triangle";
+      o1.frequency.setValueAtTime(950, now);
+      o1.frequency.exponentialRampToValueAtTime(620, now + 0.11);
+      g1.gain.setValueAtTime(0.0001, now);
+      g1.gain.exponentialRampToValueAtTime(0.055, now + 0.014);
+      g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.14);
+      o1.connect(g1).connect(master);
+
+      const o2 = ctx.createOscillator();
+      const g2 = ctx.createGain();
+      o2.type = "sine";
+      o2.frequency.setValueAtTime(520, now + 0.08);
+      o2.frequency.exponentialRampToValueAtTime(760, now + 0.2);
+      g2.gain.setValueAtTime(0.0001, now + 0.08);
+      g2.gain.exponentialRampToValueAtTime(0.04, now + 0.11);
+      g2.gain.exponentialRampToValueAtTime(0.0001, now + 0.24);
+      o2.connect(g2).connect(master);
+
+      o1.start(now);
+      o1.stop(now + 0.15);
+      o2.start(now + 0.08);
+      o2.stop(now + 0.25);
+
+      setTimeout(() => {
+        try { ctx.close(); } catch (_) {}
+      }, 450);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const announceChatReady = async () => {
+    if (didAutoOpen) return;
+    didAutoOpen = true;
+    const key = "portfolio_bot_auto_open_seen";
+    let seen = false;
+    try { seen = window.sessionStorage.getItem(key) === "1"; } catch (_) {}
+    if (seen) return;
+    try { window.sessionStorage.setItem(key, "1"); } catch (_) {}
+
+    setTimeout(async () => {
+      toggleBtn.classList.add("nudge");
+      openPanel();
+      pendingReadyChime = true;
+      if (interactionAudioUnlocked) {
+        const played = await playReadyChime();
+        if (played) pendingReadyChime = false;
+      }
+      setTimeout(() => toggleBtn.classList.remove("nudge"), 1800);
+    }, 500);
   };
 
   const hideLoader = () => {
@@ -523,6 +610,7 @@
       setStatus(`API ready (${activeModelId})`);
       setModeBadge("api", "API mode");
       sendBtn.disabled = false;
+      announceChatReady();
     } catch (err) {
       console.error("Portfolio bot API init error:", err);
       logClientError("api_init_failed", {
@@ -724,6 +812,20 @@
         : (reason?.message || String(reason)),
     });
   });
+
+  const tryPlayPendingReadyChime = async () => {
+    interactionAudioUnlocked = true;
+    if (!pendingReadyChime) return;
+    const played = await playReadyChime();
+    if (played) {
+      pendingReadyChime = false;
+    } else {
+      logClientError("ready_chime_blocked", {}, "warn");
+    }
+  };
+
+  window.addEventListener("pointerdown", tryPlayPendingReadyChime, { once: true });
+  window.addEventListener("keydown", tryPlayPendingReadyChime, { once: true });
 
   // Initialize
   clearChat();
