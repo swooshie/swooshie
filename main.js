@@ -207,7 +207,8 @@ const renderPDFPreview = async (container) => {
         const pdf = await engine.getDocument(src).promise;
         const scale = parseFloat(container.dataset.pdfScale || '1.05');
         const preloadCount = parseInt(container.dataset.pdfPreload || '3', 10);
-        const pagination = pdf.numPages > preloadCount ? createPaginationControls(container, pdf.numPages) : null;
+        // Show pagination for any multi-page PDF; preload count only controls eager rendering.
+        const pagination = pdf.numPages > 1 ? createPaginationControls(container, pdf.numPages) : null;
         const state = {
             currentPage: 1,
             renderedPages: new Map()

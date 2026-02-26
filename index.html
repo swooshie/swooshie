@@ -626,6 +626,154 @@
             font-weight: bold;
         }
 
+        .experience-card {
+            border-left: none;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at top right, rgba(var(--accent-rgb), 0.14), transparent 55%),
+                linear-gradient(180deg, rgba(var(--accent-rgb), 0.05), rgba(var(--accent-rgb), 0.01)),
+                var(--card-bg);
+        }
+
+        .experience-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--accent-color), rgba(var(--accent-rgb), 0.25));
+        }
+
+        .experience-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(var(--shadow-rgb), 0.28);
+        }
+
+        .experience-head {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: start;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px dashed rgba(var(--accent-rgb), 0.2);
+        }
+
+        .experience-card h3 {
+            margin-bottom: 6px;
+        }
+
+        .experience-badge {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            border: 1px solid rgba(var(--accent-rgb), 0.35);
+            background: rgba(var(--accent-rgb), 0.08);
+            padding: 6px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .experience-summary {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0 0 16px 0;
+            padding: 12px 14px 12px 16px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.08), rgba(var(--accent-rgb), 0.02));
+            border: 1px solid rgba(var(--accent-rgb), 0.16);
+            border-left: 3px solid rgba(var(--accent-rgb), 0.55);
+            font-size: 15px;
+        }
+
+        .experience-summary::before {
+            content: "Team Context";
+            display: block;
+            margin-bottom: 8px;
+            color: var(--accent-color);
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .project-summary {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0 0 16px 0;
+            padding: 12px 14px 12px 16px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.08), rgba(var(--accent-rgb), 0.02));
+            border: 1px solid rgba(var(--accent-rgb), 0.16);
+            border-left: 3px solid rgba(var(--accent-rgb), 0.55);
+            font-size: 15px;
+        }
+
+        .project-summary::before {
+            content: "Project Context";
+            display: block;
+            margin-bottom: 8px;
+            color: var(--accent-color);
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .experience-sections {
+            display: grid;
+            gap: 14px;
+        }
+
+        .experience-block {
+            background: rgba(var(--shadow-rgb), 0.06);
+            border: 1px solid rgba(var(--accent-rgb), 0.12);
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+
+        .experience-block h4 {
+            margin: 0 0 8px 0;
+            color: var(--accent-color);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-family: 'Courier New', monospace;
+        }
+
+        .experience-block p {
+            margin: 0;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .experience-card .impact-list {
+            margin: 0;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tech-stack span {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(var(--accent-rgb), 0.2);
+            background: rgba(var(--accent-rgb), 0.07);
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
         .skills-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -633,36 +781,111 @@
         }
 
         .skill-category {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 10px;
+            background: radial-gradient(circle at top right, rgba(var(--accent-rgb), 0.1), transparent 55%), var(--card-bg);
+            padding: 22px;
+            border-radius: 14px;
             transition: all 0.3s;
             border: 1px solid var(--card-border);
+            position: relative;
+            overflow: hidden;
         }
 
         .skill-category:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 25px rgba(var(--accent-rgb), 0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 28px rgba(var(--shadow-rgb), 0.18);
         }
 
         .skill-category h3 {
-            font-size: 20px;
-            color: var(--accent-color);
-            margin-bottom: 15px;
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin: 0;
         }
 
-        .skill-category p {
+        .skill-card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(var(--accent-rgb), 0.18);
+        }
+
+        .skill-badge {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-color);
+            background: rgba(var(--accent-rgb), 0.08);
+            border: 1px solid rgba(var(--accent-rgb), 0.2);
+            border-radius: 999px;
+            padding: 4px 8px;
+            white-space: nowrap;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-list span {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(var(--accent-rgb), 0.18);
+            background: rgba(var(--shadow-rgb), 0.05);
             color: var(--text-muted);
-            line-height: 1.8;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            .experience-head {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-badge {
+                justify-self: start;
+            }
+
+            .skill-card-head {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .education-head {
+                grid-template-columns: 1fr;
+            }
         }
 
         .education-card {
-            background: var(--card-bg);
+            background: radial-gradient(circle at top right, rgba(var(--accent-rgb), 0.12), transparent 60%), var(--card-bg);
             padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--accent-color);
+            border-radius: 14px;
+            margin-bottom: 24px;
             border: 1px solid var(--card-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .education-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--accent-color), rgba(var(--accent-rgb), 0.25));
+        }
+
+        .education-head {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: start;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed rgba(var(--accent-rgb), 0.2);
         }
 
         .education-card h3 {
@@ -675,6 +898,47 @@
             color: var(--accent-color);
             font-size: 18px;
             margin-bottom: 10px;
+        }
+
+        .education-badge {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-color);
+            border: 1px solid rgba(var(--accent-rgb), 0.25);
+            background: rgba(var(--accent-rgb), 0.08);
+            border-radius: 999px;
+            padding: 6px 10px;
+            white-space: nowrap;
+        }
+
+        .education-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0 14px 0;
+        }
+
+        .education-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(var(--accent-rgb), 0.2);
+            background: rgba(var(--accent-rgb), 0.07);
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .education-summary {
+            margin: 0;
+            color: var(--text-muted);
+            line-height: 1.6;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(var(--accent-rgb), 0.14);
+            background: rgba(var(--shadow-rgb), 0.05);
         }
 
         .transcript-viewer {
@@ -1297,8 +1561,8 @@
                     <li><a href="#experience">./experience</a></li>
                     <li><a href="#projects">./projects</a></li>
                     <li><a href="#skills">./skills</a></li>
-                    <li><a href="#contact">./contact</a></li>
                     <li><a href="#resume">./resume</a></li>
+                    <li><a href="#contact">./contact</a></li>
                 </ul>
                 <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle matrix theme">
                     <span class="toggle-track">
@@ -1335,7 +1599,7 @@
                 <h1>Aditya Jhaveri</h1>
                 <h2>Software Engineer | AI/ML Enthusiast | Distributed Systems Developer</h2>
                 <p class="story">
-                    Every Computer Science journey begins with <code>Hello World</code>. Mine began with <em>Age of Empires</em>, learning strategies and problem-solving before writing my first line of code. Today, I’m a Computer Science graduate student at NYU Tandon with 2+ years of experience building scalable systems and leveraging AI to solve complex problems. I specialize in distributed systems, big data processing, and full-stack development.
+                    Every Computer Science journey begins with <code>Hello World</code>. Mine began with <em>Age of Empires</em>, learning strategies and problem-solving before writing my first line of code. Today, I’m a Computer Science graduate student at NYU Tandon with 3+ years of experience building scalable systems and leveraging AI to solve complex problems. I specialize in distributed systems, big data processing, and full-stack development.
                 </p>
                 <div class="cta-buttons">
                     <a href="#contact" class="btn btn-primary">Get In Touch</a>
@@ -1349,7 +1613,7 @@
         <section id="about">
             <h2>&lt; About Me /&gt;</h2>
             <div class="highlight-card">
-                <h3>2+ Years</h3>
+                <h3>3+ Years</h3>
                 <p>of Professional Software Engineering Experience</p>
             </div>
             <div class="stats-grid">
@@ -1376,52 +1640,178 @@
             <h2>&lt; Professional Experience /&gt;</h2>
             <div class="experience-grid">
                 <div class="experience-card">
-                    <h3>Software Developer</h3>
-                    <div class="company">New York University</div>
-                    <div class="date">Feb 2025 - Present</div>
-                    <ul>
-                        <li>Engineered a concurrency-safe form delivery system, leading to a 40% reduction in failure retries and 100% consistency in sent records</li>
-                        <li>Designed and implemented a Gmail-like Rich Text Editor using HTML, CSS, and JavaScript, boosting email template efficiency by 45%</li>
-                        <li>Built a GitLab-style label-based filtering system, optimizing navigation for 2,000+ records</li>
-                        <li>Enhanced data retrieval speed by 50% in Google Apps Script by shifting from service functions to Sheets API on Google Cloud Console</li>
-                        <li>Architected a proof of concept for migrating 1000+ records from Google Sheets to NoSQL FIRESTORE and Google Cloud SQL, improving data accessibility and security</li>
-                    </ul>
+                    <div class="experience-head">
+                        <div>
+                            <h3>Software Developer</h3>
+                            <div class="company">New York University</div>
+                            <div class="date">Feb 2025 - Present</div>
+                        </div>
+                        <div class="experience-badge">Internal SaaS / Ops</div>
+                    </div>
+                    <p class="experience-summary">Developing workflow software for NYU's Global Enrollment Management and Student Success team, supporting enrollment operations, staff communications, and service processes used by campus administrators.</p>
+                    <div class="experience-sections">
+                        <div class="experience-block">
+                            <h4>Role Focus</h4>
+                            <p>Partner with EM tech admins to design and improve Google Cloud-based SaaS solutions across the full lifecycle: backend logic analysis, front-end development, documentation, alpha testing, and production optimization.</p>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Impact Highlights</h4>
+                            <ul class="impact-list">
+                                <li>Migrated production Google Apps Script tools toward a <strong>Next.js + MongoDB</strong> architecture, enabling real-time usage and a consistent 60-second sync cycle</li>
+                                <li>Engineered a fault-tolerant, concurrency-safe form delivery system, reducing retry failures by 40% during peak submissions</li>
+                                <li>Built and owned a placeholder-driven email template platform that auto-populates user, credential, and device data, reducing email management effort by 55%</li>
+                                <li>Implemented compound label-based filtering (UI + backend query logic), reducing lookup time across 2,000+ records</li>
+                                <li>Improved Google Apps Script retrieval speed by 50% by replacing service-layer calls with direct Google Sheets API access</li>
+                                <li>Architected a PoC migrating 1,000+ Google Sheets records to <strong>Firestore</strong> and <strong>Google Cloud SQL</strong> for scalability and reliability</li>
+                                <li>Built an automated Shipping Label Page that reduced manual processing time by 50%</li>
+                            </ul>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Stack & Skills</h4>
+                            <div class="tech-stack">
+                                <span>JavaScript</span>
+                                <span>Google Apps Script</span>
+                                <span>Google Sheets API</span>
+                                <span>Next.js</span>
+                                <span>MongoDB</span>
+                                <span>HTML</span>
+                                <span>UI/UX</span>
+                                <span>Testing</span>
+                                <span>Technical Documentation</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="experience-card">
-                    <h3>Software Development Engineer</h3>
-                    <div class="company">Sainapse</div>
-                    <div class="date">July 2022 - May 2024</div>
-                    <ul>
-                        <li>Optimized file transfer processes with Apache Kafka achieving 50% reduction in time complexity</li>
-                        <li>Implemented HDFS for storing 3 billion+ daily records using Apache Hive and Pig</li>
-                        <li>Designed custom data adapter for transferring 2B+ rows from Google BigQuery</li>
-                        <li>Accelerated data extraction from XLSX/DOCX files by 30% using Apryse Java SDK</li>
-                        <li>Mentored 4 university interns on product system architecture</li>
-                    </ul>
+                    <div class="experience-head">
+                        <div>
+                            <h3>Software Development Engineer</h3>
+                            <div class="company">Sainapse</div>
+                            <div class="date">July 2022 - May 2024</div>
+                        </div>
+                        <div class="experience-badge">Data Platforms</div>
+                    </div>
+                    <p class="experience-summary">Worked in Sainapse's Research, Technology and Platform department, building platform capabilities that supported large-scale data ingestion, transfer, and downstream analytics and ML workflows.</p>
+                    <div class="experience-sections">
+                        <div class="experience-block">
+                            <h4>Role Focus</h4>
+                            <p>Developed PoCs, solved complex production bugs, and implemented performance-focused platform improvements across microservices, storage systems, and data transfer pipelines on AWS (Linux).</p>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Impact Highlights</h4>
+                            <ul class="impact-list">
+                                <li>Optimized microservice file transfers via Apache Kafka using byte-level serialization/deserialization and parallel file distribution, reducing time complexity by 50% and space complexity by 33%</li>
+                                <li>Spearheaded HDFS implementation in Java for high-volume ingestion, storing 3B+ daily records with Hive across 10+ microservices and improving average system performance by 37%</li>
+                                <li>Designed a batch data adapter attached to BigQuery tables, enabling on-demand transfer of 2B+ rows for downstream ML workflows including free-text search and deduplication</li>
+                                <li>Improved extraction speed from 3GB+ XLSX and DOCX files by 30% by updating parsing logic with the Apryse Java SDK</li>
+                                <li>Pioneered an Apache Thrift proof of concept for cross-language model development across Java, Python, and Scala</li>
+                                <li>Mentored 4 university interns on product architecture and core technology stack, enabling independent feature delivery</li>
+                            </ul>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Stack & Skills</h4>
+                            <div class="tech-stack">
+                                <span>Java</span>
+                                <span>Apache Kafka</span>
+                                <span>HDFS</span>
+                                <span>Apache Hive</span>
+                                <span>AWS (Linux)</span>
+                                <span>BigQuery</span>
+                                <span>Apryse SDK</span>
+                                <span>Apache Thrift</span>
+                                <span>Python</span>
+                                <span>Scala</span>
+                                <span>Data Pipelines</span>
+                                <span>PoCs</span>
+                                <span>Mentorship</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="experience-card">
-                    <h3>Data Science Intern</h3>
-                    <div class="company">AiDash</div>
-                    <div class="date">Jan 2022 - June 2022</div>
-                    <ul>
-                        <li>Investigated LANDSAT classification with ResNet models achieving 75% accuracy</li>
-                        <li>Ranked 1st among peers with 78% accuracy in grassland classification</li>
-                        <li>Sped up manual labeling of satellite images by 80% on QGIS</li>
-                        <li>Performed CRUD operations on 10K+ shapefiles using GeoPandas</li>
-                    </ul>
+                    <div class="experience-head">
+                        <div>
+                            <h3>Data Science Intern</h3>
+                            <div class="company">AiDash</div>
+                            <div class="date">Jan 2022 - June 2022</div>
+                        </div>
+                        <div class="experience-badge">GeoAI / Remote Sensing</div>
+                    </div>
+                    <p class="experience-summary">Supported geospatial ML work at AiDash by developing vegetation classification methods and LANDSAT image classification workflows for remote-sensing use cases.</p>
+                    <div class="experience-sections">
+                        <div class="experience-block">
+                            <h4>Role Focus</h4>
+                            <p>Built statistical approaches for vegetation classification, trained and evaluated LANDSAT machine learning models, and assessed model quality using metrics such as accuracy, precision, recall, and F1 score.</p>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Impact Highlights</h4>
+                            <ul class="impact-list">
+                                <li>Evaluated ResNet architectures with Keras and TensorFlow for LANDSAT classification, achieving 60%-75% accuracy across experiments</li>
+                                <li>Devised a Python-based grassland classification method to improve land ranking, achieving 78% accuracy and ranking 1st among peer solutions</li>
+                                <li>Built a Python script to automate satellite image labeling in QGIS, reducing manual processing time by 80%</li>
+                                <li>Resolved geospatial data handling during onboarding by performing CRUD operations on 10,000+ shapefiles using GeoPandas and PostgreSQL</li>
+                            </ul>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Stack & Skills</h4>
+                            <div class="tech-stack">
+                                <span>Python</span>
+                                <span>TensorFlow</span>
+                                <span>Keras</span>
+                                <span>ResNet</span>
+                                <span>LANDSAT</span>
+                                <span>QGIS</span>
+                                <span>GeoPandas</span>
+                                <span>PostgreSQL</span>
+                                <span>Geospatial ML</span>
+                                <span>Model Evaluation</span>
+                                <span>Precision/Recall/F1</span>
+                                <span>Data Labeling</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="experience-card">
-                    <h3>Data Analyst Intern</h3>
-                    <div class="company">PayPal</div>
-                    <div class="date">May 2020 - June 2020</div>
-                    <ul>
-                        <li>Developed forecasting models identifying 10+ customer demand trends with R² scores closer to 0.9</li>
-                        <li>Achieved R² scores of 0.98, 0.91, and 0.85 for squared, absolute, and infinite loss functions</li>
-                        <li>Collaborated with team of 4 peers to deliver comprehensive presentation on customer demand forecasting</li>
-                    </ul>
+                    <div class="experience-head">
+                        <div>
+                            <h3>Data Analyst Intern</h3>
+                            <div class="company">PayPal</div>
+                            <div class="date">May 2020 - June 2020</div>
+                        </div>
+                        <div class="experience-badge">Forecasting / Analytics</div>
+                    </div>
+                    <p class="experience-summary">Supported demand analytics at PayPal by developing and maintaining forecasting models to identify trends in customer demand behavior.</p>
+                    <div class="experience-sections">
+                        <div class="experience-block">
+                            <h4>Role Focus</h4>
+                            <p>Built forecasting models, evaluated regression performance across multiple loss functions, and translated findings into a clear presentation with a peer team.</p>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Impact Highlights</h4>
+                            <ul class="impact-list">
+                                <li>Identified 10+ customer demand trends and developed forecasting models with R² values close to 0.9</li>
+                                <li>Achieved R² scores of 0.98, 0.91, and 0.85 for squared, absolute, and infinite loss functions in a linear regression problem, demonstrating robustness to outliers</li>
+                                <li>Collaborated with a team of 4 peers to deliver a comprehensive presentation on forecasting customer demand</li>
+                            </ul>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Stack & Skills</h4>
+                            <div class="tech-stack">
+                                <span>Python</span>
+                                <span>Forecasting</span>
+                                <span>Linear Regression</span>
+                                <span>Regression</span>
+                                <span>Loss Functions</span>
+                                <span>R² Evaluation</span>
+                                <span>Model Evaluation</span>
+                                <span>Data Analysis</span>
+                                <span>Presentation</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1430,55 +1820,217 @@
             <h2>&lt; Featured Projects /&gt;</h2>
             <div class="project-grid">
                 <div class="project-card">
-                    <h3>Market Data Service</h3>
-                    <p>Real-time stock price analytics microservice using FastAPI, Kafka, and PostgreSQL</p>
-                    <ul>
-                        <li>40% improvement in data processing scalability</li>
-                        <li>25% reduction in average API response time</li>
-                        <li>Event-driven architecture with Finnhub SDK integration</li>
-                    </ul>
+                    <div class="experience-head">
+                        <div>
+                            <h3>Market Data Service</h3>
+                        </div>
+                        <div class="experience-badge">Assessment Demo / Microservices</div>
+                    </div>
+                    <p class="project-summary">A company assessment project demonstrating an event-driven market data microservice that polls stock prices, computes moving averages, and serves analytics-ready data through FastAPI.</p>
+                    <div class="experience-sections">
+                        <div class="experience-block">
+                            <h4>What It Solves</h4>
+                            <p>Shows how to build a production-style backend for real-time market ingestion and derived analytics, with separation between API handling, async event processing, caching, persistence, and provider integration.</p>
+                        </div>
+                        <div class="experience-block">
+                            <h4>What I Built</h4>
+                            <ul class="impact-list">
+                                <li>Built a FastAPI microservice for polling stock prices, computing moving averages, and exposing REST endpoints for latest prices and polling jobs</li>
+                                <li>Integrated Finnhub for live market quotes, Kafka for event publishing/consumption, Redis for caching latest prices, and PostgreSQL for raw + processed data storage</li>
+                                <li>Designed a Docker / Docker Compose local stack for service orchestration and reproducible setup</li>
+                                <li>Added SlowAPI-based rate limiting, pytest coverage for sync/async routes, and GitHub Actions CI for automated testing and Docker build validation</li>
+                            </ul>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Impact / Results</h4>
+                            <ul class="impact-list">
+                                <li>~40% improvement in data processing scalability</li>
+                                <li>~25% reduction in average API response time</li>
+                                <li>Delivered a clean, testable event-driven architecture suitable for assessment/demo review</li>
+                            </ul>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Stack & Skills</h4>
+                            <div class="tech-stack">
+                                <span>FastAPI</span>
+                                <span>PostgreSQL</span>
+                                <span>Redis</span>
+                                <span>Apache Kafka</span>
+                                <span>Finnhub API</span>
+                                <span>Docker</span>
+                                <span>Pytest</span>
+                                <span>SlowAPI</span>
+                                <span>GitHub Actions</span>
+                                <span>Event-Driven Architecture</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="project-links">
                         <a href="https://github.com/swooshie/market-data-microservice" class="project-link" target="_blank">View Code</a>
                     </div>
                 </div>
 
                 <div class="project-card">
-                    <h3>AI Project Suite</h3>
-                    <p>Advanced AI implementations covering multiple domains</p>
-                    <ul>
-                        <li>Anomaly Detection (PatchCore, Efficient-AD, SimCLR)</li>
-                        <li>Similarity Search with Qdrant</li>
-                        <li>PDDL-based LLM routing via OpenRouter API</li>
-                        <li>Polynomial Regression & Information Theory applications</li>
-                    </ul>
+                    <div class="experience-head">
+                        <div>
+                            <h3>AI Project Suite</h3>
+                        </div>
+                        <div class="experience-badge">Coursework / Multi-Assignment</div>
+                    </div>
+                    <p class="project-summary">A collection of Artificial Intelligence course assignments built to implement core topics from class across theory, machine learning, computer vision, planning, retrieval, and data pipelines.</p>
+                    <div class="experience-sections">
+                        <div class="experience-block">
+                            <h4>What It Solves</h4>
+                            <p>Demonstrates end-to-end application of AI concepts beyond textbook exercises by turning lecture topics into working implementations: statistical modeling, anomaly detection, object detection/tracking, planning-based LLM routing, and multimodal retrieval pipelines.</p>
+                        </div>
+                        <div class="experience-block">
+                            <h4>What I Built</h4>
+                            <ul class="impact-list">
+                                <li>Implemented assignments covering Information Theory, Exponential Distribution, polynomial linear regression, and Stochastic Gradient Descent with explanations documented in notebook markdown blocks</li>
+                                <li>Built anomaly detection workflows using the anomalib library with PatchCore and EfficientAD, along with related receptive field analysis and similarity-search components</li>
+                                <li>Developed computer vision tasks for object detection (YOLOv4-CSP), Kalman filter-based tracking, and vehicular traffic counting from video streams</li>
+                                <li>Designed a PDDL-based LLM routing system (domain + problem + validator/solver flow) and paired it with an OpenRouter API implementation for practical runtime request routing</li>
+                                <li>Built a video-data ETL and featurization pipeline using MongoDB, OpenCLIP, BERT, spaCy, and Qdrant to index lecture video frames and support semantic retrieval with timestamp-based video clipping</li>
+                            </ul>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Impact / Results</h4>
+                            <ul class="impact-list">
+                                <li>Translated multiple AI course topics into working systems and notebooks spanning theory-heavy and systems-oriented implementations</li>
+                                <li>Demonstrated breadth across planning, CV, anomaly detection, retrieval, and ETL/feature pipelines in one consolidated project suite</li>
+                                <li>Created reusable notebook-based implementations with documented explanations for coursework review and technical discussion</li>
+                            </ul>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Stack & Skills</h4>
+                            <div class="tech-stack">
+                                <span>Python</span>
+                                <span>Jupyter</span>
+                                <span>TensorFlow</span>
+                                <span>anomalib</span>
+                                <span>PatchCore</span>
+                                <span>EfficientAD</span>
+                                <span>Qdrant</span>
+                                <span>OpenCLIP</span>
+                                <span>BERT</span>
+                                <span>spaCy</span>
+                                <span>MongoDB</span>
+                                <span>PDDL</span>
+                                <span>Fast Downward</span>
+                                <span>OpenRouter API</span>
+                                <span>YOLOv4-CSP</span>
+                                <span>Kalman Filter</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="project-links">
                         <a href="https://github.com/swooshie/Artificial-Intelligence-Project" class="project-link" target="_blank">View Code</a>
                     </div>
                 </div>
 
                 <div class="project-card">
-                    <h3>Apple Wallet Coupon System</h3>
-                    <p>Automated coupon generation and redemption system</p>
-                    <ul>
-                        <li>Generated 500+ Apple Wallet coupons using Google Apps Script</li>
-                        <li>PassKit API integration for seamless redemption</li>
-                        <li>40% boost in operational efficiency</li>
-                    </ul>
+                    <div class="experience-head">
+                        <div>
+                            <h3>Apple Wallet Coupon System</h3>
+                        </div>
+                        <div class="experience-badge">NYU / Workflow Automation</div>
+                    </div>
+                    <p class="project-summary">Built during my NYU GEMSS role, this system automates Apple Wallet coupon campaign creation, distribution, and redemption using Google Apps Script, PassKit, and Google Sheets.</p>
+                    <div class="experience-sections">
+                        <div class="experience-block">
+                            <h4>What It Solves</h4>
+                            <p>Replaces manual coupon campaign setup and redemption tracking with an admin-friendly workflow that supports campaign creation, multi-channel distribution, QR-based redemption, and automated expiry notifications.</p>
+                        </div>
+                        <div class="experience-block">
+                            <h4>What I Built</h4>
+                            <ul class="impact-list">
+                                <li>Built a Google Apps Script application to create Apple Wallet coupon campaigns with configurable service types and campaign details</li>
+                                <li>Implemented coupon distribution through QR code, email (GAS), and SMS (Twilio) channels</li>
+                                <li>Integrated PassKit API to create and manage Apple Wallet passes and support redemption workflows</li>
+                                <li>Designed QR scanner-assisted redemption flows with validation and fallback handling for coupon lookup in Google Sheets / PassKit</li>
+                                <li>Used Google Sheets for campaign and coupon record management, and added a self-triggering script for expiry notifications</li>
+                                <li>Built a responsive UI with HTML/CSS and Bootstrap for easier admin operations</li>
+                            </ul>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Impact / Results</h4>
+                            <ul class="impact-list">
+                                <li>Generated 500+ Apple Wallet coupons through the automated workflow</li>
+                                <li>Improved operational efficiency by ~40%</li>
+                                <li>Reduced manual handling across campaign creation, distribution, and redemption tracking</li>
+                            </ul>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Stack & Skills</h4>
+                            <div class="tech-stack">
+                                <span>Google Apps Script</span>
+                                <span>JavaScript</span>
+                                <span>HTML/CSS</span>
+                                <span>Bootstrap</span>
+                                <span>Google Sheets</span>
+                                <span>PassKit API</span>
+                                <span>Twilio</span>
+                                <span>QR Workflows</span>
+                                <span>Automation</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="project-links">
                         <a href="https://github.com/swooshie/apple-wallet-coupon-maker" class="project-link" target="_blank">View Code</a>
                     </div>
                 </div>
 
                 <div class="project-card">
-                    <h3>Welcome Home</h3>
-                    <p>Donation management web application</p>
-                    <ul>
-                        <li>Built with Thymeleaf, Spring Boot, and MySQL</li>
-                        <li>Optimized database queries improving engagement by 30%</li>
-                        <li>RESTful API design for donation tracking</li>
-                    </ul>
+                    <div class="experience-head">
+                        <div>
+                            <h3>Computer Vision Portfolio</h3>
+                        </div>
+                        <div class="experience-badge">Coursework / CV Portfolio</div>
+                    </div>
+                    <p class="project-summary">A consolidated portfolio for CS-GY 6643 (Computer Vision) that packages multiple course projects spanning classical image processing, segmentation, detection/tracking, multimodal Kaggle workflows, and geolocation.</p>
+                    <div class="experience-sections">
+                        <div class="experience-block">
+                            <h4>What It Solves</h4>
+                            <p>Creates a single organized repository for diverse computer vision assignments and experiments, making it easier to demonstrate breadth across classical CV, deep learning, tracking, medical imaging, and Kaggle-style production workflows.</p>
+                        </div>
+                        <div class="experience-block">
+                            <h4>What I Built</h4>
+                            <ul class="impact-list">
+                                <li>Project 01: Built a classical vision pipeline for astronomical image restoration, multi-scale template matching, and geometric validation (including Procrustes alignment)</li>
+                                <li>Project 2: Developed a multi-organ nuclei segmentation and classification pipeline with CellPose fine-tuning, XML polygon parsing, Albumentations transforms, and Kaggle-ready RLE submission generation</li>
+                                <li>Project 3: Implemented coursework and Kaggle workflows for object detection, Kalman filter tracking, and baseball pitch-tracking using multimodal (vision + tabular) approaches</li>
+                                <li>Project 4: Built a GeoGuessr-style U.S. state geolocation pipeline using transfer learning on torchvision backbones with train/resume/infer modes and checkpointed submissions</li>
+                                <li>Maintained structured project layouts, local environment reproducibility notes, and assignment write-ups to support onboarding and repeatable experimentation</li>
+                            </ul>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Impact / Results</h4>
+                            <ul class="impact-list">
+                                <li>Demonstrates end-to-end coverage of the CV curriculum across restoration, segmentation, tracking, multimodal modeling, and geo-localization</li>
+                                <li>Combines notebook-based experimentation with reusable scripts, checkpoints, and submission workflows for practical reproducibility</li>
+                                <li>Showcases ability to move from assignment prompts to working pipelines across both classical and deep learning computer vision tasks</li>
+                            </ul>
+                        </div>
+                        <div class="experience-block">
+                            <h4>Stack & Skills</h4>
+                            <div class="tech-stack">
+                                <span>Python</span>
+                                <span>PyTorch</span>
+                                <span>OpenCV</span>
+                                <span>Albumentations</span>
+                                <span>CellPose</span>
+                                <span>YOLO</span>
+                                <span>Kalman Filter</span>
+                                <span>Jupyter</span>
+                                <span>Kaggle Workflows</span>
+                                <span>Transfer Learning</span>
+                                <span>Geospatial CV</span>
+                                <span>HPC Training</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="project-links">
-                        <a href="https://github.com/adityajhaveri/welcome-home" class="project-link" target="_blank">View Code</a>
+                        <a href="https://github.com/swooshie/computer-vision" class="project-link" target="_blank">View Code</a>
                     </div>
                 </div>
             </div>
@@ -1488,24 +2040,82 @@
             <h2>&lt; Technical Skills /&gt;</h2>
             <div class="skills-container">
                 <div class="skill-category">
-                    <h3>Languages</h3>
-                    <p>Java, Python, JavaScript, C++, SQL, Bash, HTML5/CSS</p>
+                    <div class="skill-card-head">
+                        <h3>Languages</h3>
+                        <span class="skill-badge">Core</span>
+                    </div>
+                    <div class="skill-list">
+                        <span>Java</span>
+                        <span>Python</span>
+                        <span>JavaScript</span>
+                        <span>C++</span>
+                        <span>SQL</span>
+                        <span>Bash</span>
+                        <span>HTML5/CSS</span>
+                    </div>
                 </div>
                 <div class="skill-category">
-                    <h3>Frameworks & Tools</h3>
-                    <p>SpringBoot, Kafka, Hadoop, Spark, Maven, React, Docker, Git, AWS, GCP</p>
+                    <div class="skill-card-head">
+                        <h3>Frameworks &amp; Tools</h3>
+                        <span class="skill-badge">Build &amp; App</span>
+                    </div>
+                    <div class="skill-list">
+                        <span>Spring Boot</span>
+                        <span>React</span>
+                        <span>Maven</span>
+                        <span>Docker</span>
+                        <span>Git</span>
+                        <span>AWS</span>
+                        <span>GCP</span>
+                        <span>Kafka</span>
+                        <span>Hadoop</span>
+                        <span>Spark</span>
+                    </div>
                 </div>
                 <div class="skill-category">
-                    <h3>AI/ML Libraries</h3>
-                    <p>TensorFlow, Keras, NumPy, Pandas, SciPy, Qdrant, OpenCV</p>
+                    <div class="skill-card-head">
+                        <h3>AI / ML Libraries</h3>
+                        <span class="skill-badge">Modeling</span>
+                    </div>
+                    <div class="skill-list">
+                        <span>TensorFlow</span>
+                        <span>Keras</span>
+                        <span>NumPy</span>
+                        <span>Pandas</span>
+                        <span>SciPy</span>
+                        <span>Qdrant</span>
+                        <span>OpenCV</span>
+                    </div>
                 </div>
                 <div class="skill-category">
-                    <h3>Databases</h3>
-                    <p>PostgreSQL, MySQL, MongoDB, Google BigQuery, Apache Hive/Pig, JPA Hibernate</p>
+                    <div class="skill-card-head">
+                        <h3>Databases</h3>
+                        <span class="skill-badge">Storage</span>
+                    </div>
+                    <div class="skill-list">
+                        <span>PostgreSQL</span>
+                        <span>MySQL</span>
+                        <span>MongoDB</span>
+                        <span>BigQuery</span>
+                        <span>Apache Hive/Pig</span>
+                        <span>JPA Hibernate</span>
+                    </div>
                 </div>
                 <div class="skill-category">
-                    <h3>Dev Tools</h3>
-                    <p>Postman API, Thrift, IntelliJ, Jupyter Notebook, PyCharm, JIRA, VS Code, QGIS</p>
+                    <div class="skill-card-head">
+                        <h3>Dev Tools</h3>
+                        <span class="skill-badge">Workflow</span>
+                    </div>
+                    <div class="skill-list">
+                        <span>Postman API</span>
+                        <span>Thrift</span>
+                        <span>IntelliJ</span>
+                        <span>Jupyter Notebook</span>
+                        <span>PyCharm</span>
+                        <span>JIRA</span>
+                        <span>VS Code</span>
+                        <span>QGIS</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1513,10 +2123,20 @@
         <section id="education">
             <h2>&lt; Education /&gt;</h2>
             <div class="education-card">
-                <h3>Master of Science in Computer Science</h3>
-                <h4>New York University - Tandon School of Engineering</h4>
-                <div class="date">Sep 2024 - May 2026</div>
-                <p><strong>Coursework:</strong> Algorithms, Big Data, Options Pricing and Stochastic Calculus, Search Engines</p>
+                <div class="education-head">
+                    <div>
+                        <h3>Master of Science in Computer Science</h3>
+                        <h4>New York University - Tandon School of Engineering</h4>
+                        <div class="date">Sep 2024 - May 2026</div>
+                    </div>
+                    <div class="education-badge">Graduate</div>
+                </div>
+                <div class="education-meta">
+                    <span class="education-pill">NYU Tandon</span>
+                    <span class="education-pill">Computer Science</span>
+                    <span class="education-pill">New York, USA</span>
+                </div>
+                <p class="education-summary"><strong>Coursework focus:</strong> Algorithms, Big Data, Options Pricing and Stochastic Calculus, Search Engines.</p>
                 <div class="transcript-viewer">
                     <div class="transcript-header">
                         <div class="transcript-details">
@@ -1534,10 +2154,20 @@
                 </div>
             </div>
             <div class="education-card">
-                <h3>Bachelor of Engineering in Computer Science</h3>
-                <h4>Birla Institute of Technology and Science, Pilani</h4>
-                <div class="date">Aug 2018 - July 2022 | Minor in Data Science</div>
-                <p><strong>Coursework:</strong> Data Mining, Deep Learning, Machine Learning, Natural Language Processing</p>
+                <div class="education-head">
+                    <div>
+                        <h3>Bachelor of Engineering in Computer Science</h3>
+                        <h4>Birla Institute of Technology and Science, Pilani</h4>
+                        <div class="date">Aug 2018 - July 2022 | Minor in Data Science</div>
+                    </div>
+                    <div class="education-badge">Undergraduate</div>
+                </div>
+                <div class="education-meta">
+                    <span class="education-pill">BITS Pilani</span>
+                    <span class="education-pill">Computer Science</span>
+                    <span class="education-pill">Minor: Data Science</span>
+                </div>
+                <p class="education-summary"><strong>Coursework focus:</strong> Data Mining, Deep Learning, Machine Learning, Natural Language Processing.</p>
                 <div class="transcript-viewer">
                     <div class="transcript-header">
                         <div class="transcript-details">
@@ -1556,7 +2186,7 @@
             </div>
         </section>
 
-        <section id="contact">
+        <section id="connect">
             <h2>&lt; Let's Connect! /&gt;</h2>
             <p style="text-align: center; margin-bottom: 30px; color: var(--text-muted);">I'm always interested in collaborating on projects involving AI/ML, distributed systems, or big data. Feel free to reach out!</p>
             <div class="contact-info">
@@ -1637,5 +2267,6 @@
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha512-q+4liFwdPC/bNdhUpZx6aXDx/h77yEQtn4I1slHydcbZK34nLaR3cAeYSJshoxIOq3mjEf7xJE8YWIUHMn+oCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="main.js"></script>
+    <script type="module" src="/assets/portfolio-bot.js"></script>
 </body>
 </html>
