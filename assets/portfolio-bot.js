@@ -465,7 +465,7 @@
         if (played) pendingReadyChime = false;
       }
       setTimeout(() => toggleBtn.classList.remove("nudge"), 1800);
-    }, 500);
+    }, 1500);
   };
 
   const hideLoader = () => {
