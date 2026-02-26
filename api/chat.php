@@ -5,6 +5,7 @@ ini_set('display_errors', '0');
 error_reporting(E_ALL & ~E_DEPRECATED);
 
 header('Content-Type: application/json; charset=utf-8');
+require_once __DIR__ . '/_logger.php';
 
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
@@ -357,6 +358,8 @@ function friendly_api_error(string $message): array {
     $isQuota = str_contains($lower, 'quota')
         || str_contains($lower, 'rate limit')
         || str_contains($lower, 'resource_exhausted')
+        || str_contains($lower, 'high demand')
+        || str_contains($lower, 'try again later')
         || str_contains($lower, '429');
 
     if (!$isQuota) {
@@ -380,12 +383,31 @@ function friendly_api_error(string $message): array {
     ];
 }
 
+function is_quota_like_error(string $message): bool {
+    $lower = mb_strtolower($message, 'UTF-8');
+    return str_contains($lower, 'quota')
+        || str_contains($lower, 'rate limit')
+        || str_contains($lower, 'resource_exhausted')
+        || str_contains($lower, 'high demand')
+        || str_contains($lower, 'try again later')
+        || str_contains($lower, '429');
+}
+
 $localConfig = load_local_config();
 $apiKey = $localConfig['gemini_api_key'] ?? env_value('GEMINI_API_KEY');
-$model = $localConfig['gemini_model'] ?? env_value('GEMINI_MODEL', DEFAULT_GEMINI_MODEL) ?? DEFAULT_GEMINI_MODEL;
+$configuredModel = $localConfig['gemini_model'] ?? env_value('GEMINI_MODEL', DEFAULT_GEMINI_MODEL) ?? DEFAULT_GEMINI_MODEL;
+$modelPool = $localConfig['gemini_models'] ?? [];
+if (!is_array($modelPool) || !$modelPool) {
+    $modelPool = [$configuredModel];
+} else {
+    $modelPool = array_values(array_filter(array_map('strval', $modelPool), fn($m) => trim($m) !== ''));
+    if (!$modelPool) $modelPool = [$configuredModel];
+}
+$model = $modelPool[0];
 
 if ($method === 'GET') {
     if (!$apiKey) {
+        portfolio_log_write('error', 'chat_health_missing_api_key', ['model' => $model]);
         json_response([
             'ok' => false,
             'error' => 'Gemini API key is not configured on the server.',
@@ -397,20 +419,24 @@ if ($method === 'GET') {
         'mode' => 'api',
         'provider' => 'gemini',
         'model' => $model,
+        'models' => $modelPool,
     ]);
 }
 
 if ($method !== 'POST') {
+    portfolio_log_write('warn', 'chat_method_not_allowed', ['method' => $method]);
     json_response(['error' => 'Method not allowed'], 405);
 }
 
 if (!$apiKey) {
+    portfolio_log_write('error', 'chat_missing_api_key');
     json_response(['error' => 'Gemini API key is not configured on the server.'], 500);
 }
 
 $rawInput = file_get_contents('php://input');
 $input = json_decode($rawInput ?: '', true);
 if (!is_array($input)) {
+    portfolio_log_write('warn', 'chat_invalid_json');
     json_response(['error' => 'Invalid JSON body.'], 400);
 }
 
@@ -418,6 +444,7 @@ $question = trim((string) ($input['question'] ?? ''));
 $history = is_array($input['history'] ?? null) ? $input['history'] : [];
 
 if ($question === '' || mb_strlen($question, 'UTF-8') < 2) {
+    portfolio_log_write('warn', 'chat_invalid_question', ['question_len' => mb_strlen($question, 'UTF-8')]);
     json_response(['error' => 'Question is required.'], 400);
 }
 
@@ -436,8 +463,39 @@ try {
     }
 
     $prompt = build_prompt($question, $history, $contexts);
-    $gemini = gemini_request($apiKey, $model, $prompt);
-    $answer = extract_gemini_text($gemini);
+    $gemini = null;
+    $answer = '';
+    $usedModel = $modelPool[0];
+    $lastError = null;
+    foreach ($modelPool as $candidateModel) {
+        try {
+            $gemini = gemini_request($apiKey, $candidateModel, $prompt);
+            $answer = extract_gemini_text($gemini);
+            $usedModel = $candidateModel;
+            if ($answer === '') {
+                throw new RuntimeException('Empty response from Gemini model ' . $candidateModel);
+            }
+            break;
+        } catch (Throwable $modelErr) {
+            $lastError = $modelErr;
+            portfolio_log_write('warn', 'chat_model_attempt_failed', [
+                'candidate_model' => $candidateModel,
+                'error' => $modelErr->getMessage(),
+                'question' => mb_substr($question, 0, 200, 'UTF-8'),
+            ]);
+            // Only fail over to another model for quota/rate issues.
+            if (!is_quota_like_error($modelErr->getMessage())) {
+                throw $modelErr;
+            }
+        }
+    }
+
+    if ($answer === '') {
+        if ($lastError instanceof Throwable) {
+            throw $lastError;
+        }
+        $answer = FALLBACK_MESSAGE;
+    }
     if ($answer === '') $answer = FALLBACK_MESSAGE;
 
     $sourceLabels = [
@@ -457,10 +515,18 @@ try {
         'sources' => $sources,
         'mode' => 'api',
         'provider' => 'gemini',
-        'model' => $model,
+        'model' => $usedModel,
     ]);
 } catch (Throwable $e) {
     $friendly = friendly_api_error($e->getMessage());
+    portfolio_log_write('error', 'chat_request_failed', [
+        'question' => mb_substr($question, 0, 300, 'UTF-8'),
+        'error' => $e->getMessage(),
+        'friendly_error' => $friendly['message'],
+        'status' => $friendly['status'],
+        'model' => $model,
+        'model_pool' => $modelPool,
+    ]);
     json_response([
         'error' => $friendly['message'],
         'retry_after_seconds' => $friendly['retry_after_seconds'] ?? null,

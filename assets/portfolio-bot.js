@@ -4,6 +4,7 @@
   window.__portfolioBotLoaded = true;
 
   const CHAT_API_ENDPOINT = "/api/chat.php";
+  const LOG_API_ENDPOINT = "/api/log.php";
   const DATA_PATHS = [
     "/data/projects.md",
     "/data/experience.md",
@@ -355,6 +356,26 @@
     modeBadgeEl.textContent = text;
   };
 
+  const logClientError = async (message, context = {}, level = "error") => {
+    try {
+      await fetch(LOG_API_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          level,
+          message,
+          context: {
+            ...context,
+            page: window.location.pathname,
+            mode_badge: modeBadgeEl?.textContent || null,
+          },
+        }),
+      });
+    } catch (_) {
+      // Ignore logger failures.
+    }
+  };
+
   const showLoader = (text) => {
     loaderText.textContent = text;
     loaderRow.classList.remove("hidden");
@@ -504,6 +525,9 @@
       sendBtn.disabled = false;
     } catch (err) {
       console.error("Portfolio bot API init error:", err);
+      logClientError("api_init_failed", {
+        error: err instanceof Error ? err.message : String(err),
+      });
       hideLoader();
       showError("Chat service is unavailable. Configure /api/chat.php and a Gemini API key on the server.");
       setStatus("API unavailable");
@@ -585,6 +609,11 @@
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) {
+      await logClientError("chat_api_error", {
+        status: res.status,
+        api_error: data?.error || null,
+        question,
+      });
       throw new Error(data?.error || `Chat API failed (${res.status})`);
     }
     if (data?.model) {
@@ -648,10 +677,14 @@
     } catch (err) {
       console.error("Portfolio bot chat error:", err);
       const msg = err instanceof Error ? err.message : "Something went wrong while answering. Please try again.";
+      logClientError("chat_send_failed", {
+        error: msg,
+        question,
+      });
       showError(msg);
       chatHistory.push({ role: "user", content: question });
-      chatHistory.push({ role: "assistant", content: FALLBACK_MESSAGE });
-      addMessage("assistant", FALLBACK_MESSAGE);
+      chatHistory.push({ role: "assistant", content: msg });
+      addMessage("assistant", msg);
     } finally {
       isSending = false;
       hideLoader();
@@ -673,6 +706,24 @@
     }
   });
   observer.observe(panel, { attributes: true, attributeFilter: ["class"] });
+
+  window.addEventListener("error", (event) => {
+    logClientError("window_error", {
+      message: event.message,
+      source: event.filename,
+      line: event.lineno,
+      column: event.colno,
+    });
+  });
+
+  window.addEventListener("unhandledrejection", (event) => {
+    const reason = event.reason;
+    logClientError("unhandled_rejection", {
+      reason: typeof reason === "string"
+        ? reason
+        : (reason?.message || String(reason)),
+    });
+  });
 
   // Initialize
   clearChat();
