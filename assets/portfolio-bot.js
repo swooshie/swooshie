@@ -292,7 +292,7 @@
           bottom: 72px;
           right: 12px;
           left: 12px;
-          width: auto;
+          width: 350px;
           max-width: 350px;
           margin-left: auto;
           max-height: 78vh;

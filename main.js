@@ -37,7 +37,13 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
+const shouldAnimateSections = !window.matchMedia('(max-width: 768px), (prefers-reduced-motion: reduce)').matches;
 document.querySelectorAll('section').forEach(section => {
+    if (!shouldAnimateSections) {
+        section.style.opacity = '1';
+        section.style.transform = 'translateY(0)';
+        return;
+    }
     section.style.opacity = '0';
     section.style.transform = 'translateY(30px)';
     section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';

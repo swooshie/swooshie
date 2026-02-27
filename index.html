@@ -2270,7 +2270,19 @@
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha512-q+4liFwdPC/bNdhUpZx6aXDx/h77yEQtn4I1slHydcbZK34nLaR3cAeYSJshoxIOq3mjEf7xJE8YWIUHMn+oCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="main.js?v=20260227-1"></script>
-    <script type="module" src="/assets/portfolio-bot.js?v=20260227-1"></script>
+    <script>
+      (function () {
+        const bust = Date.now();
+
+        const main = document.createElement('script');
+        main.src = `main.js?v=${bust}`;
+        document.body.appendChild(main);
+
+        const bot = document.createElement('script');
+        bot.type = 'module';
+        bot.src = `/assets/portfolio-bot.js?v=${bust}`;
+        document.body.appendChild(bot);
+      })();
+    </script>
 </body>
 </html>
