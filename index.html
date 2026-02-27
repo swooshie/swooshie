@@ -616,6 +616,7 @@
             padding: 8px 0 8px 25px;
             position: relative;
             color: var(--text-muted);
+            overflow-wrap: anywhere;
         }
 
         .experience-card li:before, .project-card li:before {
@@ -751,6 +752,7 @@
             margin: 0;
             color: var(--text-muted);
             line-height: 1.6;
+            overflow-wrap: anywhere;
         }
 
         .experience-card .impact-list {
@@ -848,6 +850,8 @@
 
             .experience-badge {
                 justify-self: start;
+                white-space: normal;
+                max-width: 100%;
             }
 
             .skill-card-head {
@@ -2137,7 +2141,7 @@
                     <span class="education-pill">New York, USA</span>
                 </div>
                 <p class="education-summary"><strong>Coursework focus:</strong> Algorithms, Big Data, Options Pricing and Stochastic Calculus, Search Engines.</p>
-                <div class="transcript-viewer">
+                <!-- <div class="transcript-viewer">
                     <div class="transcript-header">
                         <div class="transcript-details">
                             <h3>NYU Transcript</h3>
@@ -2151,7 +2155,7 @@
                             <p>Preview unavailable? <a href="docs/transcript-nyu.pdf" download>Download the NYU transcript.</a></p>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="education-card">
                 <div class="education-head">
@@ -2168,7 +2172,7 @@
                     <span class="education-pill">Minor: Data Science</span>
                 </div>
                 <p class="education-summary"><strong>Coursework focus:</strong> Data Mining, Deep Learning, Machine Learning, Natural Language Processing.</p>
-                <div class="transcript-viewer">
+                <!-- <div class="transcript-viewer">
                     <div class="transcript-header">
                         <div class="transcript-details">
                             <h3>BITS Transcript</h3>
@@ -2182,7 +2186,7 @@
                             <p>Preview unavailable? <a href="docs/transcript-bits.pdf" download>Download the BITS transcript.</a></p>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </section>
 
@@ -2266,7 +2270,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha512-q+4liFwdPC/bNdhUpZx6aXDx/h77yEQtn4I1slHydcbZK34nLaR3cAeYSJshoxIOq3mjEf7xJE8YWIUHMn+oCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="main.js"></script>
-    <script type="module" src="/assets/portfolio-bot.js"></script>
+    <script src="main.js?v=20260227-1"></script>
+    <script type="module" src="/assets/portfolio-bot.js?v=20260227-1"></script>
 </body>
 </html>

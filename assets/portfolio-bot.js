@@ -288,9 +288,33 @@
       }
       @media (max-width: 480px) {
         .panel {
-          bottom: 68px;
-          width: min(98vw, 440px);
-          max-height: 68vh;
+          position: fixed;
+          bottom: 72px;
+          right: 12px;
+          left: 12px;
+          width: auto;
+          max-width: 350px;
+          margin-left: auto;
+          max-height: 78vh;
+          border-radius: 14px;
+        }
+        .panel-header {
+          padding: 10px 12px;
+        }
+        .messages {
+          padding: 10px;
+          gap: 8px;
+        }
+        .composer {
+          padding: 10px;
+        }
+        .composer textarea {
+          height: 54px;
+          font-size: 12px;
+        }
+        .send-btn {
+          min-width: 74px;
+          padding: 0 10px;
         }
         .chat-toggle {
           width: 50px;

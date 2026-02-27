@@ -21,9 +21,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
 const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
+    // On mobile, very tall sections can fail a high threshold and stay invisible.
+    threshold: isSmallScreen ? 0.02 : 0.1,
+    rootMargin: isSmallScreen ? '0px 0px -40px 0px' : '0px 0px -100px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
