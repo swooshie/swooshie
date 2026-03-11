@@ -10,12 +10,14 @@
     "/data/experience.md",
     "/data/skills.md",
     "/data/courses.md",
+    "/data/professional-profile.md",
   ];
   const SOURCE_LABELS = {
     "/data/projects.md": "Projects",
     "/data/experience.md": "Experience",
     "/data/skills.md": "Skills",
     "/data/courses.md": "Courses",
+    "/data/professional-profile.md": "Professional Profile",
   };
   const STOPWORDS = new Set([
     "the", "and", "for", "with", "that", "this", "from", "what", "about", "into",
@@ -109,12 +111,28 @@
         font-size: 14px;
       }
       .status {
-        color: #9ca3af;
-        font-size: 12px;
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: #ef4444;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        box-shadow:
+          0 0 0 2px rgba(239, 68, 68, 0.2),
+          0 0 10px rgba(239, 68, 68, 0.55),
+          inset 0 0 4px rgba(255, 255, 255, 0.25);
+        margin-top: 6px;
+        transition: background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+      }
+      .status.online {
+        background: #22c55e;
+        box-shadow:
+          0 0 0 2px rgba(34, 197, 94, 0.2),
+          0 0 12px rgba(34, 197, 94, 0.6),
+          inset 0 0 4px rgba(255, 255, 255, 0.35);
       }
       .mode-badge {
+        display: none;
         margin-top: 4px;
-        display: inline-flex;
         align-items: center;
         font-size: 11px;
         padding: 3px 8px;
@@ -331,8 +349,8 @@
       <div class="panel" aria-live="polite">
         <div class="panel-header">
           <div>
-            <div class="title">Portfolio Chat</div>
-            <div class="status">Loading notes...</div>
+            <div class="title">SwooshBot</div>
+            <div class="status" title="Offline">●</div>
             <div class="mode-badge">Initializing...</div>
           </div>
           <div class="header-actions">
@@ -347,7 +365,7 @@
         <div class="messages"></div>
         <div class="loader-row hidden">
           <div class="spinner"></div>
-          <span class="loader-text">Connecting to chat service...</span>
+          <span class="loader-text">Connecting...</span>
         </div>
         <div class="error hidden"></div>
         <form class="composer">
@@ -383,14 +401,15 @@
   let pendingReadyChime = false;
   let interactionAudioUnlocked = false;
 
-  const setStatus = (text) => {
-    statusEl.textContent = text;
+  const setStatus = (isOnline) => {
+    statusEl.textContent = "";
+    statusEl.classList.toggle("online", Boolean(isOnline));
+    statusEl.title = isOnline ? "Active" : "Offline";
   };
 
-  const setModeBadge = (kind, text) => {
-    modeBadgeEl.classList.remove("local", "notes", "api");
-    if (kind) modeBadgeEl.classList.add(kind);
-    modeBadgeEl.textContent = text;
+  const setModeBadge = (_kind, _text) => {
+    // Intentionally hidden; keep hook for logging compatibility.
+    modeBadgeEl.textContent = "";
   };
 
   const logClientError = async (message, context = {}, level = "error") => {
@@ -516,6 +535,7 @@
 
   const detectIntent = (query) => {
     const q = query.toLowerCase();
+    if (/\b(react|next\.?js|frontend|front-end|visa|sponsorship|work authorization|authorized to work|authorization to work|work permit|can you work in (the )?usa|work in (the )?us|relocation|professional profile)\b/.test(q)) return "professional";
     if (/\b(project|repo|github|built|build)\b/.test(q)) return "projects";
     if (/\b(experience|work|job|role|intern|company|nyu|sainapse|aidash|paypal)\b/.test(q)) return "experience";
     if (/\b(skill|stack|tech|technology|tools|languages|framework)\b/.test(q)) return "skills";
@@ -528,6 +548,7 @@
     if (intent === "experience" && source === "/data/experience.md") return 2.5;
     if (intent === "skills" && source === "/data/skills.md") return 2.5;
     if (intent === "courses" && source === "/data/courses.md") return 2.5;
+    if (intent === "professional" && source === "/data/professional-profile.md") return 3;
     return 0;
   };
 
@@ -570,20 +591,17 @@
     if (!contexts.length) return FALLBACK_MESSAGE;
 
     const bullets = contexts.map((c) => {
-      const sourceLabel = SOURCE_LABELS[c.source] || c.source;
       const focused = extractHelpfulLines(c.text, qTokens);
       const snippet = focused ? cleanSnippet(focused, 320) : cleanSnippet(c.text, 320);
-      return `- [${sourceLabel}] ${snippet}`;
+      return `- ${snippet}`;
     });
 
-    const sourceList = [...new Set(contexts.map((c) => SOURCE_LABELS[c.source] || c.source))].join(", ");
     const intentLabel = intent === "general" ? "general portfolio question" : `${intent} question`;
     return [
       `Notes-only mode: I could not load the on-device model, so I am answering directly from your portfolio notes (${intentLabel}).`,
       "",
       ...bullets,
       "",
-      `Sources used: ${sourceList}`,
       "Ask a narrower question (for example: 'What did I build at Sainapse?' or 'What is the Market Data Service stack?') for a more precise answer.",
     ].join("\n");
   };
@@ -621,9 +639,9 @@
       .filter((w) => !STOPWORDS.has(w));
 
   const initApi = async () => {
-    showLoader("Connecting to chat service...");
-    setStatus("Connecting...");
-    setModeBadge(null, "Connecting...");
+    showLoader("Connecting...");
+    setStatus(false);
+    setModeBadge(null, "");
     try {
       const res = await fetch(CHAT_API_ENDPOINT, { method: "GET" });
       if (!res.ok) throw new Error(`API health check failed (${res.status})`);
@@ -631,8 +649,8 @@
       modelReady = true;
       activeModelId = data?.model || "Gemini";
       hideLoader();
-      setStatus(`API ready (${activeModelId})`);
-      setModeBadge("api", "API mode");
+      setStatus(true);
+      setModeBadge("api", "");
       sendBtn.disabled = false;
       announceChatReady();
     } catch (err) {
@@ -642,8 +660,8 @@
       });
       hideLoader();
       showError("Chat service is unavailable. Configure /api/chat.php and a Gemini API key on the server.");
-      setStatus("API unavailable");
-      setModeBadge("notes", "API unavailable");
+      setStatus(false);
+      setModeBadge("notes", "");
       sendBtn.disabled = true;
     }
   };
@@ -674,11 +692,24 @@
       const intentBoost = sourceBoostForIntent(chunk.source, intent);
       return { chunk, score: score + density + titleBoost + intentBoost + uniqueHits * 0.15 };
     });
-    return scores
+    let ranked = scores
       .filter((s) => s.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, topK)
-      .map((s) => s.chunk);
+      .sort((a, b) => b.score - a.score);
+
+    const preferredSource = {
+      projects: "/data/projects.md",
+      experience: "/data/experience.md",
+      skills: "/data/skills.md",
+      courses: "/data/courses.md",
+      professional: "/data/professional-profile.md",
+    }[intent] || null;
+
+    if (preferredSource) {
+      const preferred = ranked.filter((row) => row.chunk.source === preferredSource);
+      if (preferred.length >= 2) ranked = preferred;
+    }
+
+    return ranked.slice(0, topK).map((s) => s.chunk);
   };
 
   const buildPrompt = (question) => {
@@ -693,7 +724,10 @@
       "Do not rely on any outside knowledge or prior responses.",
       "If the context does not have the answer, respond exactly with:",
       `"${FALLBACK_MESSAGE}"`,
-      "Keep answers concise unless the user asks for more detail.",
+      "Give clear, specific answers with useful detail from the context. Keep it concise only when the user explicitly asks for a short answer.",
+      "If direct experience in a asked technology/domain is limited in the notes, say so clearly and then provide closest related experience and transferable skills from context.",
+      "Use wording like: \"I don't have much direct experience with X in these notes, but I have related experience in Y and Z.\"",
+      "Use the exact fallback only when no relevant adjacent context exists at all.",
       "Context:",
       contextBlock,
     ].join("\n");
@@ -730,10 +764,7 @@
     }
     if (data?.model) {
       activeModelId = data.model;
-      setStatus(`API ready (${activeModelId})`);
-    }
-    if (Array.isArray(data?.sources) && data.sources.length) {
-      return `${data.answer}\n\nSources: ${data.sources.join(", ")}`;
+      setStatus(true);
     }
     return data?.answer || FALLBACK_MESSAGE;
   };
@@ -753,7 +784,7 @@
     clearError();
     addMessage(
       "system",
-      "Hi, I am a portfolio chatbot backed by a secure API. Ask about projects, experience, skills, or courses."
+      "Hi, I am SwooshBot. Ask about projects, experience, skills, courses, or professional profile details."
     );
   };
 

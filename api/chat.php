@@ -111,6 +111,7 @@ function chunk_text(string $text, string $source): array {
 
 function detect_intent(string $query): string {
     $q = mb_strtolower($query, 'UTF-8');
+    if (preg_match('/\b(react|next\.?js|frontend|front-end|visa|sponsorship|work authorization|authorized to work|authorization to work|work permit|can you work in (the )?usa|work in (the )?us|relocation|professional profile)\b/u', $q)) return 'professional';
     if (preg_match('/\b(experience|work|job|role|intern|company|nyu|sainapse|aidash|paypal)\b/u', $q)) return 'experience';
     if (preg_match('/\b(skill|stack|tech|technology|tools|languages|framework)\b/u', $q)) return 'skills';
     if (preg_match('/\b(course|coursework|class|study|studied|education|tandon|bits)\b/u', $q)) return 'courses';
@@ -123,6 +124,7 @@ function source_boost(string $source, string $intent): float {
     if ($intent === 'experience' && $source === '/data/experience.md') return 2.5;
     if ($intent === 'skills' && $source === '/data/skills.md') return 2.5;
     if ($intent === 'courses' && $source === '/data/courses.md') return 2.5;
+    if ($intent === 'professional' && $source === '/data/professional-profile.md') return 3.0;
     return 0.0;
 }
 
@@ -137,6 +139,8 @@ function query_anchor_terms(string $query): array {
         'apple wallet' => ['apple wallet', 'passkit', 'coupon'],
         'computer vision' => ['computer vision', 'cs-gy 6643', 'cellpose', 'geoguessr'],
         'ai project suite' => ['artificial intelligence', 'anomalib', 'qdrant', 'pddl', 'openrouter'],
+        'react profile' => ['react', 'next.js', 'frontend', 'front-end', 'workflow ui'],
+        'work authorization' => ['visa', 'work authorization', 'work permit', 'sponsorship'],
     ];
     foreach ($anchors as $name => $terms) {
         foreach ($terms as $term) {
@@ -212,6 +216,7 @@ function retrieve_context(array $knowledgeBase, string $query, int $topK = 4): a
         'experience' => '/data/experience.md',
         'skills' => '/data/skills.md',
         'courses' => '/data/courses.md',
+        'professional' => '/data/professional-profile.md',
         default => null,
     };
 
@@ -245,6 +250,7 @@ function build_kb(): array {
         '/data/experience.md',
         '/data/skills.md',
         '/data/courses.md',
+        '/data/professional-profile.md',
     ];
     $chunks = [];
     foreach ($paths as $rel) {
@@ -279,7 +285,11 @@ You are a helpful portfolio assistant for Aditya Jhaveri.
 Answer using only the provided context from the portfolio markdown notes.
 Do not invent details. If the answer is not in context, reply exactly:
 "{$fallback}"
-Keep responses concise but informative.
+Give clear, specific answers with useful detail from the context. Keep it concise only when the user explicitly asks for a short answer.
+If the user asks about a technology/domain where direct experience is limited or not explicitly stated, do not stop immediately.
+Instead, say that direct experience is limited based on the notes, then present the closest relevant experience, transferable skills, and adaptability evidence from context.
+Use wording like: "I don't have much direct experience with X in these notes, but I have related experience in Y and Z."
+Only use the exact fallback message when there is no relevant adjacent context at all.
 When the user asks about work/projects, prefer bullet points and include metrics/technologies if present in context.
 Finish complete sentences. Do not stop mid-sentence.
 Use plain text only. Do not use Markdown formatting (no **, __, #, or code fences).
@@ -503,6 +513,7 @@ try {
         '/data/experience.md' => 'Experience',
         '/data/skills.md' => 'Skills',
         '/data/courses.md' => 'Courses',
+        '/data/professional-profile.md' => 'Professional Profile',
     ];
     $sources = [];
     foreach ($contexts as $c) {

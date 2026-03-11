@@ -16,20 +16,27 @@ This section reflects my current technical skill set, validated through coursewo
 
 ---
 
-## Backend & Frameworks
+## Backend & Platform Frameworks
 - Spring Boot
 - JPA / Hibernate
 - REST APIs
 - MVC
-- Next.js
 - Google Apps Script
 - Express.js
 - Node.js
-- React
 - Apache Thrift
 - Swagger
 - Maven
 - Bootstrap
+
+---
+
+## Frontend Development
+- Workflow-oriented frontend development with HTML/CSS and JavaScript
+- Admin/internal UI development for forms, filtering, and operational pages
+- JavaScript (ES6+) for interactive admin workflow pages
+- HTML/CSS and Bootstrap for responsive internal tools
+- Form-heavy workflow design, filtering/search UX, and template-driven UI flows
 
 ---
 

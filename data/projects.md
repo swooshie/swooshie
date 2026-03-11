@@ -1,166 +1,178 @@
 # Projects
 
-This section highlights my most substantial and recent projects, prioritizing original work with real system design, production considerations, and measurable impact.
+This document emphasizes projects and initiatives that best represent Aditya's current profile for recruiter and interview conversations.
 
 ---
 
-## Python Script Execution API (Sandboxed with nsjail)
-**Context:** Independent systems project  
-**What it is:** A production-style API that safely executes user-submitted Python code inside an `nsjail` sandbox.
+## Kafka Microservice Transfer Optimization (Sainapse)
+**Context:** Production platform engineering initiative during tenure as Software Development Engineer at Sainapse
 
-**What I built**
-- Designed a single `POST /execute` API that runs untrusted Python safely
-- Enforced strict isolation: no network, no subprocesses, restricted filesystem
-- Captured only `main()` return value and stdout
-- Dockerized and made deployable on Google Cloud Run
+### Business problem
+File transfer between microservices was inefficient and storage-heavy. Because data moved across multiple services, storage overhead and transfer complexity were increasing.
 
-**Why it matters**
-- Demonstrates secure execution, sandboxing, and cloud-native deployment
-- Mirrors real-world concerns in AI agents and code execution platforms
+### Users and stakeholders
+- Internal platform microservices consuming large file/data transfers
+- Engineering teams responsible for data adapter and downstream processing services
 
-**Tech:** Python, nsjail, Docker, Google Cloud Run  
-**Repo:** https://github.com/swooshie/python-executor
+### What I built
+- Introduced a Kafka-based transfer pipeline for inter-service file movement
+- Used byte-level serialization/deserialization for streaming transfer
+- Designed runtime-aware consumer handling based on active consumer availability
+- Enabled parallel consumer fetching and reassembly into the World View server microservice for storage
 
----
+### Technical challenge
+The hardest part was parallelizing consumer processing safely and handling consumer spawning/availability without breaking transfer correctness.
 
-## Market Data Microservice
-**Context:** Company assessment demo (systems + backend architecture)  
-**What it is:** An event-driven market data microservice that polls live stock prices, computes moving averages, and serves analytics-ready data through FastAPI.
+### Tech stack
+Java, Spring Boot, Apache Kafka, microservices architecture
 
-**What it solves**
-- Demonstrates a production-style backend design for real-time market ingestion and derived analytics
-- Separates API routing, async event processing, caching, persistence, and provider integration cleanly
+### Outcome
+- Reduced storage complexity by ~33%
+- Improved transfer time by ~35% versus prior flow
+- Created a more scalable pattern for multi-consumer file transfer workflows
 
-**What I built**
-- Built a FastAPI microservice for latest price retrieval and polling-job APIs
-- Integrated Finnhub for live quotes, Kafka for async event publishing/consumption, Redis for latest-price caching, and PostgreSQL for raw/processed data storage
-- Added Docker / Docker Compose orchestration for local multi-service setup
-- Implemented rate limiting with SlowAPI, pytest coverage for sync/async routes, and GitHub Actions CI for testing + Docker build validation
-
-**Impact**
-- Improved processing scalability by ~40%
-- Reduced average API latency by ~25%
-- Delivered a clean, testable event-driven architecture suitable for assessment/demo review
-
-**Tech:** FastAPI, PostgreSQL, Redis, Apache Kafka, Finnhub API, Docker, Pytest, SlowAPI, GitHub Actions  
-**Repo:** https://github.com/swooshie/market-data-microservice
+### Ownership summary
+Implemented as part of core platform engineering responsibilities at Sainapse, with direct focus on transfer architecture and parallel consumer flow.
 
 ---
 
-## Apple Wallet Coupon Generator & Redemption System
-**Context:** Real-world workflow automation project (built during NYU GEMSS role)  
-**What it is:** A Google Apps Script system for Apple Wallet coupon campaign creation, distribution, and redemption.
+## Apple Wallet Coupon System (Interview Assessment)
+**Context:** Full-stack technical assessment for NYU Admissions software developer interview process
 
-**What it solves**
-- Replaces manual coupon campaign setup and redemption tracking with an admin-friendly workflow
-- Supports campaign creation, multi-channel distribution, QR-based redemption, and expiry notifications in one system
+### Assessment objective
+Build and deliver, by the stated deadline (December 27), a Google Apps Script web app using Bootstrap + JavaScript + HTML/CSS with Google Sheets as the system of record for coupon campaigns and redemption.
 
-**What I built**
-- Built a Google Apps Script application to create coupon campaigns with configurable service types and campaign details
-- Integrated PassKit API to create and manage Apple Wallet passes and redemption workflows
-- Implemented distribution channels via QR code, email (GAS), and SMS (Twilio)
-- Designed QR scanner-assisted redemption flows with validation and fallback handling (Google Sheets / PassKit lookup)
-- Used Google Sheets for campaign and coupon record management and added a self-triggering expiry notification script
-- Built a responsive admin UI with HTML/CSS and Bootstrap
+### Assessment requirements provided
+- Implement coupon creation parameters and campaign options
+- Implement redemption process and restriction logic
+- Use Google Sheets as database for fields such as expiration, recipient, discount amount, and remaining uses
+- Integrate SMS functionality via Twilio while minimizing message usage (usage tracked as an evaluation signal)
+- Select and integrate an Apple Wallet-compatible pass generation API (documented for reviewer access)
+- Implement QR code generation, error handling, and redemption tracking
+- Host inside NYU Google Workspace environment and provide testing/access instructions
+- Deliver both speed and quality under interview evaluation constraints
 
-**Impact**
-- Generated 500+ Apple Wallet coupons through the automated workflow
-- Improved operational efficiency by ~40%
-- Reduced manual handling across campaign creation, distribution, and redemption tracking
+### What I built
+- Admin workflow to create and manage coupon campaigns
+- PassKit API integration for coupon lifecycle and redemption handling
+- QR-based redemption flow including online scanner integration
+- Validation logic to handle duplicate redemption and count integrity issues
 
-**Tech:** Google Apps Script, JavaScript, HTML/CSS, Bootstrap, Google Sheets, PassKit API, Twilio  
-**Repo:** https://github.com/swooshie/apple-wallet-coupon-maker
+### End-to-end flow implemented
+- Manager creates a coupon campaign in the app
+- System checks Google Sheets to avoid duplicate campaign setup
+- If valid, pass/coupon creation is triggered via PassKit and campaign details are persisted in Sheets
+- Coupons are distributed via email and SMS (Twilio)
+- Recipient adds coupon to Apple Wallet
+- At redemption, scanned coupon ID is validated against campaign/coupon records in Sheets
+- Remaining-use counter is updated based on redemption rules
+- Re-scan/reuse attempts are validated again through the same ID + counter checks
 
----
+### Technical challenge
+- Understanding and implementing PassKit API/documentation under assessment constraints
+- Integrating online QR scanning into a reliable redemption workflow
+- Balancing complete functionality with careful Twilio usage under tracked API-cost constraints
+- Resolving Apple developer certificate issues during pass integration/testing
+- Defining a practical QR redemption strategy (ID-based QR validation instead of only link-based QR)
 
-## Computer Vision Portfolio (CS-GY 6643)
-**Context:** Graduate coursework at NYU Tandon  
-**What it is:** A consolidated repository for CS-GY 6643 coursework spanning classical image processing, segmentation, detection/tracking, multimodal Kaggle workflows, and geolocation.
+### Tech stack
+Google Apps Script, JavaScript, HTML/CSS, Bootstrap, Google Sheets, PassKit API
 
-**What it solves**
-- Organizes diverse computer vision assignments/experiments into one portfolio with reusable scripts, notebooks, checkpoints, and write-ups
-- Demonstrates breadth across classical CV, deep learning, tracking, medical imaging, and Kaggle-style pipelines
+### Outcome
+Delivered a complete end-to-end assessment implementation that demonstrated full-stack execution, API integration, workflow design, and validation logic.
+- Completed implementation in approximately 2-3 weeks
+- Received positive supervisor feedback that this submission implemented features many candidates did not fully complete
 
-**Key projects**
-- Project 01: Classical pipeline for astronomical image restoration, template matching, and geometric alignment validation (including Procrustes analysis)
-- Project 2: Multi-organ nuclei segmentation/classification with CellPose fine-tuning, XML polygon parsing, Albumentations transforms, and Kaggle-ready RLE submissions
-- Project 3: Object detection, Kalman filter tracking, and baseball pitch-tracking Kaggle workflows using multimodal (vision + tabular) approaches
-- Project 4: GeoGuessr-style U.S. state geolocation pipeline with transfer learning, checkpointed training, and submission generation
+### Interview impact
+This project was part of the interview process that led to the NYU role outcome.
 
-**What this shows**
-- End-to-end coverage of the CV curriculum across restoration, segmentation, tracking, multimodal modeling, and geo-localization
-- Ability to move from assignment prompts to working pipelines across both classical and deep learning CV tasks
-- Reproducible experimentation with structured project layouts and environment guidance
-
-**Tech:** Python, PyTorch, OpenCV, Albumentations, CellPose, YOLO, Kalman Filter, Jupyter, Kaggle workflows, transfer learning  
-**Repo:** https://github.com/swooshie/computer-vision
-
----
-
-## Artificial Intelligence Project Suite
-**Context:** Artificial Intelligence coursework (multi-assignment implementation suite)  
-**What it is:** A set of AI course assignments that turns class topics into working notebooks and systems across theory, ML, CV, planning, retrieval, and data pipelines.
-
-**What it solves**
-- Demonstrates practical implementation of AI topics beyond theory-only coursework
-- Consolidates diverse assignments into a single repo for review, discussion, and reuse
-
-**What I built**
-- Assignments covering Information Theory, Exponential Distribution, polynomial linear regression, and Stochastic Gradient Descent with documented notebook explanations
-- Anomaly detection workflows using anomalib with PatchCore and EfficientAD, plus related receptive-field and similarity-search components
-- Computer vision tasks for object detection, Kalman filter-based tracking, and vehicular traffic counting from video
-- A PDDL-based LLM routing system (domain/problem/validation/solver flow) paired with an OpenRouter API implementation for runtime routing
-- A video-data ETL + featurization pipeline using MongoDB, OpenCLIP, BERT, spaCy, and Qdrant for semantic retrieval and timestamp-based clipping
-
-**Impact**
-- Showcases breadth across planning, CV, anomaly detection, retrieval, and ETL/feature pipelines in one coursework suite
-- Produces reusable notebook-based implementations with documented explanations for technical review
-
-**Tech:** Python, Jupyter, TensorFlow, anomalib, PatchCore, EfficientAD, Qdrant, OpenCLIP, BERT, spaCy, MongoDB, PDDL, Fast Downward, OpenRouter API, YOLOv4-CSP, Kalman Filter  
-**Repo:** https://github.com/swooshie/Artificial-Intelligence-Project
+### Design insight used
+Redemption UX decisions were informed by observing real Apple Wallet pass behavior from consumer brands (for example Chipotle and H&M), then adapting that pattern to an ID-driven validation flow for this assessment.
 
 ---
 
-## Machine Learning Foundations (Selected)
-These repos focus on algorithmic depth rather than productization.
+## Portfolio Chatbot (This Website)
+**Context:** Portfolio product enhancement for recruiter/interviewer self-service Q&A
 
-### SVM vs Kernel Logistic Regression
-- Comparative study of SVM and KLR with kernel and hyperparameter analysis  
-Repo: https://github.com/swooshie/svm-vs-kernel_logistic_regression
+### Problem addressed
+The portfolio had substantial content, and recruiters were unlikely to read every section in detail. I wanted a faster way for visitors to ask direct questions about my background and get relevant answers.
 
-### Fisher’s Linear Discriminant (From Scratch)
-- Full Python implementation of FLD without ML libraries  
-Repo: https://github.com/swooshie/Fishers-Linear-Discriminant
+### What I built
+- Chatbot interface embedded into my portfolio website
+- Frontend in HTML/CSS
+- Backend in PHP with markdown-based knowledge files covering my professional profile, experience, projects, skills, and coursework
+- Query flow that maps user question -> retrieves relevant markdown context -> sends prompt to Gemini -> returns contextual answer
+- Retrieval logic that prioritizes source files by intent and applies fallback behavior when context is missing
 
-### Autoregressive N-gram Text Generator
-- Text generation from Project Gutenberg using n-gram models  
-Repo: https://github.com/swooshie/autoregressive-model
+### Business/use-case value
+- Gives recruiters and hiring managers a quicker way to evaluate role fit
+- Turns static portfolio content into interactive Q&A
+- Helps visitors understand my experience without scanning every page section
 
----
+### Tech stack
+JavaScript, PHP API, markdown knowledge files, retrieval/ranking logic, Gemini API integration
 
-## Web and App Projects
+### Outcome
+A working portfolio assistant that answers from structured markdown context about my professional life. I am actively improving answer quality and coverage.
 
-### To-Do Listings
-- CRUD-style JavaScript app with MVC-style structure  
-Repo: https://github.com/swooshie/todo-listings
-
-### World Clock (Flutter)
-- Mobile app showing global time zones  
-Repo: https://github.com/swooshie/worldClock
-
----
-
-## Older Coursework, Systems, and Forks
-These repositories are kept for reference and learning history and are not representative of my current work:
-- LexicalAnalyzer
-- SocketProgramming
-- CPUsim
-- Database Project
-- Search Engines
-- MERN CRUD (fork)
-- Hostel Server / Allotment (forks)
-- node-js-playlist (fork)
+### Key challenges and improvements
+- Challenge: making the chatbot UI intuitive enough for recruiter use
+- Challenge: improving answer quality so responses stay specific and useful
+- Constraint: Gemini free-tier request limits could cause visible failures
+- Improvement: refined prompts to improve answer quality and grounding
+- Improvement: added round-robin model fallback across available free Gemini models to reduce user-visible API limit failures
 
 ---
 
-_Last updated from GitHub, resume, and LinkedIn._
+## NYU Workflow Modernization (Apps Script/Sheets to Node.js/Express + MongoDB Atlas, Agent-AI Workflow Direction)
+**Context:** Ongoing modernization work at NYU GEMSS
+
+### Business problem
+The legacy Google Apps Script Asset Management System (AMS) page, used by NYU Admissions managers to monitor staff, corporate devices, accessories, shipping, and department operations, became increasingly slow as Google Sheets volume, rows/columns, and sheet count grew.
+
+### What I built / contributed
+- Helped drive migration from Apps Script/Sheets to a public VPS architecture using Node.js/Express and MongoDB Atlas
+- Designed and implemented 10+ REST endpoints for AMS operations
+- Consolidated multi-sheet batching logic into a single API layer to simplify data access patterns
+- Preserved business-critical HTML/CSS workflows, including device-to-floor-plan mapping, shipping operations, and advanced table filtering
+- Replaced Apps Script backend logic with API-driven data services for asset assignment and operations tracking
+- Added OAuth-based authentication to improve security
+- Used Agentic AI/Codex-assisted workflows to accelerate migration implementation and refactoring tasks
+- Delivered in Agile workflow cycles with iterative validation against operational requirements
+
+### Why this matters
+- Reduces spreadsheet-bound performance bottlenecks in manager-critical workflows
+- Replaces brittle script-centric logic with API-driven architecture
+- Improves security with authenticated access controls
+- Improves long-term scalability and maintainability for internal operations
+
+### Tech stack
+JavaScript/TypeScript, Node.js, Express, MongoDB Atlas, HTML/CSS, Google Apps Script (legacy), Google Sheets (legacy), OAuth, public VPS hosting
+
+### Outcome
+- Established a practical modernization foundation for internal workflow software used by administrative teams
+- Reduced the heaviest retrieval page from roughly 10 seconds to near-instant response (milliseconds/sub-second range on key paths)
+
+---
+
+## Additional Technical Projects
+
+### Python Script Execution API (nsjail sandbox)
+Secure code execution API with strict isolation controls and cloud-ready deployment.
+Repo: https://github.com/swooshie/python-executor
+
+### Market Data Microservice
+Event-driven microservice for market data ingestion and analytics-ready processing.
+Repo: https://github.com/swooshie/market-data-microservice
+
+### Computer Vision Portfolio (CS-GY 6643)
+Coursework portfolio spanning restoration, segmentation, tracking, multimodal workflows, and geolocation.
+Repo: https://github.com/swooshie/computer-vision
+
+### Artificial Intelligence Project Suite
+Multi-assignment implementation suite covering AI theory, planning, anomaly detection, CV, and retrieval pipelines.
+Repo: https://github.com/swooshie/Artificial-Intelligence-Project
+
+---
+
+_Last updated from interview/project notes and portfolio context._
