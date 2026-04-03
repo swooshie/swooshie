@@ -80,6 +80,7 @@ if (supportsCustomCursor) {
     }
 
     document.addEventListener('mousemove', e => {
+        showCustomCursor();
         cursor.style.top = e.clientY + 'px';
         cursor.style.left = e.clientX + 'px';
 
@@ -101,6 +102,19 @@ if (supportsCustomCursor) {
             });
         }, 200);
     });
+
+    document.addEventListener('mouseleave', hideCustomCursor);
+    window.addEventListener('blur', hideCustomCursor);
+    window.addEventListener('scroll', hideCustomCursor, { passive: true });
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) hideCustomCursor();
+    });
+    document.addEventListener('pointerdown', (event) => {
+        if (event.pointerType !== 'mouse') {
+            hideCustomCursor();
+        }
+    });
+    document.addEventListener('touchstart', hideCustomCursor, { passive: true });
 
     const interactiveElements = document.querySelectorAll('a, button');
     interactiveElements.forEach(element => {
@@ -439,6 +453,8 @@ if (transcriptToggles.length) {
 
 const themeToggle = document.getElementById("theme-toggle");
 const themeToggleText = document.getElementById("theme-toggle-text");
+const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+const mobileNavPanel = document.getElementById("mobile-nav-panel");
 const logoEl = document.querySelector(".logo");
 const profilePlaceholderText = document.querySelector(".profile-placeholder span");
 const THEME_STORAGE_KEY = "preferred-theme";
@@ -472,5 +488,196 @@ if (themeToggle) {
         const nextTheme = document.body.classList.contains("theme-matrix") ? "modern" : "matrix";
         applyTheme(nextTheme);
         localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    });
+}
+
+if (mobileMenuToggle && mobileNavPanel) {
+    const setMobileMenu = (open) => {
+        mobileMenuToggle.classList.toggle("active", open);
+        mobileMenuToggle.setAttribute("aria-expanded", String(open));
+        mobileNavPanel.classList.toggle("open", open);
+        mobileNavPanel.setAttribute("aria-hidden", String(!open));
+        document.body.classList.toggle("mobile-menu-open", open);
+    };
+
+    mobileMenuToggle.addEventListener("click", () => {
+        const nextOpen = mobileMenuToggle.getAttribute("aria-expanded") !== "true";
+        setMobileMenu(nextOpen);
+    });
+
+    mobileNavPanel.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener("click", () => setMobileMenu(false));
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!mobileNavPanel.classList.contains("open")) return;
+        if (mobileNavPanel.contains(event.target) || mobileMenuToggle.contains(event.target)) return;
+        setMobileMenu(false);
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && mobileNavPanel.classList.contains("open")) {
+            setMobileMenu(false);
+            mobileMenuToggle.focus();
+        }
+    });
+
+    window.addEventListener("resize", () => {
+        if (!window.matchMedia("(max-width: 768px)").matches) {
+            setMobileMenu(false);
+        }
+    });
+}
+
+const journeyConsole = document.getElementById("journey-console");
+const journeyMapHint = document.getElementById("journey-map-hint");
+const journeyKicker = document.getElementById("journey-console-kicker");
+const journeyTitle = document.getElementById("journey-console-title");
+const journeySubtitle = document.getElementById("journey-console-subtitle");
+const journeyCopy = document.getElementById("journey-console-copy");
+const journeyList = document.getElementById("journey-console-list");
+const journeyFooter = document.getElementById("journey-console-footer");
+const journeyTriggers = document.querySelectorAll("[data-journey-target]");
+
+if (journeyMapHint) {
+    const prefersTapHint = !window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    journeyMapHint.textContent = prefersTapHint
+        ? "Tap a ring or planet to inspect that phase."
+        : "Hover a ring or planet to inspect that phase.";
+}
+
+const journeyData = {
+    profile: {
+        kicker: "Mission Console / Engineering Profile",
+        title: "Engineering Profile",
+        subtitle: "Systems, internal platforms, and AI-enabled workflows",
+        copy: "I work best at the intersection of messy operations and technical systems. The throughline across the journey is turning unclear, high-friction processes into software that is more reliable, easier to operate, and faster for teams to use.",
+        bullets: [
+            "Strongest in backend-heavy products, internal tools, and distributed data workflows.",
+            "Comfortable moving between systems engineering, product delivery, and applied AI workflow design.",
+            "The orbit map shows how that profile formed across education, internships, and production engineering roles."
+        ],
+        tags: ["Backend Systems", "Internal Platforms", "AI Workflows"]
+    },
+    bits: {
+        kicker: "Mission Console / Foundation",
+        title: "BITS Pilani",
+        subtitle: "2018 - 2022 | Undergraduate base layer",
+        copy: "This is the foundation phase: computer science fundamentals, data science coursework, and the period where parallel internships started shaping the profile before full-time systems work.",
+        bullets: [
+            "Built the base layer in computer science and a data science minor.",
+            "Created the time window where internships orbited around a larger academic phase.",
+            "Set up the transition from coursework into backend, analytics, and ML execution."
+        ],
+        tags: ["Computer Science", "Data Science Minor", "Foundation Layer"]
+    },
+    paypal: {
+        kicker: "Mission Console / Moon Orbit",
+        title: "PayPal",
+        subtitle: "Internship | Forecasting and analytics",
+        copy: "PayPal was one of the early applied industry signals during undergrad. The work focused on demand-side analytics, forecasting logic, and model evaluation under real business constraints.",
+        bullets: [
+            "Worked on forecasting-oriented analytics problems in a production business context.",
+            "Strengthened the bridge between academic ML concepts and practical decision support.",
+            "Added one side of the parallel internship layer around the BITS phase."
+        ],
+        tags: ["Forecasting", "Analytics", "Business Modeling"]
+    },
+    aidash: {
+        kicker: "Mission Console / Moon Orbit",
+        title: "AiDash",
+        subtitle: "Internship | GeoAI and remote sensing",
+        copy: "AiDash added a very different applied layer: geospatial ML, satellite imagery workflows, and LANDSAT-based classification work. It pushed the profile toward computer vision and data-heavy ML systems.",
+        bullets: [
+            "Worked with LANDSAT imagery and geospatial classification tasks.",
+            "Added GeoAI and remote sensing exposure beyond traditional analytics work.",
+            "Rounded out the internship period with a more ML- and data-pipeline-heavy track."
+        ],
+        tags: ["GeoAI", "LANDSAT", "Computer Vision"]
+    },
+    sainapse: {
+        kicker: "Mission Console / Systems Stage",
+        title: "Sainapse",
+        subtitle: "2022 - 2024 | Distributed systems and data platforms",
+        copy: "This is the phase where the profile became much more systems-heavy: Kafka-based transfer flows, HDFS-scale ingestion, platform optimization, and data infrastructure work under real production constraints.",
+        bullets: [
+            "Built and improved distributed data workflows across ingestion, transfer, and analytics paths.",
+            "Worked on Kafka, HDFS, Hive, and large-scale platform engineering problems.",
+            "This stage is where the distributed systems identity became concrete."
+        ],
+        tags: ["Kafka", "HDFS", "Platform Engineering"]
+    },
+    nyu: {
+        kicker: "Mission Console / Current Orbit",
+        title: "NYU",
+        subtitle: "2024 - Now | Graduate study plus internal software delivery",
+        copy: "NYU combines two layers at once: graduate-level computer science study and hands-on internal product work through GEMSS, where the focus shifted toward workflow modernization, operational software, and full-stack delivery.",
+        bullets: [
+            "Graduate coursework expands the systems and applied CS foundation.",
+            "GEMSS role adds internal product delivery, modernization, and workflow reliability work.",
+            "This is the current orbit where education and practical product engineering overlap directly."
+        ],
+        tags: ["MS CS", "GEMSS", "Workflow Modernization"]
+    },
+    gemss: {
+        kicker: "Mission Console / Moon Orbit",
+        title: "GEMSS",
+        subtitle: "NYU role | Internal software delivery",
+        copy: "GEMSS is the hands-on operational moon around the NYU phase. It is where the graduate study layer meets real internal software delivery, workflow improvement, and admin-facing tools.",
+        bullets: [
+            "Builds internal software for enrollment and student success operations.",
+            "Focuses on workflow reliability, process modernization, and full-stack delivery.",
+            "Represents the practical execution layer orbiting the broader NYU stage."
+        ],
+        tags: ["Internal Tools", "Workflow Ops", "SaaS Delivery"]
+    }
+};
+
+if (journeyConsole && journeyTitle && journeyTriggers.length) {
+    const journeyMap = document.querySelector(".journey-map");
+    const journeyStages = document.querySelectorAll(".journey-stage");
+    const journeyMoonGroups = document.querySelectorAll(".journey-moon-group");
+    const defaultJourneyTarget = "profile";
+
+    const renderJourney = (key) => {
+        const details = journeyData[key];
+        if (!details) return;
+
+        journeyKicker.textContent = details.kicker;
+        journeyTitle.textContent = details.title;
+        journeySubtitle.textContent = details.subtitle;
+        journeyCopy.textContent = details.copy;
+        journeyList.innerHTML = details.bullets.map((bullet) => `<li>${bullet}</li>`).join("");
+        journeyFooter.innerHTML = details.tags.map((tag) => `<span>${tag}</span>`).join("");
+
+        journeyStages.forEach((stage) => {
+            stage.classList.toggle("active", stage.dataset.journeyTarget === key);
+        });
+        journeyMoonGroups.forEach((moon) => {
+            moon.classList.toggle("active", moon.dataset.journeyTarget === key);
+        });
+    };
+
+    renderJourney(defaultJourneyTarget);
+
+    journeyTriggers.forEach((trigger) => {
+        const key = trigger.dataset.journeyTarget;
+        if (!key) return;
+
+        trigger.addEventListener("mouseenter", () => renderJourney(key));
+        trigger.addEventListener("focus", () => renderJourney(key));
+        trigger.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                renderJourney(key);
+            }
+        });
+    });
+
+    journeyMap?.addEventListener("mouseleave", () => renderJourney(defaultJourneyTarget));
+    journeyMap?.addEventListener("focusout", (event) => {
+        if (!journeyMap.contains(event.relatedTarget)) {
+            renderJourney(defaultJourneyTarget);
+        }
     });
 }

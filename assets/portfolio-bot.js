@@ -304,6 +304,17 @@
       .hidden {
         display: none;
       }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
       @media (max-width: 480px) {
         .panel {
           position: fixed;
@@ -341,12 +352,12 @@
       }
     </style>
     <div class="bot-shell">
-      <button class="chat-toggle" aria-label="Open portfolio chat" type="button">
+      <button class="chat-toggle" aria-label="Open portfolio chat" aria-expanded="false" aria-controls="portfolio-chat-panel" type="button">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
       </button>
-      <div class="panel" aria-live="polite">
+      <div class="panel" id="portfolio-chat-panel" role="dialog" aria-modal="false" aria-label="Portfolio chat" aria-live="polite" aria-hidden="true">
         <div class="panel-header">
           <div>
             <div class="title">SwooshBot</div>
@@ -369,7 +380,8 @@
         </div>
         <div class="error hidden"></div>
         <form class="composer">
-          <textarea name="message" placeholder="Ask about my projects, experience, skills, or courses" minlength="2"></textarea>
+          <label class="sr-only" for="portfolio-chat-message">Ask the portfolio chatbot a question</label>
+          <textarea id="portfolio-chat-message" name="message" placeholder="Ask about my projects, experience, skills, or courses" minlength="2"></textarea>
           <button class="send-btn" type="submit" disabled>Send</button>
         </form>
       </div>
@@ -439,8 +451,12 @@
 
   const openPanel = () => {
     panel.classList.add("open");
+    panel.setAttribute("aria-hidden", "false");
+    toggleBtn.setAttribute("aria-expanded", "true");
     setTimeout(() => textarea.focus(), 120);
   };
+
+  window.openPortfolioChat = openPanel;
 
   const playReadyChime = async () => {
     try {
@@ -771,6 +787,8 @@
 
   const togglePanel = () => {
     const isOpen = panel.classList.toggle("open");
+    panel.setAttribute("aria-hidden", String(!isOpen));
+    toggleBtn.setAttribute("aria-expanded", String(isOpen));
     if (!isOpen) {
       textarea.blur();
     } else {
@@ -792,8 +810,19 @@
     togglePanel();
   });
 
+  document.addEventListener("click", (event) => {
+    const trigger = event.target instanceof Element
+      ? event.target.closest("[data-open-portfolio-chat]")
+      : null;
+    if (!trigger) return;
+    event.preventDefault();
+    openPanel();
+  });
+
   closeBtn.addEventListener("click", () => {
     panel.classList.remove("open");
+    panel.setAttribute("aria-hidden", "true");
+    toggleBtn.setAttribute("aria-expanded", "false");
   });
 
   clearBtn.addEventListener("click", () => {
