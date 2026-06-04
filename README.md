@@ -2,7 +2,7 @@
 
 ### Software Engineer | AI/ML Enthusiast | Distributed Systems Developer
 
-I'm a Computer Science graduate student at NYU Tandon, passionate about building scalable systems and leveraging AI to solve complex problems. With 2+ years of professional experience, I specialize in distributed systems, big data processing, and full-stack development.
+I'm a Computer Science graduate student at NYU Tandon, passionate about building scalable systems and leveraging AI to solve complex problems. With 3+ years of professional experience, I specialize in distributed systems, big data processing, and full-stack development.
 
 [*] Based in Jersey City, NJ  
 [@] Reach me at: adityaajhaveri@gmail.com  
@@ -21,7 +21,7 @@ I'm a Computer Science graduate student at NYU Tandon, passionate about building
 ## >> Professional Experience
 
 ### Software Developer @ New York University
-*Feb 2025 - Present*
+*Feb 2025 - May 2026*
 - Migrated 1000+ records to NoSQL Firestore and Google Cloud SQL
 - Improved data retrieval speed by 50% using Google Sheets API
 - Engineered concurrency-safe systems with 100% consistency
