@@ -2,7 +2,7 @@
 
 ### Software Engineer | AI/ML Enthusiast | Distributed Systems Developer
 
-I'm a Computer Science graduate student at NYU Tandon, passionate about building scalable systems and leveraging AI to solve complex problems. With 3+ years of professional experience, I specialize in distributed systems, big data processing, and full-stack development.
+I'm a Computer Science graduate student at NYU Tandon, passionate about building scalable systems and leveraging AI to solve complex problems. With 3+ years of professional experience, I specialize in distributed systems, backend/platform engineering, internal workflow software, and production-style full-stack development.
 
 [*] Based in Jersey City, NJ  
 [@] Reach me at: adityaajhaveri@gmail.com  
@@ -12,9 +12,9 @@ I'm a Computer Science graduate student at NYU Tandon, passionate about building
 
 ## >> What I'm Currently Working On
 
-- Building SAAS tools in JavaScript for NYU Admissions department
-- Architecting cloud-native solutions with Google Cloud Platform
-- Exploring advanced AI/ML techniques for real-world applications
+- Building internal SaaS and workflow tools for NYU Admissions operations
+- Modernizing Google Apps Script systems into Node.js/Express, TypeScript, MongoDB, Docker, and CI/CD-backed architectures
+- Exploring agentic AI, sealed-state multi-agent simulations, and practical AI/ML systems
 
 ---
 
@@ -22,9 +22,11 @@ I'm a Computer Science graduate student at NYU Tandon, passionate about building
 
 ### Software Developer @ New York University
 *Feb 2025 - May 2026*
-- Migrated 1000+ records to NoSQL Firestore and Google Cloud SQL
-- Improved data retrieval speed by 50% using Google Sheets API
-- Engineered concurrency-safe systems with 100% consistency
+- Sole engineer on NYU GEMSS's production Asset Management System for 8,000+ devices and 300+ employees
+- Drove phased migration from Google Apps Script to Node.js/Express, TypeScript, MongoDB, MVC REST APIs, Docker, and CI/CD
+- Built 10+ REST endpoints while preserving Google Sheets access during transition
+- Reduced retry failures by 40% in concurrent onboarding/offboarding form workflows
+- Improved record lookup speed by 50% across 8,000+ device records with compound filtering
 
 ### Software Development Engineer @ Sainapse
 *July 2022 - May 2024*
@@ -35,7 +37,8 @@ I'm a Computer Science graduate student at NYU Tandon, passionate about building
 
 ### Data Science Intern @ AiDash
 *Jan 2022 - June 2022*
-- Achieved 78% accuracy in grassland classification using Python
+- Architected an end-to-end LANDSAT classification pipeline with ResNet, Keras, and TensorFlow
+- Reduced image processing time by 40% while maintaining 95% classification accuracy
 - Improved satellite image labeling speed by 80% with QGIS automation
 - Performed CRUD operations on 10K+ shapefiles using GeoPandas
 
@@ -61,56 +64,58 @@ Coursework: Data Mining, Deep Learning, Machine Learning, NLP
 
 ## >> Technical Skills
 
-**Languages:** Java, Python, JavaScript, C++, SQL, Bash, HTML5/CSS
+**Languages:** Java, Python, JavaScript, TypeScript, C++, SQL, Bash, HTML5/CSS
 
-**Frameworks & Tools:** SpringBoot, Kafka, Hadoop, Spark, React, Docker, Git, AWS, GCP
+**Frameworks & Tools:** Spring Boot, Kafka, Hadoop, Spark, React, Next.js, Docker, Git, AWS, GCP
 
 **AI/ML Libraries:** TensorFlow, Keras, NumPy, Pandas, SciPy, Qdrant, OpenCV
 
 **Databases:** PostgreSQL, MySQL, MongoDB, Google BigQuery, Apache Hive/Pig
 
-**Dev Tools:** Postman, IntelliJ, Jupyter, PyCharm, JIRA, VS Code
+**Dev Tools:** Postman, IntelliJ, Jupyter, PyCharm, JIRA, VS Code, GitHub Actions
 
 ---
 
 ## >> Featured Projects
 
-### [Python Script Execution Sandbox (Cloud Run + nsjail)](https://github.com/swooshie/python-executor)
-A secure Python code execution service running inside a sandboxed environment.
-- Uses nsjail to safely execute untrusted scripts
-- Docker-containerized and deployed on Google Cloud Run
-- Supports numpy and pandas with stdout + return value capture
+### [Smart Task Manager](https://github.com/swooshie/smart-task-manager)
+Production-style task manager with AI suggestions, saved places, location-aware reminders, and Telegram-first chat actions.
+- Next.js frontend, ASP.NET Core API, MongoDB, Redis, and Python FastAPI recommender
+- 70% lower recommendation latency from TF-IDF plus Redis caching
+- Multi-service CI/CD across frontend, backend, and recommendation service
+
+### [Poker AI - Sealed-State Multi-Agent Simulation](https://github.com/swooshie/poker-ai)
+LLM-powered Texas Hold'em simulation with sealed private state and adversarial reasoning.
+- Top 8 finalist at NYC Tech Week Hackathon among 130 builders, co-hosted by NVIDIA x a16z
+- 4 agents with isolated private memory and distinct behavioral profiles
+- Offline OpenRouter/NVIDIA Nemotron 70B generation with 0 runtime LLM calls during demo
+- ElevenLabs voice synthesis and React playback from a static JSON event log
 
 ### [Market Data Service](https://github.com/swooshie/market-data-microservice)
-Real-time stock price analytics microservice using FastAPI, Kafka, and PostgreSQL
+Real-time stock price analytics microservice using FastAPI, Kafka, Redis, and PostgreSQL.
 - 40% improvement in data processing scalability
 - 25% reduction in average API response time
-- Event-driven architecture with Finnhub SDK integration
+- Event-driven architecture with Finnhub SDK integration and Docker validation
 
 ### [AI Project Suite](https://github.com/swooshie/Artificial-Intelligence-Project)
-Advanced AI implementations covering multiple domains
+Advanced AI implementations covering multiple domains.
 - Anomaly Detection (PatchCore, Efficient-AD, SimCLR)
 - Similarity Search with Qdrant
 - PDDL-based LLM routing via OpenRouter API
 - Polynomial Regression & Information Theory applications
 
 ### [Apple Wallet Coupon System](https://github.com/swooshie/apple-wallet-coupon-maker)
-Automated coupon generation and redemption system
+Automated coupon generation and redemption system.
 - Generated 500+ Apple Wallet coupons using Google Apps Script
 - PassKit API integration for seamless redemption
+- Coupon distribution via QR, email, and SMS with MailApp and PassKit integration
 - 40% boost in operational efficiency
-
-### [Welcome Home](https://github.com/swooshie/welcome_home)
-Donation management web application
-- Built with Thymeleaf, Spring Boot, and MySQL
-- Optimized database queries improving engagement by 30%
-- RESTful API design for donation tracking
 
 ---
 
 ## >> Highlights
 
-- [#1] Ranked 1st among peers for grassland classification accuracy (78%)
+- [#1] Top 8 finalist at NYC Tech Week Hackathon among 130 builders
 - [^] Scaled distributed systems processing billions of records daily
 - [+] Achieved 30-50% performance improvements in production systems
 - [*] Mentored interns and contributed to team knowledge sharing
@@ -119,12 +124,3 @@ Donation management web application
 ---
 
 ## >> Let's Connect!
-
-I'm always interested in collaborating on projects involving AI/ML, distributed systems, or big data. Feel free to reach out!
-
-- [@] Email: adityaajhaveri@gmail.com
-- [>>] LinkedIn: [Connect with me](https://www.linkedin.com/in/adityaalokjhaveri/)
-
----
-
-From [Swooshie](https://github.com/swooshie)
