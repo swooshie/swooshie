@@ -115,7 +115,7 @@ function detect_intent(string $query): string {
     if (preg_match('/\b(experience|work|job|role|intern|company|nyu|sainapse|aidash|paypal)\b/u', $q)) return 'experience';
     if (preg_match('/\b(skill|stack|tech|technology|tools|languages|framework)\b/u', $q)) return 'skills';
     if (preg_match('/\b(course|coursework|class|study|studied|education|tandon|bits)\b/u', $q)) return 'courses';
-    if (preg_match('/\b(project|repo|github|built|build)\b/u', $q)) return 'projects';
+    if (preg_match('/\b(project|repo|github|built|build|telegram|linq|message|messaging|chat|bot|place|places|location|reminder|snooze|openstreetmap|nominatim|leaflet)\b/u', $q)) return 'projects';
     return 'general';
 }
 
@@ -135,6 +135,7 @@ function query_anchor_terms(string $query): array {
         'nyu' => ['nyu', 'new york university', 'gemss', 'global enrollment management'],
         'aidash' => ['aidash'],
         'paypal' => ['paypal'],
+        'smart task manager' => ['smart task manager', 'task manager', 'asp.net', '.net', 'c#', 'redis', 'tf-idf', 'vercel', 'render', 'telegram', 'linq', 'places', 'location', 'reminders', 'snooze', 'openstreetmap', 'nominatim', 'leaflet'],
         'market data' => ['market data', 'finnhub', 'kafka', 'fastapi'],
         'apple wallet' => ['apple wallet', 'passkit', 'coupon'],
         'computer vision' => ['computer vision', 'cs-gy 6643', 'cellpose', 'geoguessr'],

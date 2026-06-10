@@ -1026,6 +1026,13 @@
             gap: 22px;
         }
 
+        .project-visual.smart-task {
+            background:
+                radial-gradient(circle at top left, rgba(20, 184, 166, 0.22), transparent 36%),
+                linear-gradient(160deg, rgba(20, 184, 166, 0.14), rgba(var(--shadow-rgb), 0.05)),
+                rgba(var(--shadow-rgb), 0.04);
+        }
+
         .project-visual.apple-wallet {
             background:
                 radial-gradient(circle at top left, rgba(249, 115, 22, 0.22), transparent 34%),
@@ -3345,8 +3352,8 @@
                             <span class="impact-console-label">Retry failure reduction after concurrency-safe form delivery work</span>
                         </div>
                         <div class="impact-console-card">
-                            <span class="impact-console-value">35%</span>
-                            <span class="impact-console-label">Transfer time improvement from Kafka-based file movement architecture</span>
+                            <span class="impact-console-value">Top 8</span>
+                            <span class="impact-console-label">Finalist at NYC Tech Week Hackathon among 130 builders, co-hosted by NVIDIA x a16z</span>
                         </div>
                     </div>
                 </div>
@@ -3506,23 +3513,25 @@
                         <div class="experience-block">
                             <h4>Impact Highlights</h4>
                             <ul class="impact-list">
-                                <li>Migrated production Google Apps Script tools toward a <strong>Node.js + MongoDB</strong> architecture, enabling real-time usage and a consistent 60-second sync cycle</li>
-                                <li>Engineered a fault-tolerant, concurrency-safe form delivery system, reducing retry failures by 40% during peak submissions</li>
-                                <li>Built and owned a placeholder-driven email template platform that auto-populates user, credential, and device data, reducing email management effort by 55%</li>
-                                <li>Implemented compound label-based filtering (UI + backend query logic), reducing lookup time across 2,000+ records</li>
-                                <li>Improved Google Apps Script retrieval speed by 50% by replacing service-layer calls with direct Google Sheets API access</li>
-                                <li>Architected a PoC migrating 1,000+ Google Sheets records to <strong>Firestore</strong> and <strong>Google Cloud SQL</strong> for scalability and reliability</li>
-                                <li>Built an automated Shipping Label Page that reduced manual processing time by 50%</li>
+                                <li>Sole engineer on NYU GEMSS's production Asset Management System, owning the full codebase, infrastructure, CI/CD pipeline, and Dockerized deployment for a system managing 8,000+ devices and 300+ employees across the Admissions department</li>
+                                <li>Drove phased AI-assisted migration from Google Apps Script to a Node.js/Express, TypeScript, and MongoDB architecture, building an MVC-structured REST API layer with 10+ endpoints and introducing real-time data sync while preserving Google Sheets access during transition</li>
+                                <li>Engineered a fault-tolerant concurrent form submission system for employee onboarding/offboarding workflows, cutting retry failures by 40% under peak load; replaced slow service-layer search with a set-theory-backed compound filtering engine, improving record lookup speed by 50% across 8,000+ device records</li>
                             </ul>
                         </div>
                         <div class="experience-block">
                             <h4>Stack & Skills</h4>
                             <div class="tech-stack">
                                 <span>JavaScript</span>
+                                <span>TypeScript</span>
                                 <span>Google Apps Script</span>
                                 <span>Google Sheets API</span>
                                 <span>Node.js</span>
+                                <span>Express</span>
                                 <span>MongoDB</span>
+                                <span>Docker</span>
+                                <span>CI/CD</span>
+                                <span>MVC</span>
+                                <span>Hostinger</span>
                                 <span>HTML</span>
                                 <span>UI/UX</span>
                                 <span>Testing</span>
@@ -3597,7 +3606,7 @@
                         <div class="experience-block">
                             <h4>Impact Highlights</h4>
                             <ul class="impact-list">
-                                <li>Evaluated ResNet architectures with Keras and TensorFlow for LANDSAT classification, achieving 60%-75% accuracy across experiments</li>
+                                <li>Architected an end-to-end LANDSAT classification pipeline leveraging ResNet, Keras, and TensorFlow; reduced image processing time by 40% while maintaining 95% classification accuracy</li>
                                 <li>Devised a Python-based grassland classification method to improve land ranking, achieving 78% accuracy and ranking 1st among peer solutions</li>
                                 <li>Built a Python script to automate satellite image labeling in QGIS, reducing manual processing time by 80%</li>
                                 <li>Resolved geospatial data handling during onboarding by performing CRUD operations on 10,000+ shapefiles using GeoPandas and PostgreSQL</li>
@@ -3672,8 +3681,260 @@
             </p>
             <div class="project-grid">
                 <article class="project-card featured">
-                    <div class="project-visual">
+                    <div class="project-visual smart-task">
                         <span class="project-index">Selected Build 01</span>
+                        <div class="project-visual-shape" aria-hidden="true">
+                            <svg class="project-architecture" viewBox="0 0 260 200">
+                                <defs>
+                                    <marker id="arch-arrow-smart-task" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                                        <path d="M0 0 L8 4 L0 8 Z" fill="rgba(20, 184, 166, 0.48)"></path>
+                                    </marker>
+                                </defs>
+                                <rect class="arch-stage" x="12" y="22" rx="18" ry="18" width="236" height="50"></rect>
+                                <text class="arch-caption" x="46" y="38" text-anchor="middle">WEB</text>
+                                <text class="arch-caption" x="130" y="38" text-anchor="middle">API</text>
+                                <text class="arch-caption" x="214" y="38" text-anchor="middle">CHAT</text>
+
+                                <path class="arch-bus" d="M44 98 H216"></path>
+                                <path class="arch-link" style="marker-end:url(#arch-arrow-smart-task)" d="M74 98 H102"></path>
+                                <path class="arch-link" style="marker-end:url(#arch-arrow-smart-task)" d="M158 98 H186"></path>
+                                <path class="arch-link" style="marker-end:url(#arch-arrow-smart-task)" d="M130 98 V130"></path>
+
+                                <rect class="arch-node cool" x="18" y="44" rx="12" ry="12" width="56" height="30"></rect>
+                                <text x="46" y="62" text-anchor="middle">NEXT</text>
+
+                                <rect class="arch-node strong" x="102" y="42" rx="14" ry="14" width="56" height="34"></rect>
+                                <text x="130" y="62" text-anchor="middle">.NET</text>
+
+                                <rect class="arch-node cool" x="186" y="44" rx="12" ry="12" width="56" height="30"></rect>
+                                <text x="214" y="62" text-anchor="middle">BOT</text>
+
+                                <rect class="arch-node" x="38" y="130" rx="14" ry="14" width="64" height="28"></rect>
+                                <text class="arch-label-tight" x="70" y="147" text-anchor="middle">MONGODB</text>
+
+                                <rect class="arch-node" x="112" y="130" rx="14" ry="14" width="48" height="28"></rect>
+                                <text x="136" y="147" text-anchor="middle">REDIS</text>
+
+                                <rect class="arch-node cool" x="170" y="130" rx="14" ry="14" width="52" height="28"></rect>
+                                <text x="196" y="147" text-anchor="middle">PLACES</text>
+
+                                <rect class="arch-chip" x="34" y="166" rx="10" ry="10" width="54" height="20"></rect>
+                                <text x="61" y="179" text-anchor="middle">JWT</text>
+
+                                <rect class="arch-chip" x="98" y="166" rx="10" ry="10" width="58" height="20"></rect>
+                                <text x="127" y="179" text-anchor="middle">CI/CD</text>
+
+                                <rect class="arch-chip" x="166" y="166" rx="10" ry="10" width="60" height="20"></rect>
+                                <text x="196" y="179" text-anchor="middle">TG BOT</text>
+                            </svg>
+                        </div>
+                        <div class="project-visual-footer">
+                            <div>
+                                <strong>Role</strong>
+                                Full-stack architecture
+                            </div>
+                            <div>
+                                <strong>Focus</strong>
+                                Messaging + reminders
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-topline">
+                            <span class="project-type">Demo Product / Distributed System</span>
+                        </div>
+                        <div class="project-title-row">
+                            <h3>Smart Task Manager</h3>
+                            <p>Production-style task manager with AI suggestions, saved places, location-aware reminders, and Telegram-first chat actions across a Next.js frontend, ASP.NET Core API, MongoDB, Redis, and Python recommender.</p>
+                        </div>
+                        <div class="project-metrics">
+                            <div class="project-metric">
+                                <strong>Chat</strong>
+                                <span>Telegram-first workflow with Linq retained as an optional fallback channel</span>
+                            </div>
+                            <div class="project-metric">
+                                <strong>70%</strong>
+                                <span>Lower recommendation latency from TF-IDF plus Redis caching</span>
+                            </div>
+                            <div class="project-metric">
+                                <strong>CI/CD</strong>
+                                <span>Multi-service validation across frontend, .NET API, and recommendation service</span>
+                            </div>
+                        </div>
+                        <div class="project-detail-grid">
+                            <div class="project-detail">
+                                <h4>What It Solves</h4>
+                                <p>Connects web task management with saved places and chat-based quick actions, so users can receive contextual reminders near a linked place and complete or snooze from messaging.</p>
+                            </div>
+                            <div class="project-detail">
+                                <h4>Why It Matters</h4>
+                                <p>Demonstrates product-aware architecture: the web app remains the control surface, messaging becomes the action surface, and browser location limits are handled explicitly instead of overclaimed as native geofencing.</p>
+                            </div>
+                            <div class="project-detail">
+                                <h4>What I Built</h4>
+                                <ul>
+                                    <li>Next.js and TypeScript frontend with authenticated tasks, reusable saved places, browser current-location capture, OpenStreetMap search, and map pin selection</li>
+                                    <li>ASP.NET Core API with JWT auth, repository/service layers, MongoDB persistence, Redis caching, reminder decisioning, and provider-specific message dispatch</li>
+                                    <li>Telegram webhook flow for HELP, LIST, ADD, DONE, DONE ALL, DELETE, and SNOOZE commands, with Linq retained as an optional text-based fallback</li>
+                                </ul>
+                            </div>
+                            <div class="project-detail">
+                                <h4>Engineering Highlights</h4>
+                                <ul>
+                                    <li>Grouped multiple nearby linked tasks into one reminder and limited triggers to tasks attached to the matched saved place</li>
+                                    <li>Used temporary reminder context and snooze state so chat replies can complete or defer the correct tasks</li>
+                                    <li>Kept AI suggestions resilient with TF-IDF, Redis caching, retry-scoped recommender calls, and safe fallback responses</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <div class="project-stack-inline">
+                                <span>Next.js</span>
+                                <span>TypeScript</span>
+                                <span>ASP.NET Core</span>
+                                <span>MongoDB</span>
+                                <span>Redis</span>
+                                <span>FastAPI</span>
+                                <span>Scikit-learn</span>
+                                <span>Telegram Bot API</span>
+                                <span>Leaflet</span>
+                                <span>OpenStreetMap</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/swooshie/smart-task-manager" class="project-link" target="_blank" rel="noopener">View Code</a>
+                                <a href="https://smart-task-manager-ashy.vercel.app/" class="project-link secondary" target="_blank" rel="noopener">Live App</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-card featured">
+                    <div class="project-visual">
+                        <span class="project-index">Selected Build 02</span>
+                        <div class="project-visual-shape" aria-hidden="true">
+                            <svg class="project-architecture" viewBox="0 0 260 200">
+                                <defs>
+                                    <marker id="arch-arrow-poker" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                                        <path d="M0 0 L8 4 L0 8 Z" fill="rgba(168, 85, 247, 0.48)"></path>
+                                    </marker>
+                                </defs>
+                                <rect class="arch-stage" x="12" y="22" rx="18" ry="18" width="236" height="50"></rect>
+                                <text class="arch-caption" x="46" y="38" text-anchor="middle">Agents</text>
+                                <text class="arch-caption" x="130" y="38" text-anchor="middle">Event Log</text>
+                                <text class="arch-caption" x="214" y="38" text-anchor="middle">Replay</text>
+
+                                <path class="arch-bus" d="M44 98 H216"></path>
+                                <path class="arch-link" style="marker-end:url(#arch-arrow-poker)" d="M74 98 H102"></path>
+                                <path class="arch-link" style="marker-end:url(#arch-arrow-poker)" d="M158 98 H186"></path>
+                                <path class="arch-link" style="marker-end:url(#arch-arrow-poker)" d="M130 98 V130"></path>
+
+                                <rect class="arch-node cool" x="18" y="44" rx="12" ry="12" width="56" height="30"></rect>
+                                <text x="46" y="62" text-anchor="middle">LLM</text>
+
+                                <rect class="arch-node strong" x="102" y="42" rx="14" ry="14" width="56" height="34"></rect>
+                                <text x="130" y="62" text-anchor="middle">JSON</text>
+
+                                <rect class="arch-node cool" x="186" y="44" rx="12" ry="12" width="56" height="30"></rect>
+                                <text x="214" y="62" text-anchor="middle">REACT</text>
+
+                                <rect class="arch-node" x="22" y="130" rx="14" ry="14" width="58" height="28"></rect>
+                                <text class="arch-label-tight" x="51" y="147" text-anchor="middle">SEALED</text>
+
+                                <rect class="arch-node" x="90" y="130" rx="14" ry="14" width="80" height="28"></rect>
+                                <text class="arch-label-tight" x="130" y="147" text-anchor="middle">OPENROUTER</text>
+
+                                <rect class="arch-node" x="180" y="130" rx="14" ry="14" width="58" height="28"></rect>
+                                <text class="arch-label-tight" x="209" y="147" text-anchor="middle">VOICE</text>
+
+                                <rect class="arch-chip" x="22" y="166" rx="10" ry="10" width="50" height="20"></rect>
+                                <text x="47" y="179" text-anchor="middle">BLUFF</text>
+
+                                <rect class="arch-chip" x="82" y="166" rx="10" ry="10" width="50" height="20"></rect>
+                                <text x="107" y="179" text-anchor="middle">TRAP</text>
+
+                                <rect class="arch-chip" x="142" y="166" rx="10" ry="10" width="76" height="20"></rect>
+                                <text class="arch-label-tight" x="180" y="179" text-anchor="middle">HERO CALL</text>
+                            </svg>
+                        </div>
+                        <div class="project-visual-footer">
+                            <div>
+                                <strong>Role</strong>
+                                Agentic architecture + backend
+                            </div>
+                            <div>
+                                <strong>Focus</strong>
+                                Multi-agent systems
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-topline">
+                            <span class="project-type">NYC Tech Week Hackathon - Top 8 Finalist</span>
+                        </div>
+                        <div class="project-title-row">
+                            <h3>Poker AI - Sealed-State Multi-Agent Simulation</h3>
+                            <p>Sealed-state multi-agent simulation where 4 LLM-powered agents play Texas Hold'em with fully isolated private memory and adversarial reasoning.</p>
+                        </div>
+                        <div class="project-metrics">
+                            <div class="project-metric">
+                                <strong>4</strong>
+                                <span>Agents with isolated private state and independent per-agent memory</span>
+                            </div>
+                            <div class="project-metric">
+                                <strong>Top 8</strong>
+                                <span>Out of 130 builders at NYC Tech Week, co-hosted by NVIDIA x a16z</span>
+                            </div>
+                            <div class="project-metric">
+                                <strong>0</strong>
+                                <span>Runtime LLM calls during demo because outputs were pre-generated offline</span>
+                            </div>
+                        </div>
+                        <div class="project-detail-grid">
+                            <div class="project-detail">
+                                <h4>What It Solves</h4>
+                                <p>Most multi-agent demos give all agents shared context. Here, each agent operates with sealed private state, knows only its own hole cards, remembers its own history, and builds its own read on the table.</p>
+                            </div>
+                            <div class="project-detail">
+                                <h4>Why It Matters</h4>
+                                <p>Poker is the demo surface. The architecture generalizes to sealed-information multi-agent problems like M&amp;A negotiation, litigation strategy, and competitive market simulation.</p>
+                            </div>
+                            <div class="project-detail">
+                                <h4>What I Built</h4>
+                                <ul>
+                                    <li>Designed the agentic graph and backend skeleton with 4 distinct behavioral profiles and bluff rates from 0-40%</li>
+                                    <li>Built an offline OpenRouter pipeline using NVIDIA Nemotron 70B to produce a static JSON event log for React playback</li>
+                                    <li>Generated ElevenLabs MP3 narration per agent action with subtitle fallback if audio fails</li>
+                                </ul>
+                            </div>
+                            <div class="project-detail">
+                                <h4>Reveal Layer</h4>
+                                <ul>
+                                    <li>Post-hand reveal modal surfaces each agent's full reasoning only after the hand concludes</li>
+                                    <li>Reasoning is tagged with BLUFF, TRAP, HERO_CALL, TILT, and OPTIMAL_FOLD labels</li>
+                                    <li>No agent sees another agent's reasoning before the post-hand reveal</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <div class="project-stack-inline">
+                                <span>Python</span>
+                                <span>React</span>
+                                <span>LLM</span>
+                                <span>Multi-Agent</span>
+                                <span>ElevenLabs</span>
+                                <span>OpenRouter</span>
+                                <span>JSON</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/swooshie/poker-ai" class="project-link" target="_blank" rel="noopener">View Code</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-card featured">
+                    <div class="project-visual">
+                        <span class="project-index">Selected Build 03</span>
                         <div class="project-visual-shape" aria-hidden="true">
                             <svg class="project-architecture" viewBox="0 0 260 200">
                                 <defs>
@@ -3790,7 +4051,7 @@
 
                 <article class="project-card featured">
                     <div class="project-visual ai-suite">
-                        <span class="project-index">Selected Build 02</span>
+                        <span class="project-index">Selected Build 04</span>
                         <div class="project-visual-shape" aria-hidden="true">
                             <svg class="project-architecture" viewBox="0 0 260 200">
                                 <defs>
@@ -3913,7 +4174,7 @@
 
                 <article class="project-card featured">
                     <div class="project-visual apple-wallet">
-                        <span class="project-index">Selected Build 03</span>
+                        <span class="project-index">Selected Build 05</span>
                         <div class="project-visual-shape" aria-hidden="true">
                             <svg class="project-architecture" viewBox="0 0 260 200">
                                 <defs>
@@ -3947,7 +4208,7 @@
                                 <text x="164" y="147" text-anchor="middle">PASSKIT</text>
 
                                 <rect class="arch-chip" x="18" y="166" rx="10" ry="10" width="56" height="20"></rect>
-                                <text x="46" y="179" text-anchor="middle">TWILIO</text>
+                                <text class="arch-label-tight" x="46" y="179" text-anchor="middle">MAILAPP</text>
 
                                 <rect class="arch-chip" x="90" y="166" rx="10" ry="10" width="28" height="20"></rect>
                                 <text x="104" y="179" text-anchor="middle">QR</text>
@@ -4002,7 +4263,7 @@
                                 <h4>What I Built</h4>
                                 <ul>
                                     <li>Campaign creation and management flow in Google Apps Script with configurable coupon settings</li>
-                                    <li>Coupon distribution via QR, email, and SMS with Twilio and PassKit integration</li>
+                                    <li>Coupon distribution via QR, email, and SMS with MailApp (Google Apps Script) and PassKit integration</li>
                                     <li>Scanner-assisted redemption validation and Google Sheets-backed campaign records</li>
                                 </ul>
                             </div>
@@ -4020,7 +4281,7 @@
                                 <span>Google Apps Script</span>
                                 <span>PassKit</span>
                                 <span>Google Sheets</span>
-                                <span>Twilio</span>
+                                <span>MailApp</span>
                                 <span>Bootstrap</span>
                             </div>
                             <div class="project-links">
@@ -4084,6 +4345,7 @@
                         <span>Python</span>
                         <span>JavaScript (ES6+)</span>
                         <span>C++</span>
+                        <span>C#</span>
                         <span>SQL</span>
                         <span>Bash</span>
                         <span>HTML/CSS</span>
@@ -4098,16 +4360,18 @@
                     <p class="skill-note">Frameworks and backend patterns I use for web apps, APIs, service layers, and application architecture.</p>
                     <div class="skill-list">
                         <span>Spring Boot</span>
+                        <span>ASP.NET Core</span>
                         <span>JPA (Hibernate)</span>
                         <span>REST APIs</span>
                         <span>MVC</span>
+                        <span>Next.js</span>
                         <span>Express.js</span>
+                        <span>FastAPI</span>
                         <span>Swagger</span>
                         <span>Maven</span>
                         <span>Bootstrap</span>
                         <span>Node</span>
                         <span>React</span>
-                        <span>FastAPI</span>
                     </div>
                 </div>
                 <div class="skill-category">
@@ -4121,6 +4385,8 @@
                         <span>Hadoop</span>
                         <span>Spark</span>
                         <span>Apache Thrift</span>
+                        <span>Telegram Bot API</span>
+                        <span>Webhook Integrations</span>
                     </div>
                 </div>
                 <div class="skill-category">
@@ -4158,8 +4424,11 @@
                         <span>PostgreSQL</span>
                         <span>MySQL</span>
                         <span>MongoDB</span>
+                        <span>Redis</span>
                         <span>FIRESTORE</span>
                         <span>Docker</span>
+                        <span>GitHub Actions</span>
+                        <span>Vercel</span>
                         <span>Version Control (Git, CI/CD)</span>
                         <span>Postman</span>
                         <span>JIRA</span>
@@ -4252,7 +4521,7 @@
             <div class="resume-viewer">
                 <div class="viewer-status">
                     <span class="viewer-dot"></span>
-                    <span>open docs/resume.pdf · updated 2025</span>
+                    <span>open docs/resume.pdf · updated 2026</span>
                 </div>
                 <div class="resume-frame" id="resume-frame">
                     <div class="pdf-scroll" data-pdf-src="docs/resume.pdf"></div>

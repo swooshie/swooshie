@@ -11,7 +11,7 @@ This document contains detailed work history, key systems built, and interviewer
 I work on internal software used by campus administrators for enrollment operations, staff communications, and service workflows. The role combines practical product delivery with backend reliability and process automation.
 
 ### Day-to-day scope
-- Design and improve Google Cloud-based internal SaaS workflows
+- Design and improve internal SaaS/workflow systems across Google Cloud and VPS-hosted architectures
 - Build operational interfaces and process UIs for non-technical teams
 - Analyze bottlenecks in backend logic and workflow orchestration
 - Write implementation notes and testing guides for JS/GAS modules
@@ -23,8 +23,10 @@ Problem
 The legacy Asset Management System (AMS) page used by managers to track staff, devices, shipping, and department operations became slower as Google Sheets data size and sheet count increased.
 
 What I did
-- Defined migration path from a Google Apps Script + Google Sheets system to a public VPS architecture with Node.js/Express and MongoDB Atlas
-- Designed and implemented 10+ REST endpoints for AMS workflows
+- Served as sole engineer on NYU GEMSS's production Asset Management System, owning the full codebase, infrastructure, CI/CD pipeline, and Dockerized deployment for a system managing 8,000+ devices and 300+ employees across the Admissions department
+- Drove phased AI-assisted migration from Google Apps Script to a Node.js/Express, TypeScript, and MongoDB architecture
+- Built an MVC-structured REST API layer with 10+ endpoints for AMS workflows
+- Introduced real-time data sync while preserving Google Sheets access during transition
 - Consolidated sheet batching operations into a single API layer
 - Preserved critical HTML/CSS frontend workflows already used by managers, including device-to-floor-plan mapping, shipping operations, and table-based filtering
 - Replaced Apps Script/Sheets backend logic with API-driven services for asset, staff-assignment, accessory, and shipment tracking
@@ -37,6 +39,7 @@ This modernization reduced spreadsheet-bound bottlenecks, improved security, and
 
 Outcome
 - Reduced heavy-page load behavior from around 10 seconds to near-instant response (milliseconds/sub-second range for key retrieval paths)
+- Achieved roughly 4x performance gains on key internal tool paths after modernization work
 - Established consistent 60-second sync behavior
 - Improved long-term maintainability and extensibility
 
@@ -54,6 +57,18 @@ Outcome
 - Reduced retry failures by ~40% during peak load
 - Increased operational trust in staff-facing workflows
 
+### Record Lookup Improvement: Compound Filtering Engine
+
+Problem
+Slow service-layer search made it harder to inspect asset records at production scale.
+
+What I did
+- Replaced service-layer search with a set-theory-backed compound filtering engine
+- Optimized lookup behavior across 8,000+ device records
+
+Outcome
+- Improved record lookup speed by ~50% across device records
+
 ### Workflow Automation: Email Template Service
 
 Problem
@@ -69,13 +84,13 @@ Outcome
 - Standardized communication quality and reduced manual edits
 
 ### Additional NYU contributions
-- Implemented compound label-based filtering across 2,000+ records, improving lookup speed
+- Implemented compound label-based filtering across 8,000+ device records, improving lookup speed
 - Improved GAS retrieval performance by ~50% using direct Google Sheets API patterns
 - Architected PoC migration of 1,000+ records to Firestore and Google Cloud SQL
 - Built automated Shipping Label Page, reducing manual processing time by ~50%
 
 ### Technologies used at NYU
-TypeScript, JavaScript, Node.js, Express, HTML/CSS, Google Apps Script, Google Sheets API, MongoDB Atlas, Firestore, Google Cloud SQL, Google Cloud, OAuth
+TypeScript, JavaScript, Node.js, Express, HTML/CSS, Google Apps Script, Google Sheets API, MongoDB Atlas, Firestore, Google Cloud SQL, Google Cloud, OAuth, Docker, CI/CD, MVC, Hostinger VPS
 
 ### NYU interview Q&A context
 
@@ -175,11 +190,12 @@ Worked on applied geospatial ML for vegetation and LANDSAT classification workfl
 ### LANDSAT Classification with ResNet
 
 What I did
-- Evaluated ResNet variants with Keras/TensorFlow for LANDSAT tasks
+- Architected an end-to-end LANDSAT classification pipeline leveraging ResNet, Keras, and TensorFlow
+- Reduced image processing time by 40%
 - Measured performance using accuracy, precision, recall, and F1
 
 Outcome
-- ~60%-75% accuracy across experiments
+- Maintained 95% classification accuracy
 
 ### Grassland Classification and Land Ranking Method
 

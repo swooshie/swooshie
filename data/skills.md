@@ -10,6 +10,7 @@ This section reflects my current technical skill set, validated through coursewo
 - JavaScript (ES6+)
 - TypeScript
 - C++
+- C#
 - SQL
 - Bash
 - HTML / CSS
@@ -18,16 +19,21 @@ This section reflects my current technical skill set, validated through coursewo
 
 ## Backend & Platform Frameworks
 - Spring Boot
+- ASP.NET Core / .NET
 - JPA / Hibernate
 - REST APIs
+- Webhook integrations
 - MVC
 - Google Apps Script
+- Next.js
 - Express.js
 - Node.js
+- FastAPI
 - Apache Thrift
 - Swagger
 - Maven
 - Bootstrap
+- React
 
 ---
 
@@ -48,6 +54,9 @@ This section reflects my current technical skill set, validated through coursewo
 - Distributed systems design
 - Concurrency and performance optimization
 - Data pipeline design and batch adapters
+- Retry and fallback design for service-to-service communication
+- Telegram bot and messaging-provider integration
+- Location-aware reminder decisioning
 
 ---
 
@@ -65,6 +74,8 @@ This section reflects my current technical skill set, validated through coursewo
 - Computer Vision (segmentation, detection, tracking)
 - Statistical modeling and regression
 - Feature engineering and evaluation metrics (accuracy, precision, recall, F1, R²)
+- TF-IDF recommendation and similarity workflows
+- Lightweight ML deployment tradeoff analysis
 
 ---
 
@@ -72,6 +83,7 @@ This section reflects my current technical skill set, validated through coursewo
 - PostgreSQL
 - MySQL
 - MongoDB
+- Redis
 - BigQuery
 - Firestore
 - Cassandra
@@ -84,6 +96,11 @@ This section reflects my current technical skill set, validated through coursewo
 - Google Cloud Platform
 - Google Sheets API
 - Docker
+- GitHub Actions
+- Vercel
+- Render
+- Upstash Redis
+- Hostinger VPS
 - CI/CD fundamentals
 - Git / GitHub
 - Postman
@@ -95,4 +112,5 @@ This section reflects my current technical skill set, validated through coursewo
 - PyCharm
 - Jupyter Notebook
 - QGIS
+- Leaflet / OpenStreetMap
 - Agile workflows

@@ -1,0 +1,147 @@
+name: Check and Deploy to Hostinger
+
+on:
+  push:
+    branches:
+      - swooshie
+  workflow_dispatch:
+
+concurrency:
+  group: hostinger-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Check portfolio files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate required files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          required_files=(
+            "index.html"
+            "main.js"
+            "assets/portfolio-bot.js"
+            "api/chat.php"
+            "api/log.php"
+            "api/_logger.php"
+            "api/chat.config.example.php"
+            "data/projects.md"
+            "data/experience.md"
+            "data/skills.md"
+            "data/courses.md"
+            "data/professional-profile.md"
+            "docs/resume.pdf"
+            "docs/transcript-nyu.pdf"
+            "docs/transcript-bits.pdf"
+            "images/logo.png"
+            "images/me.jpeg"
+            "images/rocket.webp"
+            "images/black-hole.png"
+            "robots.txt"
+            "sitemap.xml"
+          )
+
+          for file in "${required_files[@]}"; do
+            test -f "$file" || {
+              echo "Missing required deploy file: $file"
+              exit 1
+            }
+          done
+
+      - name: Confirm local chatbot config is not deployed
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "api/chat.config.php is intentionally excluded from the Hostinger deploy bundle."
+
+      - name: Check PHP syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          find api -name "*.php" ! -name "chat.config.php" -print0 | xargs -0 -n1 php -l
+
+      - name: Check whitespace errors
+        run: git diff --check
+
+  deploy:
+    name: Deploy checked files to Hostinger
+    runs-on: ubuntu-latest
+    needs: check
+    environment: production
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Create deployment bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p deploy-dist
+
+          rsync -av \
+            --relative \
+            index.html \
+            main.js \
+            assets/portfolio-bot.js \
+            api/chat.php \
+            api/log.php \
+            api/_logger.php \
+            api/chat.config.example.php \
+            data/ \
+            docs/ \
+            images/ \
+            robots.txt \
+            sitemap.xml \
+            googlec72239b080d91b6b.html \
+            deploy-dist/
+
+          find deploy-dist -name ".DS_Store" -delete
+          rm -f deploy-dist/api/chat.config.php
+
+      - name: Configure SSH
+        shell: bash
+        env:
+          HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
+          HOSTINGER_SSH_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
+        run: |
+          set -euo pipefail
+
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$HOSTINGER_SSH_KEY" > ~/.ssh/hostinger_deploy_key
+          chmod 600 ~/.ssh/hostinger_deploy_key
+
+          port="${HOSTINGER_PORT:-65002}"
+          ssh-keyscan -p "$port" "$HOSTINGER_HOST" >> ~/.ssh/known_hosts
+
+      - name: Upload to Hostinger
+        shell: bash
+        env:
+          HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
+          HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
+          HOSTINGER_TARGET_DIR: ${{ secrets.HOSTINGER_TARGET_DIR }}
+        run: |
+          set -euo pipefail
+
+          port="${HOSTINGER_PORT:-65002}"
+          target_dir="${HOSTINGER_TARGET_DIR:-domains/adityajhaveri.com/public_html}"
+
+          rsync -az --delete \
+            --exclude "api/chat.config.php" \
+            --exclude "logs/" \
+            --exclude ".well-known/" \
+            -e "ssh -i ~/.ssh/hostinger_deploy_key -p $port" \
+            deploy-dist/ \
+            "$HOSTINGER_USER@$HOSTINGER_HOST:$target_dir/"

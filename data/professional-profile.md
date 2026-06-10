@@ -11,7 +11,7 @@ This file captures high-signal personal and professional context for recruiter, 
 - Previous full-time role: Software Development Engineer at Sainapse, Jul 2022 to May 2024
 - Education now: MS in Computer Science at NYU Tandon (expected May 2026)
 - Undergraduate: BE in Computer Science from BITS Pilani (2022)
-- Focus areas: Distributed systems, backend/platform engineering, internal workflow software, applied AI/ML
+- Focus areas: Distributed systems, backend/platform engineering, internal workflow software, applied AI/ML, production-style full-stack systems
 
 ---
 
@@ -34,13 +34,13 @@ He is most motivated by high-impact engineering where software reduces manual ov
 ## Professional Identity
 
 ### One-line summary
-Software engineer with 3+ years of experience across distributed systems, data platforms, internal SaaS workflows, and applied ML.
+Software engineer with 3+ years of experience across distributed systems, data platforms, internal SaaS workflows, production-style full-stack applications, and applied ML.
 
 ### Two-line summary
-Aditya has built production systems in both enterprise and university settings, including high-volume data infrastructure and internal workflow platforms. His work consistently focuses on scalability, reliability, and measurable operational improvement.
+Aditya has built production systems in both enterprise and university settings, including high-volume data infrastructure, internal workflow platforms, and distributed full-stack applications. His work consistently focuses on scalability, reliability, and measurable operational improvement.
 
 ### Detailed summary
-Aditya Jhaveri is a software engineer currently working at NYU's Global Enrollment Management and Student Success team. He builds and modernizes internal workflow software used by campus administrators, combining frontend workflow UX with backend synchronization, reliability, and data operations. Before NYU, he worked as an SDE at Sainapse, where he built and optimized distributed data systems involving Kafka, HDFS, Hive, and large-scale ingestion/transfer pipelines. Across roles, his pattern is consistent: identify bottlenecks, design practical architecture changes, and ship improvements with measurable performance or effort gains.
+Aditya Jhaveri is a software engineer currently working at NYU's Global Enrollment Management and Student Success team. He builds and modernizes internal workflow software used by campus administrators, combining frontend workflow UX with backend synchronization, reliability, and data operations. Before NYU, he worked as an SDE at Sainapse, where he built and optimized distributed data systems involving Kafka, HDFS, Hive, and large-scale ingestion/transfer pipelines. His recent project work includes Smart Task Manager, a distributed full-stack demo built with Next.js, ASP.NET Core, MongoDB, Redis, Telegram-first messaging, place-linked reminders, and a Python recommendation service, plus Poker AI, a Top 8 NYC Tech Week Hackathon finalist using sealed-state multi-agent simulation. Across roles, his pattern is consistent: identify bottlenecks, design practical architecture changes, and ship improvements with measurable performance or effort gains.
 
 ---
 
@@ -75,17 +75,17 @@ Moved into applied ML and geospatial workflows, combining model experimentation 
 Transitioned into core software/platform engineering with distributed systems, file transfer optimization, large-scale ingestion infrastructure, and interoperability PoCs.
 
 ### NYU GEMSS (Software Developer, 2025-Present)
-Now focused on high-impact internal software modernization and workflow reliability, including migration architecture, admin-facing tooling, and automation systems.
+Now focused on high-impact internal software modernization and workflow reliability, including ownership of NYU GEMSS's production Asset Management System, AI-assisted migration from Google Apps Script to Node.js/Express, TypeScript, MongoDB, Docker, CI/CD, and MVC REST APIs, plus admin-facing tooling and automation systems.
 
 ---
 
 ## Frontend Positioning
 
-### What is his React experience level?
-He does not position himself as a React/Next.js specialist. His strongest frontend experience is in practical internal workflow interfaces built with HTML/CSS, JavaScript, and Google Apps Script-based UI workflows.
+### What is his React/Next.js experience level?
+He has practical React/Next.js experience from Smart Task Manager, where he built authenticated task workflows with TypeScript, App Router, API integration, suggestions, filtering, sorting, saved-place management, map/location interactions, messaging setup, animations, and optimistic UI behavior. He also used React for Poker AI playback, consuming a static JSON event log generated offline from LLM agents. He still positions his strongest frontend value as workflow/product delivery paired with backend systems, not as a pure UI specialist.
 
 ### What experience does he have with React?
-He has limited direct React exposure and does not claim primary production ownership in React. His core frontend delivery has been workflow-oriented interfaces using HTML/CSS and JavaScript, paired with backend/data logic.
+He has direct React/Next.js project experience through Smart Task Manager and broader workflow frontend experience through HTML/CSS, JavaScript, Google Apps Script UIs, and internal admin tooling. His frontend work is strongest when tied to authenticated workflows, dashboards, forms, filtering/search, map/location interactions, messaging setup, and backend/data integration.
 
 ### What frontend work does he typically handle?
 - Admin/internal tooling interfaces
@@ -94,7 +94,7 @@ He has limited direct React exposure and does not claim primary production owner
 - Template-driven communication and process UIs
 
 ### What stack does this frontend work use?
-JavaScript, HTML/CSS, Google Apps Script integrations, Google Sheets API, Node.js/Express APIs, and MongoDB-backed data flows.
+JavaScript, TypeScript, React, Next.js, HTML/CSS, Google Apps Script integrations, Google Sheets API, Node.js/Express APIs, ASP.NET Core APIs, Leaflet/OpenStreetMap map workflows, and MongoDB-backed data flows.
 
 ---
 
@@ -132,7 +132,7 @@ Yes. He has work authorization through F-1 OPT/STEM OPT terms through June 12, 2
 ## Interview and Recruiter Q&A Bank
 
 ### Tell me about yourself.
-Aditya Jhaveri is a software engineer currently at NYU, where he builds internal workflow software for Global Enrollment Management and Student Success. Before NYU, he worked at Sainapse on distributed systems and large-scale data infrastructure, including Kafka transfer optimization and HDFS/Hive ingestion for billions of records. He is currently completing an MS in Computer Science at NYU Tandon and is strongest in backend/platform engineering, with practical full-stack experience in API-driven internal tools.
+Aditya Jhaveri is a software engineer currently at NYU, where he builds internal workflow software for Global Enrollment Management and Student Success. Before NYU, he worked at Sainapse on distributed systems and large-scale data infrastructure, including Kafka transfer optimization and HDFS/Hive ingestion for billions of records. He is currently completing an MS in Computer Science at NYU Tandon and is strongest in backend/platform engineering, with practical full-stack experience across internal tools and distributed demo products such as Smart Task Manager and Poker AI.
 
 ### What has changed in his career over time?
 His trajectory moved from analytics and ML-heavy internships into full-time platform engineering, and then into modernization-focused product engineering where he combines systems depth with direct business workflow impact.
