@@ -509,7 +509,7 @@
   const announceChatReady = async () => {
     if (didAutoOpen) return;
     didAutoOpen = true;
-    const key = "portfolio_bot_auto_open_seen";
+    const key = "portfolio_bot_ready_nudge_seen";
     let seen = false;
     try { seen = window.sessionStorage.getItem(key) === "1"; } catch (_) {}
     if (seen) return;
@@ -517,7 +517,6 @@
 
     setTimeout(async () => {
       toggleBtn.classList.add("nudge");
-      openPanel();
       pendingReadyChime = true;
       if (interactionAudioUnlocked) {
         const played = await playReadyChime();

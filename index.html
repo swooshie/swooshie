@@ -52,6 +52,11 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 96px;
+        }
+
         :root {
             --font-body: 'Space Grotesk', sans-serif;
             --font-mono: 'IBM Plex Mono', monospace;
@@ -207,7 +212,9 @@
             background: var(--bg-color);
             color: var(--text-color);
             overflow-x: hidden;
-            cursor: none;
+            cursor: auto;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
         }
 
         .skip-link {
@@ -245,7 +252,17 @@
         }
 
         a, button {
-            cursor: inherit;
+            cursor: pointer;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            body {
+                cursor: none;
+            }
+
+            a, button {
+                cursor: none;
+            }
         }
 
         .cursor {
@@ -318,11 +335,13 @@
         header {
             background: var(--header-bg);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: 20px 0;
             position: sticky;
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid var(--header-border);
+            box-shadow: 0 10px 30px rgba(var(--shadow-rgb), 0.06);
         }
 
         nav {
@@ -365,7 +384,7 @@
             flex-direction: column;
             gap: 5px;
             color: var(--nav-link-color);
-            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
         }
 
         .mobile-menu-toggle span {
@@ -412,7 +431,7 @@
             color: var(--nav-link-color);
             font-family: var(--font-mono);
             font-size: 14px;
-            transition: all 0.3s ease;
+            transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
         }
 
         .theme-toggle .toggle-track {
@@ -449,20 +468,42 @@
         }
 
         .theme-toggle:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.2);
         }
 
         .nav-links a {
+            position: relative;
             text-decoration: none;
             color: var(--nav-link-color);
             font-weight: 500;
-            transition: color 0.3s;
+            transition: color 0.2s ease;
             font-family: var(--font-mono);
+            padding: 8px 0;
         }
 
-        .nav-links a:hover {
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 2px;
+            height: 2px;
+            border-radius: 999px;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a:focus-visible {
             color: var(--nav-link-hover);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a:focus-visible::after {
+            transform: scaleX(1);
         }
 
         a:focus-visible,
@@ -470,11 +511,15 @@
         input:focus-visible,
         textarea:focus-visible {
             outline: 2px solid var(--accent-color);
-            outline-offset: 3px;
+            outline-offset: 4px;
+        }
+
+        section {
+            scroll-margin-top: 104px;
         }
 
         .space-hero {
-            min-height: calc(100vh - 88px);
+            min-height: min(820px, calc(100vh - 88px));
             padding: 76px 20px 54px;
             box-sizing: border-box;
             display: flex;
@@ -531,12 +576,12 @@
         }
 
         .hero-headline h1 {
-            font-size: clamp(48px, 6vw, 82px);
-            line-height: 0.92;
+            font-size: 4rem;
+            line-height: 0.96;
             color: var(--text-secondary);
             font-family: var(--font-body);
             font-weight: 700;
-            letter-spacing: -0.05em;
+            letter-spacing: 0;
         }
 
         .hero-headline h1 strong {
@@ -547,7 +592,7 @@
 
         .hero-headline h2 {
             max-width: 620px;
-            font-size: clamp(20px, 2vw, 28px);
+            font-size: 1.35rem;
             color: var(--text-secondary);
             margin: 0;
             font-weight: 500;
@@ -795,10 +840,14 @@
             border-radius: 999px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
-            display: inline-block;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             font-family: var(--font-mono);
             letter-spacing: 0.04em;
+            min-height: 46px;
+            text-align: center;
         }
 
         .btn-primary {
@@ -808,7 +857,7 @@
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             box-shadow: 0 0 30px rgba(var(--accent-rgb), 0.5);
         }
 
@@ -838,7 +887,7 @@
             text-align: center;
             font-family: var(--font-body);
             font-weight: 700;
-            letter-spacing: -0.03em;
+            letter-spacing: 0;
             text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.25);
         }
 
@@ -852,12 +901,12 @@
             border-left: 4px solid var(--accent-color);
             background: var(--card-bg);
             border-radius: 10px;
-            transition: all 0.3s;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
             border: 1px solid var(--card-border);
         }
 
         .experience-card:hover, .project-card:hover {
-            transform: translateX(10px);
+            transform: translateY(-4px);
             box-shadow: 0 5px 25px var(--card-hover-shadow);
             border-left: 4px solid var(--accent-color);
         }
@@ -919,7 +968,7 @@
         }
 
         .experience-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-4px);
             box-shadow: 0 12px 28px rgba(var(--shadow-rgb), 0.28);
         }
 
@@ -1001,7 +1050,7 @@
         }
 
         .project-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-4px);
             box-shadow: 0 22px 58px rgba(var(--shadow-rgb), 0.2);
             border-left: none;
         }
@@ -1431,7 +1480,7 @@
             text-decoration: none;
             border-radius: 999px;
             font-size: 12px;
-            transition: all 0.3s;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
             font-family: var(--font-mono);
             letter-spacing: 0.04em;
             border: 1px solid transparent;
@@ -1447,7 +1496,7 @@
         }
 
         .project-link:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.24);
         }
 
@@ -2106,14 +2155,14 @@
             background: radial-gradient(circle at top right, rgba(var(--accent-rgb), 0.1), transparent 55%), var(--card-bg);
             padding: 22px;
             border-radius: 14px;
-            transition: all 0.3s;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
             border: 1px solid var(--card-border);
             position: relative;
             overflow: hidden;
         }
 
         .skill-category:hover {
-            transform: translateY(-6px);
+            transform: translateY(-3px);
             box-shadow: 0 10px 28px rgba(var(--shadow-rgb), 0.18);
         }
 
@@ -2563,6 +2612,15 @@
                 text-decoration: none;
                 font-family: var(--font-mono);
                 font-size: 13px;
+                min-height: 46px;
+                transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+            }
+
+            .mobile-nav-list a:hover,
+            .mobile-nav-list a:focus-visible {
+                background: rgba(var(--accent-rgb), 0.12);
+                border-color: rgba(var(--accent-rgb), 0.26);
+                color: var(--accent-color);
             }
 
             .mobile-nav-list a::after {
@@ -2948,12 +3006,12 @@
             }
 
             .hero-headline h1 {
-                font-size: clamp(38px, 12vw, 52px);
-                line-height: 0.96;
+                font-size: 2.75rem;
+                line-height: 1;
             }
 
             .hero-headline h2 {
-                font-size: 18px;
+                font-size: 1.125rem;
                 line-height: 1.45;
             }
 
@@ -3067,7 +3125,7 @@
           outline: none;
           transition: 0.3s ease;
           box-shadow: 0 0 8px var(--contact-button-shadow);
-          cursor: inherit;
+          cursor: text;
         }
 
         input:focus, textarea:focus {
@@ -3081,16 +3139,18 @@
           color: var(--contact-button-text);
           padding: 12px 30px;
           border-radius: 8px;
-          cursor: inherit;
+          cursor: pointer;
           font-size: 1rem;
-          transition: 0.3s ease;
+          transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
           text-shadow: var(--contact-button-text-shadow);
+          min-height: 46px;
         }
 
         #send-btn:hover {
           background-color: var(--contact-button-hover-bg);
           color: var(--contact-button-hover-text);
           box-shadow: 0 0 20px var(--contact-button-shadow);
+          transform: translateY(-1px);
         }
 
         .form-status {
@@ -3173,6 +3233,45 @@
   100% {
     transform: translateY(-800px) scale(1.2);
     opacity: 0;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  input,
+  textarea,
+  #send-btn {
+    cursor: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-headline h1 {
+    font-size: 2.35rem;
+  }
+
+  .hero-headline h2 {
+    font-size: 1.05rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .cursor-trail,
+  .stars,
+  .fire-container {
+    display: none !important;
   }
 }
     </style>
@@ -3288,7 +3387,7 @@
                             <div class="profile-placeholder" aria-hidden="true">
                                 <span>AJ</span>
                             </div>
-                            <img src="images/me.jpeg?v=20250320" alt="Aditya Jhaveri" class="profile-image" loading="lazy" decoding="async">
+                            <img src="images/me.jpeg?v=20250320" alt="Aditya Jhaveri" class="profile-image" loading="eager" fetchpriority="high" decoding="async">
                         </div>
                     </div>
                     <svg class="orbit-visual orbit-visual-front" viewBox="0 0 500 500" aria-hidden="true">

@@ -1,11 +1,14 @@
 const starsContainer = document.getElementById('stars');
-for (let i = 0; i < 150; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.style.left = Math.random() * 100 + '%';
-    star.style.top = Math.random() * 100 + '%';
-    star.style.animationDelay = Math.random() * 3 + 's';
-    starsContainer.appendChild(star);
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (starsContainer && !prefersReducedMotion) {
+    for (let i = 0; i < 150; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        starsContainer.appendChild(star);
+    }
 }
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -14,7 +17,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
             target.scrollIntoView({
-                behavior: 'smooth',
+                behavior: prefersReducedMotion ? 'auto' : 'smooth',
                 block: 'start'
             });
         }
@@ -37,7 +40,7 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-const shouldAnimateSections = !window.matchMedia('(max-width: 768px), (prefers-reduced-motion: reduce)').matches;
+const shouldAnimateSections = !window.matchMedia('(max-width: 768px)').matches && !prefersReducedMotion;
 document.querySelectorAll('section').forEach(section => {
     if (!shouldAnimateSections) {
         section.style.opacity = '1';
@@ -116,7 +119,7 @@ if (supportsCustomCursor) {
     });
     document.addEventListener('touchstart', hideCustomCursor, { passive: true });
 
-    const interactiveElements = document.querySelectorAll('a, button');
+    const interactiveElements = document.querySelectorAll('a, button, input, textarea, [role="button"]');
     interactiveElements.forEach(element => {
         element.addEventListener('mouseenter', () => {
             cursor.classList.add('active');
