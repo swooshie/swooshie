@@ -1,3 +1,4 @@
 ignore/
 api/chat.config.php
 .codex
+logs/portfolio-bot-model-rotation.json

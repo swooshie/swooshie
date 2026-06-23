@@ -9,7 +9,7 @@ require_once __DIR__ . '/_logger.php';
 
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
+const DEFAULT_GEMINI_MODEL = 'gemini-3.1-flash-lite';
 const FALLBACK_MESSAGE = "I don't know based on the provided portfolio notes. If you want, tell me what to add.";
 const BOT_MEDITATION_MESSAGE = 'Chat bot is under meditation right now. Please try again later.';
 
@@ -407,6 +407,50 @@ function is_retryable_model_error(string $message): bool {
         || str_contains($lower, '429');
 }
 
+function rotate_model_pool(array $modelPool): array {
+    $count = count($modelPool);
+    if ($count <= 1) return $modelPool;
+
+    $logsDir = dirname(__DIR__) . '/logs';
+    if (!is_dir($logsDir)) {
+        @mkdir($logsDir, 0775, true);
+    }
+
+    $stateFile = $logsDir . '/portfolio-bot-model-rotation.json';
+    $nextIndex = 0;
+    $fh = @fopen($stateFile, 'c+');
+    if ($fh === false) {
+        $nextIndex = random_int(0, $count - 1);
+    } else {
+        try {
+            if (@flock($fh, LOCK_EX)) {
+                $raw = stream_get_contents($fh);
+                $state = json_decode($raw ?: '{}', true);
+                $current = is_array($state) ? (int) ($state['next_index'] ?? 0) : 0;
+                $nextIndex = (($current % $count) + $count) % $count;
+
+                ftruncate($fh, 0);
+                rewind($fh);
+                fwrite($fh, json_encode([
+                    'next_index' => ($nextIndex + 1) % $count,
+                    'updated_at' => gmdate('c'),
+                ], JSON_UNESCAPED_SLASHES));
+                fflush($fh);
+                flock($fh, LOCK_UN);
+            } else {
+                $nextIndex = random_int(0, $count - 1);
+            }
+        } finally {
+            fclose($fh);
+        }
+    }
+
+    return array_merge(
+        array_slice($modelPool, $nextIndex),
+        array_slice($modelPool, 0, $nextIndex)
+    );
+}
+
 $localConfig = load_local_config();
 $apiKey = $localConfig['gemini_api_key'] ?? env_value('GEMINI_API_KEY');
 $configuredModel = $localConfig['gemini_model'] ?? env_value('GEMINI_MODEL', DEFAULT_GEMINI_MODEL) ?? DEFAULT_GEMINI_MODEL;
@@ -417,6 +461,7 @@ if (!is_array($modelPool) || !$modelPool) {
     $modelPool = array_values(array_filter(array_map('strval', $modelPool), fn($m) => trim($m) !== ''));
     if (!$modelPool) $modelPool = [$configuredModel];
 }
+$modelPool = rotate_model_pool($modelPool);
 $model = $modelPool[0];
 
 if ($method === 'GET') {

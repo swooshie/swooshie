@@ -3,9 +3,11 @@
 // Do NOT commit api/chat.config.php.
 return [
     'gemini_api_key' => 'API_KEY',
-    'gemini_model' => 'gemini-2.5-flash-lite',
+    'gemini_model' => 'gemini-3.1-flash-lite',
     'gemini_models' => [
+        'gemini-3.1-flash-lite',
         'gemini-2.5-flash-lite',
+        'gemini-3.5-flash',
         'gemini-2.5-flash',
     ],
 ];
