@@ -27,6 +27,7 @@
   ]);
   const FALLBACK_MESSAGE =
     "I don't know based on the provided portfolio notes. If you want, tell me what to add.";
+  const BOT_MEDITATION_MESSAGE = "Chat bot is under meditation right now. Please try again later.";
 
   const host = document.createElement("div");
   host.style.position = "fixed";
@@ -674,7 +675,7 @@
         error: err instanceof Error ? err.message : String(err),
       });
       hideLoader();
-      showError("Chat service is unavailable. Configure /api/chat.php and a Gemini API key on the server.");
+      showError(BOT_MEDITATION_MESSAGE);
       setStatus(false);
       setModeBadge("notes", "");
       sendBtn.disabled = true;
@@ -775,7 +776,10 @@
         api_error: data?.error || null,
         question,
       });
-      throw new Error(data?.error || `Chat API failed (${res.status})`);
+      const publicMessage = data?.error === "Out of tokens, not out of talent. Retry shortly."
+        ? data.error
+        : BOT_MEDITATION_MESSAGE;
+      throw new Error(publicMessage);
     }
     if (data?.model) {
       activeModelId = data.model;
@@ -847,9 +851,12 @@
       addMessage("assistant", answer);
     } catch (err) {
       console.error("Portfolio bot chat error:", err);
-      const msg = err instanceof Error ? err.message : "Something went wrong while answering. Please try again.";
+      const errMsg = err instanceof Error ? err.message : "";
+      const msg = errMsg === "Out of tokens, not out of talent. Retry shortly."
+        ? errMsg
+        : BOT_MEDITATION_MESSAGE;
       logClientError("chat_send_failed", {
-        error: msg,
+        error: errMsg || msg,
         question,
       });
       showError(msg);

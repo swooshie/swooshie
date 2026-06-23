@@ -6,7 +6,6 @@ return [
     'gemini_model' => 'gemini-2.5-flash-lite',
     'gemini_models' => [
         'gemini-2.5-flash-lite',
-        'gemini-3-flash',
         'gemini-2.5-flash',
     ],
 ];

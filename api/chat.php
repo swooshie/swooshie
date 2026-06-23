@@ -11,6 +11,7 @@ $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
 const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
 const FALLBACK_MESSAGE = "I don't know based on the provided portfolio notes. If you want, tell me what to add.";
+const BOT_MEDITATION_MESSAGE = 'Chat bot is under meditation right now. Please try again later.';
 
 function json_response(array $payload, int $status = 200): void {
     http_response_code($status);
@@ -374,7 +375,7 @@ function friendly_api_error(string $message): array {
         || str_contains($lower, '429');
 
     if (!$isQuota) {
-        return ['message' => $message, 'status' => 500];
+        return ['message' => BOT_MEDITATION_MESSAGE, 'status' => 500];
     }
 
     $retrySeconds = null;
@@ -394,13 +395,15 @@ function friendly_api_error(string $message): array {
     ];
 }
 
-function is_quota_like_error(string $message): bool {
+function is_retryable_model_error(string $message): bool {
     $lower = mb_strtolower($message, 'UTF-8');
     return str_contains($lower, 'quota')
         || str_contains($lower, 'rate limit')
         || str_contains($lower, 'resource_exhausted')
         || str_contains($lower, 'high demand')
         || str_contains($lower, 'try again later')
+        || str_contains($lower, 'not found')
+        || str_contains($lower, 'not supported')
         || str_contains($lower, '429');
 }
 
@@ -421,7 +424,7 @@ if ($method === 'GET') {
         portfolio_log_write('error', 'chat_health_missing_api_key', ['model' => $model]);
         json_response([
             'ok' => false,
-            'error' => 'Gemini API key is not configured on the server.',
+            'error' => BOT_MEDITATION_MESSAGE,
             'model' => $model,
         ], 500);
     }
@@ -441,7 +444,7 @@ if ($method !== 'POST') {
 
 if (!$apiKey) {
     portfolio_log_write('error', 'chat_missing_api_key');
-    json_response(['error' => 'Gemini API key is not configured on the server.'], 500);
+    json_response(['error' => BOT_MEDITATION_MESSAGE], 500);
 }
 
 $rawInput = file_get_contents('php://input');
@@ -494,8 +497,8 @@ try {
                 'error' => $modelErr->getMessage(),
                 'question' => mb_substr($question, 0, 200, 'UTF-8'),
             ]);
-            // Only fail over to another model for quota/rate issues.
-            if (!is_quota_like_error($modelErr->getMessage())) {
+            // Continue through the pool for transient capacity issues or stale model IDs.
+            if (!is_retryable_model_error($modelErr->getMessage())) {
                 throw $modelErr;
             }
         }
