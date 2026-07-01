@@ -1,5 +1,10 @@
 const starsContainer = document.getElementById('stars');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const animeTools = window.anime || {};
+const animeAnimate = typeof animeTools.animate === 'function' ? animeTools.animate : null;
+const animeStagger = typeof animeTools.stagger === 'function' ? animeTools.stagger : null;
+const animeCreateTimeline = typeof animeTools.createTimeline === 'function' ? animeTools.createTimeline : null;
+
 if (starsContainer && !prefersReducedMotion) {
     for (let i = 0; i < 150; i++) {
         const star = document.createElement('div');
@@ -33,10 +38,28 @@ const observerOptions = {
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) {
+        if (!entry.isIntersecting || entry.target.dataset.revealed === 'true') {
+            return;
+        }
+
+        entry.target.dataset.revealed = 'true';
+
+        if (animeAnimate) {
+            animeAnimate(entry.target, {
+                opacity: 1,
+                translateY: 0,
+                duration: 700,
+                ease: 'out(3)',
+                onComplete: () => {
+                    entry.target.style.willChange = '';
+                }
+            });
+        } else {
             entry.target.style.opacity = '1';
             entry.target.style.transform = 'translateY(0)';
         }
+
+        observer.unobserve(entry.target);
     });
 }, observerOptions);
 
@@ -49,9 +72,594 @@ document.querySelectorAll('section').forEach(section => {
     }
     section.style.opacity = '0';
     section.style.transform = 'translateY(30px)';
-    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    section.style.willChange = 'opacity, transform';
+    if (!animeAnimate) {
+        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    }
     observer.observe(section);
 });
+
+const motionTargets = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+const canUseAnimeMotion = Boolean(animeAnimate) && !prefersReducedMotion;
+
+const runIntroMotion = () => {
+    if (!canUseAnimeMotion) return;
+
+    document.body.classList.add('motion-enhanced');
+
+    const navTargets = motionTargets('.logo, .nav-links li, .theme-toggle, .mobile-menu-toggle');
+    animeAnimate(navTargets, {
+        opacity: [0, 1],
+        translateY: [-12, 0],
+        duration: 620,
+        delay: animeStagger ? animeStagger(55) : 0,
+        ease: 'out(3)'
+    });
+
+    const heroTargets = motionTargets(
+        '.hero-kicker, .hero-headline h1, .hero-headline h2, .hero-summary, .hero-signal, .hero-actions .btn, .impact-console-card'
+    );
+    animeAnimate(heroTargets, {
+        opacity: [0, 1],
+        translateY: [34, 0],
+        scale: [0.98, 1],
+        duration: 850,
+        delay: animeStagger ? animeStagger(70, { start: 180 }) : 180,
+        ease: 'out(4)'
+    });
+
+    animeAnimate('.hero-headline h1 strong', {
+        opacity: [0.72, 1],
+        textShadow: [
+            '0 0 0 rgba(var(--accent-rgb), 0)',
+            '0 0 24px rgba(var(--accent-rgb), 0.34)'
+        ],
+        duration: 1100,
+        delay: animeStagger ? animeStagger(120, { start: 620 }) : 620,
+        ease: 'out(3)'
+    });
+
+    animeAnimate('.orbit-container', {
+        translateY: [-8, 8],
+        duration: 3600,
+        loop: true,
+        alternate: true,
+        ease: 'inOut(2)'
+    });
+
+    animeAnimate('.profile-image-wrapper', {
+        scale: [1, 1.035],
+        boxShadow: [
+            '0 0 40px rgba(var(--accent-rgb), 0.28)',
+            '0 0 58px rgba(var(--accent-rgb), 0.42)'
+        ],
+        duration: 2400,
+        loop: true,
+        alternate: true,
+        ease: 'inOut(2)'
+    });
+
+    animeAnimate('.orbit-front, .orbit-back', {
+        strokeDashoffset: [80, 0],
+        duration: 2400,
+        delay: animeStagger ? animeStagger(160) : 0,
+        ease: 'inOut(2)'
+    });
+};
+
+const bindMagneticButtons = () => {
+    if (!canUseAnimeMotion) return;
+
+    motionTargets('.btn, .project-link, .resume-btn, #send-btn').forEach((button) => {
+        button.addEventListener('mouseenter', () => {
+            animeAnimate(button, {
+                translateY: -4,
+                scale: 1.035,
+                duration: 320,
+                ease: 'out(3)'
+            });
+        });
+
+        button.addEventListener('mouseleave', () => {
+            animeAnimate(button, {
+                translateY: 0,
+                translateX: 0,
+                scale: 1,
+                duration: 360,
+                ease: 'out(3)'
+            });
+        });
+
+        button.addEventListener('mousemove', (event) => {
+            const rect = button.getBoundingClientRect();
+            const x = ((event.clientX - rect.left) / rect.width - 0.5) * 10;
+            const y = ((event.clientY - rect.top) / rect.height - 0.5) * 7;
+            animeAnimate(button, {
+                translateX: x,
+                translateY: y - 4,
+                duration: 260,
+                ease: 'out(3)'
+            });
+        });
+    });
+};
+
+const bindCardMotion = () => {
+    if (!canUseAnimeMotion) return;
+
+    motionTargets('.project-card, .experience-card, .education-card, .about-story, .journey-map-shell, .journey-console').forEach((card) => {
+        card.addEventListener('mouseenter', () => {
+            animeAnimate(card, {
+                translateY: -8,
+                scale: 1.012,
+                duration: 380,
+                ease: 'out(3)'
+            });
+
+            const childTargets = motionTargets('.project-metric, .project-detail, .project-stack-inline span, .experience-block, .education-pill', card);
+            if (childTargets.length) {
+                animeAnimate(childTargets, {
+                    translateY: [-2, -7],
+                    scale: [1, 1.025],
+                    duration: 340,
+                    delay: animeStagger ? animeStagger(18) : 0,
+                    ease: 'out(3)'
+                });
+            }
+
+            const svgTargets = motionTargets('.arch-node, .arch-chip, .arch-link, .arch-bus', card);
+            if (svgTargets.length) {
+                animeAnimate(svgTargets, {
+                    opacity: [0.68, 1],
+                    scale: [0.98, 1.035],
+                    duration: 460,
+                    delay: animeStagger ? animeStagger(24) : 0,
+                    ease: 'out(4)'
+                });
+            }
+        });
+
+        card.addEventListener('mousemove', (event) => {
+            const rect = card.getBoundingClientRect();
+            const rotateY = ((event.clientX - rect.left) / rect.width - 0.5) * 3.5;
+            const rotateX = (((event.clientY - rect.top) / rect.height - 0.5) * -3.5);
+            animeAnimate(card, {
+                rotateX,
+                rotateY,
+                duration: 280,
+                ease: 'out(3)'
+            });
+        });
+
+        card.addEventListener('mouseleave', () => {
+            animeAnimate(card, {
+                translateY: 0,
+                rotateX: 0,
+                rotateY: 0,
+                scale: 1,
+                duration: 460,
+                ease: 'out(3)'
+            });
+
+            const childTargets = motionTargets('.project-metric, .project-detail, .project-stack-inline span, .experience-block, .education-pill', card);
+            if (childTargets.length) {
+                animeAnimate(childTargets, {
+                    translateY: 0,
+                    scale: 1,
+                    duration: 360,
+                    ease: 'out(3)'
+                });
+            }
+
+            const svgTargets = motionTargets('.arch-node, .arch-chip, .arch-link, .arch-bus', card);
+            if (svgTargets.length) {
+                animeAnimate(svgTargets, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 360,
+                    ease: 'out(3)'
+                });
+            }
+        });
+    });
+};
+
+const runAmbientMotion = () => {
+    if (!canUseAnimeMotion) return;
+
+    animeAnimate('.journey-sun-halo', {
+        scale: [1, 1.18],
+        opacity: [0.55, 0.95],
+        duration: 2200,
+        loop: true,
+        alternate: true,
+        ease: 'inOut(2)'
+    });
+
+    animeAnimate('.journey-planet-dot, .journey-moon-dot', {
+        scale: [1, 1.05],
+        duration: 1800,
+        delay: animeStagger ? animeStagger(180) : 0,
+        loop: true,
+        alternate: true,
+        ease: 'inOut(2)'
+    });
+
+    animeAnimate('.star', {
+        opacity: [0.25, 1],
+        scale: [0.65, 1.35],
+        duration: 1600,
+        delay: animeStagger ? animeStagger(12) : 0,
+        loop: true,
+        alternate: true,
+        ease: 'inOut(2)'
+    });
+
+};
+
+const initSkillsTimer = () => {
+    const skillsSection = document.getElementById('skills');
+    if (!skillsSection) return;
+
+    const track = skillsSection.querySelector('.skill-timer-track');
+    const prevButton = skillsSection.querySelector('.skill-timer-arrow.prev');
+    const nextButton = skillsSection.querySelector('.skill-timer-arrow.next');
+    const tabs = motionTargets('.skill-timer-tab', skillsSection);
+    const panels = motionTargets('.skill-category', skillsSection);
+    if (!track || !tabs.length || !panels.length) return;
+
+    let activeIndex = -1;
+    let scrollTimer = null;
+
+    const centerTab = (index) => {
+        const tab = tabs[index];
+        if (!tab) return;
+        const left = tab.offsetLeft - (track.clientWidth - tab.clientWidth) / 2;
+        track.scrollTo({
+            left,
+            behavior: prefersReducedMotion ? 'auto' : 'smooth'
+        });
+    };
+
+    const setActiveSkill = (index, shouldCenter = true) => {
+        const nextIndex = Math.min(Math.max(index, 0), panels.length - 1);
+        if (nextIndex === activeIndex) return;
+        activeIndex = nextIndex;
+
+        tabs.forEach((tab, tabIndex) => {
+            const active = tabIndex === activeIndex;
+            tab.classList.toggle('active', active);
+            tab.setAttribute('aria-selected', String(active));
+        });
+
+        panels.forEach((panel, panelIndex) => {
+            const active = panelIndex === activeIndex;
+            panel.classList.toggle('active', active);
+            panel.setAttribute('aria-hidden', String(!active));
+        });
+
+        if (shouldCenter) {
+            centerTab(activeIndex);
+        }
+
+        if (canUseAnimeMotion) {
+            const activePanel = panels[activeIndex];
+            const chips = motionTargets('.skill-list span', activePanel);
+
+            if (animeCreateTimeline) {
+                animeCreateTimeline()
+                    .add(activePanel, {
+                        opacity: [0, 1],
+                        duration: 360,
+                        ease: 'out(3)'
+                    }, 0)
+                    .add(chips, {
+                        opacity: [0, 1],
+                        duration: 300,
+                        delay: animeStagger ? animeStagger(24) : 0,
+                        ease: 'out(3)'
+                    }, 120);
+            } else {
+                animeAnimate(activePanel, {
+                    opacity: [0, 1],
+                    duration: 360,
+                    ease: 'out(3)'
+                });
+                animeAnimate(chips, {
+                    opacity: [0, 1],
+                    duration: 300,
+                    delay: animeStagger ? animeStagger(24) : 0,
+                    ease: 'out(3)'
+                });
+            }
+        }
+    };
+
+    tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => setActiveSkill(index));
+        tab.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                setActiveSkill(index + 1);
+                tabs[Math.min(index + 1, tabs.length - 1)]?.focus();
+            }
+            if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                setActiveSkill(index - 1);
+                tabs[Math.max(index - 1, 0)]?.focus();
+            }
+        });
+    });
+
+    prevButton?.addEventListener('click', () => setActiveSkill(activeIndex - 1));
+    nextButton?.addEventListener('click', () => setActiveSkill(activeIndex + 1));
+
+    track.addEventListener('scroll', () => {
+        window.clearTimeout(scrollTimer);
+        scrollTimer = window.setTimeout(() => {
+            const trackCenter = track.scrollLeft + track.clientWidth / 2;
+            const nearestIndex = tabs.reduce((nearest, tab, index) => {
+                const tabCenter = tab.offsetLeft + tab.clientWidth / 2;
+                const nearestCenter = tabs[nearest].offsetLeft + tabs[nearest].clientWidth / 2;
+                return Math.abs(tabCenter - trackCenter) < Math.abs(nearestCenter - trackCenter) ? index : nearest;
+            }, 0);
+            setActiveSkill(nearestIndex, false);
+        }, 90);
+    }, { passive: true });
+
+    setActiveSkill(0);
+};
+
+const initScrollTopicRail = () => {
+    const rail = document.getElementById('scroll-topic-rail');
+    const aboutSection = document.getElementById('about');
+    if (!rail || !aboutSection) return;
+
+    const sectionConfigs = [
+        { key: 'about', selector: '#about', label: 'About', childSelector: '.about-story, .journey-map-shell, .journey-console' },
+        { key: 'experience', selector: '#experience', label: 'Experience', childSelector: '.experience-card' },
+        { key: 'projects', selector: '#projects', label: 'Projects', childSelector: '.project-card' },
+        { key: 'skills', selector: '#skills', label: 'Skills', childSelector: '.skill-category' },
+        { key: 'education', selector: '#education', label: 'Education', childSelector: '.education-card' },
+        { key: 'resume', selector: '#resume', label: 'Resume', children: [{ selector: '.resume-viewer', label: 'Resume Viewer' }] },
+        { key: 'contact', selector: '#contact', label: 'Contact', children: [{ selector: '.contact-info', label: 'Contact Links' }, { selector: '#contact-form', label: 'Message Form' }] }
+    ];
+
+    const cleanLabel = (text) => text.replace(/[<>/]/g, '').replace(/\s+/g, ' ').trim();
+    const getTitle = (element, fallback) => {
+        const heading = element.matches('section') ? element.querySelector('h2') : element.querySelector('h3, h4');
+        return cleanLabel(heading?.textContent || fallback);
+    };
+
+    const topicGroups = sectionConfigs.map((config) => {
+        const section = document.querySelector(config.selector);
+        if (!section) return null;
+        if (!section.id) section.id = config.key;
+
+        const childSources = config.children
+            ? config.children.flatMap((childConfig) => (
+                motionTargets(childConfig.selector, section).map((element) => ({ element, fallback: childConfig.label }))
+            ))
+            : motionTargets(config.childSelector, section).map((element, index) => ({ element, fallback: index === 0 ? config.label : `${config.label} ${index + 1}` }));
+
+        const children = childSources
+            .filter((source, index, list) => list.findIndex((candidate) => candidate.element === source.element) === index)
+            .map((source, index) => {
+                const { element, fallback } = source;
+                if (!element.id) element.id = `topic-${config.key}-${index}`;
+                return {
+                    element,
+                    title: getTitle(element, fallback)
+                };
+            });
+
+        if (!children.length) {
+            children.push({
+                element: section,
+                title: getTitle(section, config.label)
+            });
+        }
+
+        return {
+            ...config,
+            element: section,
+            title: getTitle(section, config.label),
+            children
+        };
+    }).filter(Boolean);
+
+    if (!topicGroups.length) return;
+
+    rail.innerHTML = `
+        <div class="scroll-topic-meter" aria-hidden="true">
+            <div class="scroll-topic-meter-fill"></div>
+        </div>
+        <div class="scroll-topic-content">
+            <div class="scroll-topic-label">Section timer</div>
+            <div class="scroll-topic-wheel" aria-label="Section picker">
+                <div class="scroll-topic-wheel-window" aria-hidden="true"></div>
+                <div class="scroll-topic-wheel-track"></div>
+            </div>
+            <div class="scroll-topic-current" aria-live="polite">
+                <span class="scroll-topic-section"></span>
+                <span class="scroll-topic-title"></span>
+            </div>
+            <div class="scroll-topic-subtopics"></div>
+        </div>
+    `;
+
+    const meterFill = rail.querySelector('.scroll-topic-meter-fill');
+    const wheelTrack = rail.querySelector('.scroll-topic-wheel-track');
+    const currentSection = rail.querySelector('.scroll-topic-section');
+    const currentTitle = rail.querySelector('.scroll-topic-title');
+    const subtopics = rail.querySelector('.scroll-topic-subtopics');
+
+    const wheelButtons = topicGroups.map((group) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'scroll-topic-wheel-item';
+        button.innerHTML = `<span>${group.label}</span>`;
+        button.setAttribute('aria-label', `Jump to ${group.label}`);
+        button.addEventListener('click', () => {
+            group.element.scrollIntoView({
+                behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                block: 'start'
+            });
+        });
+        wheelTrack.appendChild(button);
+        return button;
+    });
+
+    let activeGroupIndex = -1;
+    let activeChildIndex = -1;
+    let ticking = false;
+
+    const renderSubtopics = (group, nextChildIndex) => {
+        subtopics.innerHTML = '';
+        return group.children.map((child, index) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'scroll-topic-subtopic';
+            button.innerHTML = `<span>${child.title}</span>`;
+            button.setAttribute('aria-label', `Jump to ${child.title}`);
+            button.classList.toggle('active', index === nextChildIndex);
+            button.setAttribute('aria-current', index === nextChildIndex ? 'location' : 'false');
+            button.addEventListener('click', () => {
+                child.element.scrollIntoView({
+                    behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                    block: 'start'
+                });
+            });
+            subtopics.appendChild(button);
+            return button;
+        });
+    };
+
+    const animateTopicChange = (groupChanged, subtopicButtons) => {
+        if (!canUseAnimeMotion) return;
+
+        if (animeCreateTimeline) {
+            animeCreateTimeline()
+                .add(wheelTrack, {
+                    translateY: -activeGroupIndex * 56,
+                    duration: 420,
+                    ease: 'out(4)'
+                }, 0)
+                .add([currentSection, currentTitle], {
+                    opacity: [0.35, 1],
+                    translateY: [8, 0],
+                    duration: 280,
+                    delay: animeStagger ? animeStagger(35) : 0,
+                    ease: 'out(3)'
+                }, groupChanged ? 80 : 0)
+                .add(subtopicButtons, {
+                    opacity: [0, 1],
+                    translateX: [-10, 0],
+                    duration: 260,
+                    delay: animeStagger ? animeStagger(30) : 0,
+                    ease: 'out(3)'
+                }, groupChanged ? 150 : 40);
+            return;
+        }
+
+        animeAnimate(wheelTrack, {
+            translateY: -activeGroupIndex * 56,
+            duration: 420,
+            ease: 'out(4)'
+        });
+        animeAnimate([currentSection, currentTitle], {
+            opacity: [0.35, 1],
+            translateY: [8, 0],
+            duration: 280,
+            delay: animeStagger ? animeStagger(35) : 0,
+            ease: 'out(3)'
+        });
+        animeAnimate(subtopicButtons, {
+            opacity: [0, 1],
+            translateX: [-10, 0],
+            duration: 260,
+            delay: animeStagger ? animeStagger(30) : 0,
+            ease: 'out(3)'
+        });
+    };
+
+    const setActiveTopic = (nextGroupIndex, nextChildIndex) => {
+        const group = topicGroups[nextGroupIndex];
+        if (!group) return;
+        const child = group.children[nextChildIndex] || group.children[0];
+        const groupChanged = nextGroupIndex !== activeGroupIndex;
+        const childChanged = nextChildIndex !== activeChildIndex;
+        if (!groupChanged && !childChanged) return;
+
+        activeGroupIndex = nextGroupIndex;
+        activeChildIndex = nextChildIndex;
+
+        currentSection.textContent = group.label;
+        currentTitle.textContent = child.title;
+        wheelButtons.forEach((button, index) => {
+            const active = index === activeGroupIndex;
+            button.classList.toggle('active', active);
+            button.setAttribute('aria-current', active ? 'location' : 'false');
+        });
+
+        const subtopicButtons = groupChanged ? renderSubtopics(group, activeChildIndex) : Array.from(subtopics.children);
+        subtopicButtons.forEach((button, index) => {
+            const active = index === activeChildIndex;
+            button.classList.toggle('active', active);
+            button.setAttribute('aria-current', active ? 'location' : 'false');
+        });
+
+        if (!canUseAnimeMotion) {
+            wheelTrack.style.transform = `translateY(${-activeGroupIndex * 56}px)`;
+            return;
+        }
+
+        animateTopicChange(groupChanged, subtopicButtons);
+    };
+
+    const updateRail = () => {
+        ticking = false;
+        const aboutTop = aboutSection.getBoundingClientRect().top;
+        const showRail = aboutTop <= window.innerHeight * 0.42;
+        rail.classList.toggle('visible', showRail);
+
+        const scrollable = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+        const progress = Math.min(Math.max((window.scrollY / scrollable) * 100, 0), 100);
+        meterFill.style.height = `${progress}%`;
+
+        if (!showRail) return;
+
+        const anchorLine = window.innerHeight * 0.38;
+        const nextGroupIndex = topicGroups.reduce((active, group, index) => {
+            const rect = group.element.getBoundingClientRect();
+            return rect.top <= anchorLine ? index : active;
+        }, 0);
+        const activeGroup = topicGroups[nextGroupIndex];
+        const nextChildIndex = activeGroup.children.reduce((active, child, index) => {
+            const rect = child.element.getBoundingClientRect();
+            return rect.top <= anchorLine ? index : active;
+        }, 0);
+
+        setActiveTopic(nextGroupIndex, nextChildIndex);
+    };
+
+    const requestRailUpdate = () => {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(updateRail);
+    };
+
+    window.addEventListener('scroll', requestRailUpdate, { passive: true });
+    window.addEventListener('resize', requestRailUpdate);
+    updateRail();
+};
+
+initScrollTopicRail();
+initSkillsTimer();
+runIntroMotion();
+bindMagneticButtons();
+bindCardMotion();
+runAmbientMotion();
 const supportsCustomCursor = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 let cursor = null;
 const trailCount = 8; // number of trail dots
@@ -317,6 +925,7 @@ const getThemeColor = (variable) => getComputedStyle(document.body).getPropertyV
 
 // Function to generate fire particles
 function generateFire() {
+    if (!fireContainer) return;
     for (let i = 0; i < 50; i++) {
         const particle = document.createElement("div");
         particle.classList.add("fire-particle");
@@ -325,6 +934,17 @@ function generateFire() {
         particle.style.height = particle.style.width;
         particle.style.animationDuration = 1 + Math.random() * 2 + "s";
         fireContainer.appendChild(particle);
+
+        if (canUseAnimeMotion) {
+            animeAnimate(particle, {
+                translateY: [0, -(160 + Math.random() * 280)],
+                translateX: [0, (Math.random() - 0.5) * 90],
+                scale: [1, 0.2],
+                opacity: [0.9, 0],
+                duration: 900 + Math.random() * 900,
+                ease: 'out(2)'
+            });
+        }
 
         // Remove particle after animation
         setTimeout(() => {
@@ -410,15 +1030,45 @@ form.addEventListener("submit", function(event) {
     form.reset();
 
     // Trigger rocket animation
-    rocket.style.opacity = 1;
-    const rocketImg = rocket.querySelector(".rocket");
-    rocketImg.classList.add("launch");
+    if (rocket) {
+        rocket.style.opacity = 1;
+        const rocketImg = rocket.querySelector(".rocket");
+        generateFire();
 
-    // Reset rocket after animation
-    setTimeout(() => {
-        rocket.style.opacity = 0;
-        rocketImg.classList.remove("launch");
-    }, 2500);
+        if (canUseAnimeMotion && rocketImg) {
+            animeAnimate(rocketImg, {
+                translateY: [0, -window.innerHeight * 0.92],
+                translateX: [0, -18, 14, 0],
+                rotate: [0, -4, 5, 0],
+                scale: [1, 1.12],
+                opacity: [1, 0],
+                duration: 2300,
+                ease: 'in(3)'
+            });
+
+            animeAnimate('.fire-particle', {
+                translateY: [0, -window.innerHeight],
+                translateX: () => (Math.random() - 0.5) * 180,
+                scale: [1, 0.25],
+                opacity: [1, 0],
+                duration: () => 900 + Math.random() * 900,
+                delay: animeStagger ? animeStagger(10) : 0,
+                ease: 'out(2)'
+            });
+        } else if (rocketImg) {
+            rocketImg.classList.add("launch");
+        }
+
+        // Reset rocket after animation
+        setTimeout(() => {
+            rocket.style.opacity = 0;
+            if (rocketImg) {
+                rocketImg.classList.remove("launch");
+                rocketImg.style.transform = '';
+                rocketImg.style.opacity = '';
+            }
+        }, 2500);
+    }
     })
     .catch((error) => {
     console.error("EmailJS Error:", error);
@@ -646,12 +1296,38 @@ if (journeyConsole && journeyTitle && journeyTriggers.length) {
         const details = journeyData[key];
         if (!details) return;
 
+        if (canUseAnimeMotion) {
+            animeAnimate([journeyKicker, journeyTitle, journeySubtitle, journeyCopy, journeyList, journeyFooter], {
+                opacity: [1, 0],
+                translateY: [0, -8],
+                duration: 140,
+                ease: 'in(2)'
+            });
+        }
+
         journeyKicker.textContent = details.kicker;
         journeyTitle.textContent = details.title;
         journeySubtitle.textContent = details.subtitle;
         journeyCopy.textContent = details.copy;
         journeyList.innerHTML = details.bullets.map((bullet) => `<li>${bullet}</li>`).join("");
         journeyFooter.innerHTML = details.tags.map((tag) => `<span>${tag}</span>`).join("");
+
+        if (canUseAnimeMotion) {
+            animeAnimate([journeyKicker, journeyTitle, journeySubtitle, journeyCopy], {
+                opacity: [0, 1],
+                translateY: [12, 0],
+                duration: 360,
+                delay: animeStagger ? animeStagger(45) : 0,
+                ease: 'out(3)'
+            });
+            animeAnimate([...journeyList.children, ...journeyFooter.children], {
+                opacity: [0, 1],
+                translateX: [-10, 0],
+                duration: 360,
+                delay: animeStagger ? animeStagger(38, { start: 120 }) : 120,
+                ease: 'out(3)'
+            });
+        }
 
         journeyStages.forEach((stage) => {
             stage.classList.toggle("active", stage.dataset.journeyTarget === key);
