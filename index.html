@@ -3992,9 +3992,27 @@
                             <use href="#orbit-path-2" class="orbit-back"></use>
                             <use href="#orbit-path-3" class="orbit-back"></use>
 
-                            <circle class="orbit-dot" cx="90" cy="250" r="5.5" fill="#7dd3fc"></circle>
-                            <circle class="orbit-dot" cx="450" cy="250" r="5.5" fill="#c4b5fd"></circle>
-                            <circle class="orbit-dot" cx="250" cy="167" r="6" fill="#fdba74"></circle>
+                            <g class="orbit-dot">
+                                <circle r="6" fill="#7dd3fc">
+                                    <animateMotion dur="12s" repeatCount="indefinite" rotate="auto" begin="-1s">
+                                        <mpath href="#orbit-path-1"></mpath>
+                                    </animateMotion>
+                                </circle>
+                            </g>
+                            <g class="orbit-dot">
+                                <circle r="5" fill="#c4b5fd">
+                                    <animateMotion dur="16s" repeatCount="indefinite" rotate="auto-reverse" begin="-5s">
+                                        <mpath href="#orbit-path-2"></mpath>
+                                    </animateMotion>
+                                </circle>
+                            </g>
+                            <g class="orbit-dot">
+                                <circle r="6.5" fill="#fdba74">
+                                    <animateMotion dur="22s" repeatCount="indefinite" rotate="auto" begin="-9s">
+                                        <mpath href="#orbit-path-3"></mpath>
+                                    </animateMotion>
+                                </circle>
+                            </g>
                         </g>
                     </svg>
                     <div class="profile-section">
@@ -4020,9 +4038,27 @@
                                 <use href="#orbit-path-front-2" class="orbit-front"></use>
                                 <use href="#orbit-path-front-3" class="orbit-front"></use>
 
-                                <circle class="orbit-dot" cx="410" cy="250" r="5.5" fill="#7dd3fc"></circle>
-                                <circle class="orbit-dot" cx="50" cy="250" r="5.5" fill="#c4b5fd"></circle>
-                                <circle class="orbit-dot" cx="250" cy="333" r="6" fill="#fdba74"></circle>
+                                <g class="orbit-dot">
+                                    <circle r="6" fill="#7dd3fc">
+                                        <animateMotion dur="12s" repeatCount="indefinite" rotate="auto" begin="-1s">
+                                            <mpath href="#orbit-path-front-1"></mpath>
+                                        </animateMotion>
+                                    </circle>
+                                </g>
+                                <g class="orbit-dot">
+                                    <circle r="5" fill="#c4b5fd">
+                                        <animateMotion dur="16s" repeatCount="indefinite" rotate="auto-reverse" begin="-5s">
+                                            <mpath href="#orbit-path-front-2"></mpath>
+                                        </animateMotion>
+                                    </circle>
+                                </g>
+                                <g class="orbit-dot">
+                                    <circle r="6.5" fill="#fdba74">
+                                        <animateMotion dur="22s" repeatCount="indefinite" rotate="auto" begin="-9s">
+                                            <mpath href="#orbit-path-front-3"></mpath>
+                                        </animateMotion>
+                                    </circle>
+                                </g>
                             </g>
                         </g>
                     </svg>
