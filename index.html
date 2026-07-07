@@ -1966,14 +1966,14 @@
 
         .journey-grid {
             display: grid;
-            grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
-            gap: 24px;
-            align-items: stretch;
+            grid-template-columns: minmax(0, 1fr) minmax(340px, 1fr);
+            gap: 20px;
+            align-items: start;
         }
 
         .journey-map-shell,
         .journey-console {
-            padding: 24px;
+            padding: 20px;
             border-radius: 24px;
             border: 1px solid rgba(var(--accent-rgb), 0.16);
             background:
@@ -2028,6 +2028,7 @@
 
         .journey-map {
             position: relative;
+            height: clamp(340px, 32vw, 410px);
             border-radius: 22px;
             border: 1px solid rgba(var(--accent-rgb), 0.12);
             background:
@@ -2051,8 +2052,7 @@
         .journey-map-svg {
             display: block;
             width: 100%;
-            height: auto;
-            aspect-ratio: 900 / 580;
+            height: 100%;
             position: relative;
             z-index: 1;
         }
@@ -2231,6 +2231,7 @@
             display: grid;
             gap: 16px;
             align-content: start;
+            align-self: start;
         }
 
         .journey-console-kicker {
