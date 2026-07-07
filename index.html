@@ -420,28 +420,30 @@
             display: none;
         }
 
-        @media (min-width: 1320px) {
+        @media (min-width: 1440px) {
             .scroll-topic-rail {
                 position: fixed;
                 top: 50%;
-                left: 18px;
+                left: 16px;
                 z-index: 850;
                 display: grid;
-                grid-template-columns: 14px minmax(0, 1fr);
-                gap: 16px;
+                grid-template-columns: 14px 0fr;
+                gap: 0;
                 align-items: center;
-                width: 252px;
-                min-height: 326px;
-                padding: 18px 16px;
+                justify-content: center;
+                width: 48px;
+                min-height: 48px;
+                padding: 12px;
                 border: 1px solid rgba(var(--accent-rgb), 0.16);
-                border-radius: 26px;
+                border-radius: 999px;
                 background: rgba(var(--section-bg), 0.82);
                 box-shadow: 0 18px 42px rgba(var(--shadow-rgb), 0.14);
                 backdrop-filter: blur(14px);
                 opacity: 0;
                 pointer-events: none;
                 transform: translateY(calc(-50% + 10px));
-                transition: width 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease, background 0.24s ease, opacity 0.22s ease, transform 0.22s ease;
+                overflow: hidden;
+                transition: width 0.24s ease, min-height 0.24s ease, padding 0.24s ease, border-radius 0.24s ease, grid-template-columns 0.24s ease, gap 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease, background 0.24s ease, opacity 0.22s ease, transform 0.22s ease;
             }
 
             .scroll-topic-rail.visible {
@@ -452,7 +454,13 @@
 
             .scroll-topic-rail:hover,
             .scroll-topic-rail:focus-within {
-                width: 382px;
+                grid-template-columns: 14px minmax(0, 1fr);
+                gap: 16px;
+                justify-content: start;
+                width: 326px;
+                min-height: 0;
+                padding: 18px 16px;
+                border-radius: 26px;
                 border-color: rgba(var(--accent-rgb), 0.28);
                 box-shadow: 0 22px 58px rgba(var(--shadow-rgb), 0.2);
                 background: rgba(var(--section-bg), 0.94);
@@ -460,12 +468,21 @@
 
             .scroll-topic-meter {
                 position: relative;
-                width: 4px;
-                height: 270px;
+                width: 12px;
+                height: 12px;
                 justify-self: center;
                 border-radius: 999px;
-                background: rgba(var(--accent-rgb), 0.12);
+                background: rgba(var(--accent-rgb), 0.16);
                 overflow: hidden;
+                box-shadow: 0 0 0 6px rgba(var(--accent-rgb), 0.08), 0 0 18px rgba(var(--accent-rgb), 0.28);
+                transition: width 0.24s ease, height 0.24s ease, box-shadow 0.24s ease;
+            }
+
+            .scroll-topic-rail:hover .scroll-topic-meter,
+            .scroll-topic-rail:focus-within .scroll-topic-meter {
+                width: 4px;
+                height: 270px;
+                box-shadow: none;
             }
 
             .scroll-topic-meter-fill {
@@ -481,6 +498,17 @@
                 min-width: 0;
                 display: grid;
                 gap: 12px;
+                opacity: 0;
+                pointer-events: none;
+                transform: translateX(-8px);
+                transition: opacity 0.18s ease, transform 0.2s ease;
+            }
+
+            .scroll-topic-rail:hover .scroll-topic-content,
+            .scroll-topic-rail:focus-within .scroll-topic-content {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateX(0);
             }
 
             .scroll-topic-label {
@@ -500,6 +528,14 @@
                     linear-gradient(180deg, rgba(var(--section-bg), 0.92), rgba(var(--section-bg), 0) 30%, rgba(var(--section-bg), 0) 70%, rgba(var(--section-bg), 0.92)),
                     rgba(var(--shadow-rgb), 0.035);
                 border: 1px solid rgba(var(--accent-rgb), 0.12);
+            }
+
+            .scroll-topic-rail:hover .scroll-topic-wheel,
+            .scroll-topic-rail:focus-within .scroll-topic-wheel {
+                height: auto;
+                max-height: none;
+                overflow: visible;
+                background: rgba(var(--shadow-rgb), 0.035);
             }
 
             .scroll-topic-wheel::before,
@@ -522,6 +558,13 @@
                 transform: translateY(28px);
             }
 
+            .scroll-topic-rail:hover .scroll-topic-wheel::before,
+            .scroll-topic-rail:hover .scroll-topic-wheel::after,
+            .scroll-topic-rail:focus-within .scroll-topic-wheel::before,
+            .scroll-topic-rail:focus-within .scroll-topic-wheel::after {
+                display: none;
+            }
+
             .scroll-topic-wheel-window {
                 position: absolute;
                 left: 8px;
@@ -536,6 +579,11 @@
                 z-index: 1;
             }
 
+            .scroll-topic-rail:hover .scroll-topic-wheel-window,
+            .scroll-topic-rail:focus-within .scroll-topic-wheel-window {
+                display: none;
+            }
+
             .scroll-topic-wheel-track {
                 position: absolute;
                 left: 0;
@@ -545,6 +593,14 @@
                 gap: 0;
                 will-change: transform;
                 z-index: 3;
+            }
+
+            .scroll-topic-rail:hover .scroll-topic-wheel-track,
+            .scroll-topic-rail:focus-within .scroll-topic-wheel-track {
+                position: static;
+                gap: 6px;
+                padding: 8px;
+                transform: none !important;
             }
 
             .scroll-topic-wheel-item {
@@ -583,6 +639,27 @@
                 color: var(--text-secondary);
                 opacity: 1;
                 transform: scale(1);
+            }
+
+            .scroll-topic-rail:hover .scroll-topic-wheel-item,
+            .scroll-topic-rail:focus-within .scroll-topic-wheel-item {
+                height: 36px;
+                padding: 0 12px;
+                border-radius: 12px;
+                text-align: left;
+                transform: none;
+                opacity: 0.72;
+            }
+
+            .scroll-topic-rail:hover .scroll-topic-wheel-item:hover,
+            .scroll-topic-rail:hover .scroll-topic-wheel-item:focus-visible,
+            .scroll-topic-rail:hover .scroll-topic-wheel-item.active,
+            .scroll-topic-rail:focus-within .scroll-topic-wheel-item:hover,
+            .scroll-topic-rail:focus-within .scroll-topic-wheel-item:focus-visible,
+            .scroll-topic-rail:focus-within .scroll-topic-wheel-item.active {
+                background: rgba(var(--accent-rgb), 0.1);
+                color: var(--text-secondary);
+                opacity: 1;
             }
 
             .scroll-topic-current {
@@ -625,24 +702,26 @@
 
             .scroll-topic-rail:hover .scroll-topic-subtopics,
             .scroll-topic-rail:focus-within .scroll-topic-subtopics {
-                max-height: 276px;
-                overflow-y: auto;
+                display: flex;
+                flex-wrap: wrap;
+                max-height: none;
+                overflow: visible;
                 opacity: 1;
                 transform: translateY(0);
-                padding-right: 4px;
             }
 
             .scroll-topic-subtopic {
                 appearance: none;
                 border: 0;
-                width: 100%;
-                display: grid;
-                grid-template-columns: 8px minmax(0, 1fr);
-                gap: 9px;
+                width: fit-content;
+                max-width: 100%;
+                display: inline-grid;
+                grid-template-columns: 7px minmax(0, 1fr);
+                gap: 8px;
                 align-items: center;
-                padding: 9px 10px;
-                border-radius: 12px;
-                background: transparent;
+                padding: 7px 10px;
+                border-radius: 999px;
+                background: rgba(var(--shadow-rgb), 0.035);
                 color: var(--text-muted);
                 font: inherit;
                 text-align: left;
@@ -664,7 +743,7 @@
             .scroll-topic-subtopic.active {
                 background: rgba(var(--accent-rgb), 0.1);
                 color: var(--text-secondary);
-                transform: translateX(2px);
+                transform: translateY(-1px);
                 outline: none;
             }
 
@@ -1176,7 +1255,6 @@
         body.motion-enhanced .project-card,
         body.motion-enhanced .education-card,
         body.motion-enhanced .about-story,
-        body.motion-enhanced .journey-map-shell,
         body.motion-enhanced .journey-console {
             position: relative;
             overflow: hidden;
@@ -1188,7 +1266,6 @@
         body.motion-enhanced .experience-card::after,
         body.motion-enhanced .education-card::after,
         body.motion-enhanced .about-story::after,
-        body.motion-enhanced .journey-map-shell::after,
         body.motion-enhanced .journey-console::after {
             content: "";
             position: absolute;
@@ -1204,7 +1281,6 @@
         body.motion-enhanced .experience-card:hover::after,
         body.motion-enhanced .education-card:hover::after,
         body.motion-enhanced .about-story:hover::after,
-        body.motion-enhanced .journey-map-shell:hover::after,
         body.motion-enhanced .journey-console:hover::after {
             opacity: 1;
             transform: translateX(120%);
@@ -1955,7 +2031,7 @@
             border-radius: 22px;
             border: 1px solid rgba(var(--accent-rgb), 0.12);
             background:
-                radial-gradient(circle at 11% 50%, rgba(249, 115, 22, 0.16), transparent 12%),
+                radial-gradient(circle at 13.1% 50%, rgba(249, 115, 22, 0.1), transparent 10%),
                 linear-gradient(180deg, rgba(255,255,255,0.38), rgba(255,255,255,0.16));
             overflow: hidden;
         }
@@ -3916,27 +3992,9 @@
                             <use href="#orbit-path-2" class="orbit-back"></use>
                             <use href="#orbit-path-3" class="orbit-back"></use>
 
-                            <g class="orbit-dot">
-                                <circle r="6" fill="#7dd3fc">
-                                    <animateMotion dur="12s" repeatCount="indefinite" rotate="auto" begin="-1s">
-                                        <mpath href="#orbit-path-1"></mpath>
-                                    </animateMotion>
-                                </circle>
-                            </g>
-                            <g class="orbit-dot">
-                                <circle r="5" fill="#c4b5fd">
-                                    <animateMotion dur="16s" repeatCount="indefinite" rotate="auto-reverse" begin="-5s">
-                                        <mpath href="#orbit-path-2"></mpath>
-                                    </animateMotion>
-                                </circle>
-                            </g>
-                            <g class="orbit-dot">
-                                <circle r="6.5" fill="#fdba74">
-                                    <animateMotion dur="22s" repeatCount="indefinite" rotate="auto" begin="-9s">
-                                        <mpath href="#orbit-path-3"></mpath>
-                                    </animateMotion>
-                                </circle>
-                            </g>
+                            <circle class="orbit-dot" cx="90" cy="250" r="5.5" fill="#7dd3fc"></circle>
+                            <circle class="orbit-dot" cx="450" cy="250" r="5.5" fill="#c4b5fd"></circle>
+                            <circle class="orbit-dot" cx="250" cy="167" r="6" fill="#fdba74"></circle>
                         </g>
                     </svg>
                     <div class="profile-section">
@@ -3962,27 +4020,9 @@
                                 <use href="#orbit-path-front-2" class="orbit-front"></use>
                                 <use href="#orbit-path-front-3" class="orbit-front"></use>
 
-                                <g class="orbit-dot">
-                                    <circle r="6" fill="#7dd3fc">
-                                        <animateMotion dur="12s" repeatCount="indefinite" rotate="auto" begin="-1s">
-                                            <mpath href="#orbit-path-front-1"></mpath>
-                                        </animateMotion>
-                                    </circle>
-                                </g>
-                                <g class="orbit-dot">
-                                    <circle r="5" fill="#c4b5fd">
-                                        <animateMotion dur="16s" repeatCount="indefinite" rotate="auto-reverse" begin="-5s">
-                                            <mpath href="#orbit-path-front-2"></mpath>
-                                        </animateMotion>
-                                    </circle>
-                                </g>
-                                <g class="orbit-dot">
-                                    <circle r="6.5" fill="#fdba74">
-                                        <animateMotion dur="22s" repeatCount="indefinite" rotate="auto" begin="-9s">
-                                            <mpath href="#orbit-path-front-3"></mpath>
-                                        </animateMotion>
-                                    </circle>
-                                </g>
+                                <circle class="orbit-dot" cx="410" cy="250" r="5.5" fill="#7dd3fc"></circle>
+                                <circle class="orbit-dot" cx="50" cy="250" r="5.5" fill="#c4b5fd"></circle>
+                                <circle class="orbit-dot" cx="250" cy="333" r="6" fill="#fdba74"></circle>
                             </g>
                         </g>
                     </svg>
@@ -4035,7 +4075,7 @@
                         <div class="journey-map" aria-label="Interactive career orbit map">
                             <svg class="journey-map-svg" viewBox="0 0 900 580" aria-hidden="true">
                                 <defs>
-                                    <radialGradient id="journey-sun-gradient" cx="32%" cy="28%">
+                                    <radialGradient id="journey-sun-gradient" cx="50%" cy="50%">
                                         <stop offset="0%" stop-color="#fff7ed"></stop>
                                         <stop offset="18%" stop-color="#fde68a"></stop>
                                         <stop offset="52%" stop-color="#f59e0b"></stop>

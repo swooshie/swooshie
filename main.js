@@ -139,12 +139,6 @@ const runIntroMotion = () => {
         ease: 'inOut(2)'
     });
 
-    animeAnimate('.orbit-front, .orbit-back', {
-        strokeDashoffset: [80, 0],
-        duration: 2400,
-        delay: animeStagger ? animeStagger(160) : 0,
-        ease: 'inOut(2)'
-    });
 };
 
 const bindMagneticButtons = () => {
@@ -187,7 +181,7 @@ const bindMagneticButtons = () => {
 const bindCardMotion = () => {
     if (!canUseAnimeMotion) return;
 
-    motionTargets('.project-card, .experience-card, .education-card, .about-story, .journey-map-shell, .journey-console').forEach((card) => {
+    motionTargets('.project-card, .experience-card, .education-card, .about-story, .journey-console').forEach((card) => {
         card.addEventListener('mouseenter', () => {
             animeAnimate(card, {
                 translateY: -8,
@@ -266,15 +260,6 @@ const bindCardMotion = () => {
 
 const runAmbientMotion = () => {
     if (!canUseAnimeMotion) return;
-
-    animeAnimate('.journey-sun-halo', {
-        scale: [1, 1.18],
-        opacity: [0.55, 0.95],
-        duration: 2200,
-        loop: true,
-        alternate: true,
-        ease: 'inOut(2)'
-    });
 
     animeAnimate('.journey-planet-dot, .journey-moon-dot', {
         scale: [1, 1.05],
