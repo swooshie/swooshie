@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Data Service Case Study | Aditya Jhaveri</title>
+    <meta name="description" content="An event-driven FastAPI market data service using Kafka, Redis, PostgreSQL, Docker, rate limiting, tests, and CI validation.">
+    <meta name="author" content="Aditya Jhaveri">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="canonical" href="https://adityajhaveri.com/projects/market-data-service/">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Market Data Service Case Study | Aditya Jhaveri">
+    <meta property="og:description" content="Polling, event streaming, caching, persistence, and analytics-ready APIs in one backend system.">
+    <meta property="og:url" content="https://adityajhaveri.com/projects/market-data-service/">
+    <meta property="og:image" content="https://adityajhaveri.com/images/me.jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/case-study.css">
+    <link rel="stylesheet" href="/assets/site-cursor.css">
+</head>
+<body>
+    <a class="skip-link" href="#case-content">Skip to case study</a>
+    <div class="cursor" aria-hidden="true"></div><div class="cursor-ring" aria-hidden="true"></div>
+    <header class="site-header">
+        <div class="nav-shell">
+            <a class="brand" href="/" aria-label="Aditya Jhaveri home">&lt;AJ /&gt;</a>
+            <nav class="site-nav" aria-label="Case study navigation">
+                <a class="home-link" href="/#projects">./work</a><a href="/#experience">./experience</a><a href="/#contact">./contact</a>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle matrix theme"><span id="theme-toggle-text">Modern</span></button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="case-content">
+        <section class="case-hero">
+            <div class="hero-inner">
+                <p class="eyebrow">Case Study 03 / Event-Driven Backend</p>
+                <h1>Market Data Service</h1>
+                <p class="lede">A production-style ingestion microservice showing how quote polling, event streaming, caching, persistence, derived analytics, and delivery controls fit into one testable system.</p>
+                <div class="hero-actions"><a class="action" href="https://github.com/swooshie/market-data-microservice" target="_blank" rel="noopener">View Repository</a></div>
+                <div class="metrics" aria-label="Project outcomes">
+                    <div class="metric"><strong>40%</strong><span>Higher processing scalability in the final design</span></div>
+                    <div class="metric"><strong>25%</strong><span>Lower average API response time</span></div>
+                    <div class="metric"><strong>CI</strong><span>Automated route tests and Docker validation through GitHub Actions</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="content-inner">
+                <div class="section-heading"><h2>01 / Problem</h2><div class="section-copy"><h3>A quote script is not the same thing as a market data service.</h3><p>The implementation expands a polling assessment into a backend architecture that can ingest external prices, distribute events, retain raw and processed records, serve low-latency reads, and remain reproducible for reviewers.</p></div></div>
+                <div class="detail-columns">
+                    <div class="detail-block"><h3>System goal</h3><p>Separate ingestion, event processing, storage, caching, and API delivery so each concern can be tested and changed without collapsing into one long-running script.</p></div>
+                    <div class="detail-block"><h3>My ownership</h3><p>I designed the backend architecture and implemented the FastAPI routes, Kafka workflows, Redis cache, PostgreSQL persistence, container setup, rate limits, tests, and CI validation.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section alt">
+            <div class="content-inner">
+                <div class="section-heading"><h2>02 / Architecture</h2><div class="section-copy"><h3>Streaming and request paths have different responsibilities.</h3><p>Quote ingestion publishes market events for asynchronous processing, while Redis supports low-latency latest-price reads and PostgreSQL preserves raw and derived records for analytics.</p></div></div>
+                <div class="architecture" aria-label="Market Data Service system flow">
+                    <div class="arch-node"><strong>Finnhub</strong><span>External quote source polled on a controlled ingestion schedule</span></div>
+                    <div class="arch-node"><strong>FastAPI</strong><span>Polling controls, latest prices, moving averages, and rate-limited endpoints</span></div>
+                    <div class="arch-node"><strong>Kafka</strong><span>Market events decoupled from downstream processing and consumers</span></div>
+                    <div class="arch-node"><strong>Redis + PostgreSQL</strong><span>Fast current reads with durable raw and processed history</span></div>
+                </div>
+                <div class="stack-list"><span>Python</span><span>FastAPI</span><span>Kafka</span><span>Redis</span><span>PostgreSQL</span><span>Docker Compose</span><span>Pytest</span><span>SlowAPI</span><span>GitHub Actions</span></div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="content-inner">
+                <div class="section-heading"><h2>03 / Delivery</h2><div class="section-copy"><h3>Reproducibility and failure handling are part of the demo.</h3><p>The repository is structured so a reviewer can start the complete dependency stack, exercise synchronous and asynchronous paths, and validate behavior without rebuilding infrastructure manually.</p></div></div>
+                <div class="detail-columns">
+                    <div class="detail-block"><h3>Operational controls</h3><ul><li>Docker Compose starts application and data dependencies consistently.</li><li>SlowAPI limits protect public endpoints from uncontrolled request volume.</li><li>Caching reduces repeated database and upstream work on hot reads.</li></ul></div>
+                    <div class="detail-block"><h3>Validation</h3><ul><li>Pytest covers synchronous and asynchronous routes.</li><li>GitHub Actions runs automated tests and build validation.</li><li>Raw and processed persistence keeps derived analytics traceable to source events.</li></ul></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section alt">
+            <div class="content-inner">
+                <div class="section-heading"><h2>04 / Result</h2><div class="section-copy"><h3>A coherent backend system rather than a collection of infrastructure names.</h3><p>The final design ties event streaming, cache strategy, persistence, API behavior, containers, and tests to a clear ingestion workflow, with measured improvements in processing scalability and response time.</p></div></div>
+                <div class="next-project"><div><p>Return to selected work</p><h2>Explore all projects</h2></div><a class="action secondary" href="/#projects">Back to Portfolio</a></div>
+            </div>
+        </section>
+    </main>
+    <footer class="site-footer">&copy; 2026 Aditya Jhaveri. All rights reserved.</footer>
+    <script src="/assets/site-cursor.js"></script>
+    <script src="/assets/case-study.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+:root {
+    --site-cursor-color: #2563eb;
+    --site-cursor-active: #93c5fd;
+    --site-cursor-glow: rgba(37, 99, 235, 0.8);
+}
+
+body.theme-matrix {
+    --site-cursor-color: #00ff88;
+    --site-cursor-active: #9affca;
+    --site-cursor-glow: rgba(0, 255, 136, 0.8);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    body,
+    a,
+    button,
+    input,
+    textarea,
+    canvas,
+    [role="button"] {
+        cursor: none !important;
+    }
+}
+
+.cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--site-cursor-color);
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cursor.active {
+    background-color: var(--site-cursor-active);
+    box-shadow: 0 0 20px var(--site-cursor-glow);
+    transform: translate(-50%, -50%) scale(2);
+}
+
+.cursor-trail {
+    position: fixed;
+    z-index: 9998;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--site-cursor-color);
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, opacity 0.3s;
+}
+
+.cursor-ring {
+    display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cursor-trail { display: none !important; }
+}

@@ -7,9 +7,9 @@ This file captures high-signal personal and professional context for recruiter, 
 ## Personal and Career Snapshot
 - Name: Aditya Jhaveri
 - Current location: New York, United States
-- Current role: Part-time Student Software Developer at New York University (Global Enrollment Management & Student Success), Feb 2025 to Present
+- Most recent role: Software Engineer at New York University (Global Enrollment Management & Student Success), Feb 2025 to May 2026
 - Previous full-time role: Software Development Engineer at Sainapse, Jul 2022 to May 2024
-- Education now: MS in Computer Science at NYU Tandon (expected May 2026)
+- Graduate education: MS in Computer Science at NYU Tandon (2026)
 - Undergraduate: BE in Computer Science from BITS Pilani (2022)
 - Focus areas: Distributed systems, backend/platform engineering, internal workflow software, applied AI/ML, production-style full-stack systems
 
@@ -40,7 +40,7 @@ Software engineer with 3+ years of experience across distributed systems, data p
 Aditya has built production systems in both enterprise and university settings, including high-volume data infrastructure, internal workflow platforms, and distributed full-stack applications. His work consistently focuses on scalability, reliability, and measurable operational improvement.
 
 ### Detailed summary
-Aditya Jhaveri is a software engineer currently working at NYU's Global Enrollment Management and Student Success team. He builds and modernizes internal workflow software used by campus administrators, combining frontend workflow UX with backend synchronization, reliability, and data operations. Before NYU, he worked as an SDE at Sainapse, where he built and optimized distributed data systems involving Kafka, HDFS, Hive, and large-scale ingestion/transfer pipelines. His recent project work includes Smart Task Manager, a distributed full-stack demo built with Next.js, ASP.NET Core, MongoDB, Redis, Telegram-first messaging, place-linked reminders, and a Python recommendation service, plus Poker AI, a Top 8 NYC Tech Week Hackathon finalist using sealed-state multi-agent simulation. Across roles, his pattern is consistent: identify bottlenecks, design practical architecture changes, and ship improvements with measurable performance or effort gains.
+Aditya Jhaveri is a software engineer whose most recent role was with NYU's Global Enrollment Management and Student Success team through May 2026. He built and modernized internal workflow software used by campus administrators, combining frontend workflow UX with backend synchronization, reliability, and data operations. Before NYU, he worked as an SDE at Sainapse, where he built and optimized distributed data systems involving Kafka, HDFS, Hive, and large-scale ingestion/transfer pipelines. His recent project work includes Smart Task Manager, a distributed full-stack demo built with Next.js, ASP.NET Core, MongoDB, Redis, Telegram-first messaging, place-linked reminders, and a Python recommendation service, plus Poker AI, a Top 8 NYC Tech Week Hackathon finalist using sealed-state multi-agent simulation. Across roles, his pattern is consistent: identify bottlenecks, design practical architecture changes, and ship improvements with measurable performance or effort gains.
 
 ---
 
@@ -74,8 +74,8 @@ Moved into applied ML and geospatial workflows, combining model experimentation 
 ### Sainapse (Software Development Engineer, 2022-2024)
 Transitioned into core software/platform engineering with distributed systems, file transfer optimization, large-scale ingestion infrastructure, and interoperability PoCs.
 
-### NYU GEMSS (Software Developer, 2025-Present)
-Now focused on high-impact internal software modernization and workflow reliability, including ownership of NYU GEMSS's production Asset Management System, AI-assisted migration from Google Apps Script to Node.js/Express, TypeScript, MongoDB, Docker, CI/CD, and MVC REST APIs, plus admin-facing tooling and automation systems.
+### NYU GEMSS (Software Engineer, Feb 2025-May 2026)
+Focused on high-impact internal software modernization and workflow reliability, including ownership of NYU GEMSS's production Asset Management System, AI-assisted migration from Google Apps Script to Node.js/Express, TypeScript, MongoDB, Docker, CI/CD, and MVC REST APIs, plus admin-facing tooling and automation systems.
 
 ---
 
@@ -132,7 +132,7 @@ Yes. He has work authorization through F-1 OPT/STEM OPT terms through June 12, 2
 ## Interview and Recruiter Q&A Bank
 
 ### Tell me about yourself.
-Aditya Jhaveri is a software engineer currently at NYU, where he builds internal workflow software for Global Enrollment Management and Student Success. Before NYU, he worked at Sainapse on distributed systems and large-scale data infrastructure, including Kafka transfer optimization and HDFS/Hive ingestion for billions of records. He is currently completing an MS in Computer Science at NYU Tandon and is strongest in backend/platform engineering, with practical full-stack experience across internal tools and distributed demo products such as Smart Task Manager and Poker AI.
+Aditya Jhaveri is a software engineer whose most recent role was at NYU through May 2026, where he built internal workflow software for Global Enrollment Management and Student Success. Before NYU, he worked at Sainapse on distributed systems and large-scale data infrastructure, including Kafka transfer optimization and HDFS/Hive ingestion for billions of records. He completed an MS in Computer Science at NYU Tandon and is strongest in backend/platform engineering, with practical full-stack experience across internal tools and distributed demo products such as Smart Task Manager and Poker AI.
 
 ### What has changed in his career over time?
 His trajectory moved from analytics and ML-heavy internships into full-time platform engineering, and then into modernization-focused product engineering where he combines systems depth with direct business workflow impact.

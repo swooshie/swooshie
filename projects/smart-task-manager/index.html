@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Task Manager Case Study | Aditya Jhaveri</title>
+    <meta name="description" content="A production-style distributed task manager spanning Next.js, ASP.NET Core, MongoDB, Redis, FastAPI, location-aware reminders, and Telegram workflows.">
+    <meta name="author" content="Aditya Jhaveri">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="canonical" href="https://adityajhaveri.com/projects/smart-task-manager/">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Smart Task Manager Case Study | Aditya Jhaveri">
+    <meta property="og:description" content="Product-aware architecture across web task management, saved places, AI suggestions, and Telegram-first actions.">
+    <meta property="og:url" content="https://adityajhaveri.com/projects/smart-task-manager/">
+    <meta property="og:image" content="https://adityajhaveri.com/images/me.jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/case-study.css">
+    <link rel="stylesheet" href="/assets/site-cursor.css">
+</head>
+<body>
+    <a class="skip-link" href="#case-content">Skip to case study</a>
+    <div class="cursor" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
+
+    <header class="site-header">
+        <div class="nav-shell">
+            <a class="brand" href="/" aria-label="Aditya Jhaveri home">&lt;AJ /&gt;</a>
+            <nav class="site-nav" aria-label="Case study navigation">
+                <a class="home-link" href="/#projects">./work</a>
+                <a href="/#experience">./experience</a>
+                <a href="/#contact">./contact</a>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle matrix theme">
+                    <span id="theme-toggle-text">Modern</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="case-content">
+        <section class="case-hero">
+            <div class="hero-inner">
+                <p class="eyebrow">Case Study 01 / Distributed Product System</p>
+                <h1>Smart Task Manager</h1>
+                <p class="lede">A production-style task platform that connects a web control surface with AI suggestions, saved places, active-browser location checks, and Telegram-first reminder actions.</p>
+                <div class="hero-actions">
+                    <a class="action" href="https://smart-task-manager-ashy.vercel.app/" target="_blank" rel="noopener">Open Live App</a>
+                    <a class="action secondary" href="https://github.com/swooshie/smart-task-manager" target="_blank" rel="noopener">View Repository</a>
+                </div>
+                <div class="metrics" aria-label="Project outcomes">
+                    <div class="metric"><strong>70%</strong><span>Lower recommendation latency using TF-IDF and Redis caching</span></div>
+                    <div class="metric"><strong>3 services</strong><span>Next.js client, ASP.NET Core API, and Python recommendation service</span></div>
+                    <div class="metric"><strong>CI/CD</strong><span>Validation and deployment orchestration across the complete stack</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="content-inner">
+                <div class="section-heading">
+                    <h2>01 / Context</h2>
+                    <div class="section-copy">
+                        <h3>Task CRUD was the starting point, not the engineering goal.</h3>
+                        <p>The project explores what happens when a familiar productivity workflow crosses authentication, persistence, caching, recommendations, maps, location limits, messaging providers, and free-tier deployment constraints.</p>
+                    </div>
+                </div>
+                <div class="detail-columns">
+                    <div class="detail-block">
+                        <h3>Product model</h3>
+                        <p>The web app remains the control surface for organizing tasks and saved places. Messaging becomes the quick-action surface for listing, completing, deleting, or snoozing tasks.</p>
+                    </div>
+                    <div class="detail-block">
+                        <h3>My ownership</h3>
+                        <p>I designed and built the full-stack architecture, including frontend workflows, API orchestration, persistence, caching, recommendation service, reminder decisioning, provider integrations, and CI/CD.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section alt">
+            <div class="content-inner">
+                <div class="section-heading">
+                    <h2>02 / Architecture</h2>
+                    <div class="section-copy">
+                        <h3>Clear ownership boundaries keep optional intelligence from breaking core workflows.</h3>
+                        <p>The .NET API owns identity and task state. The frontend never talks directly to persistence or ML infrastructure, and recommendation failures degrade to safe empty responses.</p>
+                    </div>
+                </div>
+                <div class="architecture" aria-label="Smart Task Manager system flow">
+                    <div class="arch-node"><strong>Next.js</strong><span>Authenticated task UX, saved places, map selection, and optimistic updates</span></div>
+                    <div class="arch-node"><strong>ASP.NET Core</strong><span>JWT, business rules, reminder context, provider dispatch, and service orchestration</span></div>
+                    <div class="arch-node"><strong>MongoDB + Redis</strong><span>Durable task state with cached recommendation responses and snooze context</span></div>
+                    <div class="arch-node"><strong>FastAPI + Telegram</strong><span>TF-IDF suggestions and chat commands for completion or deferral</span></div>
+                </div>
+                <div class="stack-list" aria-label="Technology stack">
+                    <span>Next.js</span><span>TypeScript</span><span>ASP.NET Core</span><span>C#</span><span>MongoDB</span><span>Redis</span><span>FastAPI</span><span>Scikit-learn</span><span>Leaflet</span><span>Telegram Bot API</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="content-inner">
+                <div class="section-heading">
+                    <h2>03 / Decisions</h2>
+                    <div class="section-copy">
+                        <h3>Reliability was prioritized over impressive but fragile claims.</h3>
+                        <p>The deployed system makes its constraints explicit and keeps the main task workflow usable when secondary dependencies are slow or unavailable.</p>
+                    </div>
+                </div>
+                <div class="detail-columns">
+                    <div class="detail-block">
+                        <h3>Location and reminders</h3>
+                        <ul>
+                            <li>Location checks run while the browser dashboard is open and visible rather than claiming native background geofencing.</li>
+                            <li>Nearby tasks linked to the same saved place are grouped into one reminder.</li>
+                            <li>Temporary reminder context ensures chat replies act on the correct task group.</li>
+                        </ul>
+                    </div>
+                    <div class="detail-block">
+                        <h3>Recommendation service</h3>
+                        <ul>
+                            <li>TF-IDF replaced transformer inference in production to reduce startup and memory pressure.</li>
+                            <li>Redis limits repeated computation and improves response consistency.</li>
+                            <li>Retries are scoped to the recommender instead of being applied indiscriminately.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section alt">
+            <div class="content-inner">
+                <div class="section-heading">
+                    <h2>04 / Result</h2>
+                    <div class="section-copy">
+                        <h3>A complete workflow across product and service boundaries.</h3>
+                        <p>A user can authenticate, save a place, attach tasks, report active-browser location, receive a grouped Telegram reminder, and complete or snooze the correct tasks without exposing service boundaries in the experience.</p>
+                    </div>
+                </div>
+                <div class="next-project">
+                    <div><p>Next case study</p><h2>Poker AI</h2></div>
+                    <a class="action secondary" href="/projects/poker-ai/">View Case Study</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">&copy; 2026 Aditya Jhaveri. All rights reserved.</footer>
+    <script src="/assets/site-cursor.js"></script>
+    <script src="/assets/case-study.js"></script>
+</body>
+</html>

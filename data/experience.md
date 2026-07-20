@@ -2,13 +2,15 @@
 
 This document contains detailed work history, key systems built, and interviewer-friendly context. It is structured so follow-up questions can be answered with concrete technical and business detail.
 
+Interactive career timeline: https://adityajhaveri.com/experience/
+
 ---
 
-## Software Developer
+## Software Engineer
 **New York University - Global Enrollment Management & Student Success**
-**Feb 2025 - Present | New York, USA**
+**Feb 2025 - May 2026 | New York, USA**
 
-I work on internal software used by campus administrators for enrollment operations, staff communications, and service workflows. The role combines practical product delivery with backend reliability and process automation.
+I worked on internal software used by campus administrators for enrollment operations, staff communications, and service workflows. The role combined practical product delivery with backend reliability and process automation.
 
 ### Day-to-day scope
 - Design and improve internal SaaS/workflow systems across Google Cloud and VPS-hosted architectures

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker AI Case Study | Aditya Jhaveri</title>
+    <meta name="description" content="A sealed-state multi-agent poker simulation with four LLM agents, isolated memory, offline generation, deterministic replay, and post-hand reasoning reveals.">
+    <meta name="author" content="Aditya Jhaveri">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="canonical" href="https://adityajhaveri.com/projects/poker-ai/">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Poker AI Case Study | Aditya Jhaveri">
+    <meta property="og:description" content="Sealed private state, adversarial reasoning, and a reliable zero-runtime-call hackathon demo.">
+    <meta property="og:url" content="https://adityajhaveri.com/projects/poker-ai/">
+    <meta property="og:image" content="https://adityajhaveri.com/images/me.jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/case-study.css">
+    <link rel="stylesheet" href="/assets/site-cursor.css">
+</head>
+<body>
+    <a class="skip-link" href="#case-content">Skip to case study</a>
+    <div class="cursor" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
+    <header class="site-header">
+        <div class="nav-shell">
+            <a class="brand" href="/" aria-label="Aditya Jhaveri home">&lt;AJ /&gt;</a>
+            <nav class="site-nav" aria-label="Case study navigation">
+                <a class="home-link" href="/#projects">./work</a><a href="/#experience">./experience</a><a href="/#contact">./contact</a>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle matrix theme"><span id="theme-toggle-text">Modern</span></button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="case-content">
+        <section class="case-hero">
+            <div class="hero-inner">
+                <p class="eyebrow">Case Study 02 / Multi-Agent Systems</p>
+                <h1>Poker AI</h1>
+                <p class="lede">A sealed-state Texas Hold'em simulation where four LLM-powered agents reason from private memory, public table state, and distinct behavioral profiles.</p>
+                <div class="hero-actions"><a class="action" href="https://github.com/swooshie/poker-ai" target="_blank" rel="noopener">View Repository</a></div>
+                <div class="metrics" aria-label="Project outcomes">
+                    <div class="metric"><strong>Top 8</strong><span>Finalist among 130 builders at an NYC Tech Week hackathon</span></div>
+                    <div class="metric"><strong>4 agents</strong><span>Independent private state, memory, behavior, and bluff profiles</span></div>
+                    <div class="metric"><strong>0 calls</strong><span>Runtime LLM requests during the live demo playback</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="content-inner">
+                <div class="section-heading">
+                    <h2>01 / Problem</h2>
+                    <div class="section-copy">
+                        <h3>Shared context makes many multi-agent demos less convincing.</h3>
+                        <p>Poker creates a useful adversarial test: each player must know only its own cards and history, infer intent from public actions, and avoid leaking private reasoning until the hand is complete.</p>
+                    </div>
+                </div>
+                <div class="detail-columns">
+                    <div class="detail-block"><h3>Why poker</h3><p>The game makes information boundaries visible. A single leaked card or reasoning trace invalidates the simulation, so agent isolation is part of correctness rather than an implementation detail.</p></div>
+                    <div class="detail-block"><h3>My ownership</h3><p>I designed the agentic graph and backend skeleton, defined behavioral profiles, built the offline generation pipeline, and structured the event log consumed by the playback interface.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section alt">
+            <div class="content-inner">
+                <div class="section-heading">
+                    <h2>02 / Architecture</h2>
+                    <div class="section-copy"><h3>Generate once, validate once, replay reliably.</h3><p>OpenRouter and NVIDIA Nemotron 70B generated a structured event log offline. The React frontend then replayed that log without depending on model latency, quotas, or network conditions during judging.</p></div>
+                </div>
+                <div class="architecture" aria-label="Poker AI system flow">
+                    <div class="arch-node"><strong>Game state</strong><span>Public table data plus sealed hole cards and per-agent memory</span></div>
+                    <div class="arch-node"><strong>Agent graph</strong><span>Four profiles with distinct behavior and bluff rates from 0% to 40%</span></div>
+                    <div class="arch-node"><strong>Event log</strong><span>Offline LLM output serialized into deterministic structured JSON</span></div>
+                    <div class="arch-node"><strong>React replay</strong><span>Action playback, narration, subtitles, and post-hand reasoning reveal</span></div>
+                </div>
+                <div class="stack-list"><span>Python</span><span>React</span><span>OpenRouter</span><span>NVIDIA Nemotron 70B</span><span>ElevenLabs</span><span>JSON</span></div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="content-inner">
+                <div class="section-heading">
+                    <h2>03 / Decisions</h2>
+                    <div class="section-copy"><h3>The demo architecture optimized for judging reliability without hiding the AI work.</h3><p>Pre-generation removed runtime uncertainty while a post-hand reveal preserved the most interesting artifact: how each agent interpreted the same public game from different private information.</p></div>
+                </div>
+                <div class="detail-columns">
+                    <div class="detail-block">
+                        <h3>Sealed information</h3>
+                        <ul><li>Each agent sees its own hole cards, its own history, and public table state.</li><li>No agent receives another player's private reasoning.</li><li>Reasoning appears only after the hand concludes.</li></ul>
+                    </div>
+                    <div class="detail-block">
+                        <h3>Explainable playback</h3>
+                        <ul><li>Reasoning is tagged with BLUFF, TRAP, HERO_CALL, TILT, and OPTIMAL_FOLD.</li><li>ElevenLabs narration provides one audio file per action.</li><li>Subtitles remain available when audio playback fails.</li></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section alt">
+            <div class="content-inner">
+                <div class="section-heading"><h2>04 / Result</h2><div class="section-copy"><h3>A deterministic demo of a nondeterministic system.</h3><p>The final experience preserved agent isolation and visible reasoning while making zero runtime LLM calls, helping the project finish as a Top 8 finalist among 130 builders.</p></div></div>
+                <div class="next-project"><div><p>Next case study</p><h2>Market Data Service</h2></div><a class="action secondary" href="/projects/market-data-service/">View Case Study</a></div>
+            </div>
+        </section>
+    </main>
+    <footer class="site-footer">&copy; 2026 Aditya Jhaveri. All rights reserved.</footer>
+    <script src="/assets/site-cursor.js"></script>
+    <script src="/assets/case-study.js"></script>
+</body>
+</html>

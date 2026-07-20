@@ -261,7 +261,7 @@ const bindCardMotion = () => {
 const runAmbientMotion = () => {
     if (!canUseAnimeMotion) return;
 
-    animeAnimate('.journey-planet-dot, .journey-moon-dot', {
+    animeAnimate('.journey-planet-dot', {
         scale: [1, 1.05],
         duration: 1800,
         delay: animeStagger ? animeStagger(180) : 0,
@@ -645,7 +645,7 @@ runIntroMotion();
 bindMagneticButtons();
 bindCardMotion();
 runAmbientMotion();
-const supportsCustomCursor = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+const supportsCustomCursor = !window.siteCursorInitialized && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 let cursor = null;
 const trailCount = 8; // number of trail dots
 const trails = [];
@@ -727,7 +727,7 @@ if (supportsCustomCursor) {
         area.addEventListener('mouseenter', hideCustomCursor);
         area.addEventListener('mouseleave', showCustomCursor);
     });
-} else {
+} else if (!window.siteCursorInitialized) {
     document.body.classList.add('native-cursor');
 }
 
@@ -1180,8 +1180,8 @@ const journeyTriggers = document.querySelectorAll("[data-journey-target]");
 if (journeyMapHint) {
     const prefersTapHint = !window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     journeyMapHint.textContent = prefersTapHint
-        ? "Tap a ring or planet to inspect that phase."
-        : "Hover a ring or planet to inspect that phase.";
+        ? "Tap a ring or planet to enter that phase."
+        : "Hover to inspect. Select to enter that phase.";
 }
 
 const journeyData = {
@@ -1246,26 +1246,26 @@ const journeyData = {
         tags: ["Kafka", "HDFS", "Platform Engineering"]
     },
     nyu: {
-        kicker: "Mission Console / Current Orbit",
+        kicker: "Mission Console / Graduate Orbit",
         title: "NYU",
-        subtitle: "2024 - Now | Graduate study plus internal software delivery",
-        copy: "NYU combines two layers at once: graduate-level computer science study and hands-on internal product work through GEMSS, where the focus shifted toward workflow modernization, operational software, and full-stack delivery.",
+        subtitle: "2024 - 2026 | Graduate study plus internal software delivery",
+        copy: "The NYU phase combined graduate-level computer science study with hands-on internal product work through GEMSS, where the focus shifted toward workflow modernization, operational software, and full-stack delivery.",
         bullets: [
-            "Graduate coursework expands the systems and applied CS foundation.",
-            "GEMSS role adds internal product delivery, modernization, and workflow reliability work.",
-            "This is the current orbit where education and practical product engineering overlap directly."
+            "Graduate coursework expanded the systems and applied CS foundation.",
+            "The GEMSS role added internal product delivery, modernization, and workflow reliability work.",
+            "This phase is where education and practical product engineering overlapped directly."
         ],
         tags: ["MS CS", "GEMSS", "Workflow Modernization"]
     },
     gemss: {
-        kicker: "Mission Console / Moon Orbit",
+        kicker: "Mission Console / Completed Role",
         title: "GEMSS",
-        subtitle: "NYU role | Internal software delivery",
-        copy: "GEMSS is the hands-on operational moon around the NYU phase. It is where the graduate study layer meets real internal software delivery, workflow improvement, and admin-facing tools.",
+        subtitle: "Feb 2025 - May 2026 | Software Engineer",
+        copy: "GEMSS was the hands-on operational moon around the NYU phase, where graduate study overlapped with internal software delivery, workflow improvement, and admin-facing tools.",
         bullets: [
-            "Builds internal software for enrollment and student success operations.",
-            "Focuses on workflow reliability, process modernization, and full-stack delivery.",
-            "Represents the practical execution layer orbiting the broader NYU stage."
+            "Built internal software for enrollment and student success operations.",
+            "Focused on workflow reliability, process modernization, and full-stack delivery.",
+            "Represented the practical execution layer orbiting the broader NYU stage."
         ],
         tags: ["Internal Tools", "Workflow Ops", "SaaS Delivery"]
     }
@@ -1276,6 +1276,87 @@ if (journeyConsole && journeyTitle && journeyTriggers.length) {
     const journeyStages = document.querySelectorAll(".journey-stage");
     const journeyMoonGroups = document.querySelectorAll(".journey-moon-group");
     const defaultJourneyTarget = "profile";
+    const journeyVisuals = {
+        bits: ".journey-planet-dot.bits",
+        paypal: ".journey-moon-dot.paypal",
+        aidash: ".journey-moon-dot.aidash",
+        sainapse: ".journey-planet-dot.sainapse",
+        nyu: ".journey-planet-dot.nyu",
+        gemss: ".journey-moon-dot.gemss"
+    };
+    const journeyFlightPalettes = {
+        bits: ["#b51f2e", "#f2b134"],
+        paypal: ["#1769aa", "#f7fbff"],
+        aidash: ["#082b62", "#2f80ed"],
+        sainapse: ["#149f91", "#8af3dc"],
+        nyu: ["#57068c", "#9a55c7"],
+        gemss: ["#7137a8", "#f4efff"]
+    };
+    let orbitTransitioning = false;
+
+    const prefetchCareerOrbit = () => {
+        if (document.querySelector('link[data-career-orbit-prefetch]')) return;
+        const link = document.createElement("link");
+        link.rel = "prefetch";
+        link.href = "/experience/";
+        link.dataset.careerOrbitPrefetch = "true";
+        document.head.appendChild(link);
+    };
+
+    const enterCareerOrbit = (key) => {
+        if (orbitTransitioning || !journeyData[key]) return;
+        orbitTransitioning = true;
+        const destination = `/experience/?focus=${encodeURIComponent(key)}`;
+        try {
+            sessionStorage.setItem("career-orbit-transition", JSON.stringify({ key, startedAt: Date.now() }));
+        } catch (error) {
+            // Navigation remains functional when storage is unavailable.
+        }
+
+        if (prefersReducedMotion || !journeyMap) {
+            window.location.assign(destination);
+            return;
+        }
+
+        prefetchCareerOrbit();
+        const visualTarget = journeyMap.querySelector(journeyVisuals[key]);
+        if (!visualTarget) {
+            window.location.assign(destination);
+            return;
+        }
+
+        const mapRect = journeyMap.getBoundingClientRect();
+        const targetRect = visualTarget.getBoundingClientRect();
+        const originX = ((targetRect.left + targetRect.width / 2 - mapRect.left) / mapRect.width) * 100;
+        const originY = ((targetRect.top + targetRect.height / 2 - mapRect.top) / mapRect.height) * 100;
+        const targetSize = Math.max(targetRect.width, targetRect.height, 8);
+        const flightEndSize = Math.hypot(window.innerWidth, window.innerHeight) * 1.2;
+        const palette = journeyFlightPalettes[key];
+        const flight = document.createElement("div");
+        flight.className = "orbit-flight";
+        flight.setAttribute("aria-hidden", "true");
+        flight.style.setProperty("--flight-start-x", `${targetRect.left + targetRect.width / 2}px`);
+        flight.style.setProperty("--flight-start-y", `${targetRect.top + targetRect.height / 2}px`);
+        flight.style.setProperty("--flight-start-size", `${targetSize}px`);
+        flight.style.setProperty("--flight-end-size", `${flightEndSize}px`);
+        flight.style.setProperty("--flight-primary", palette[0]);
+        flight.style.setProperty("--flight-secondary", palette[1]);
+        flight.innerHTML = '<span class="orbit-flight-body"></span>';
+        document.body.appendChild(flight);
+        const carrier = visualTarget.closest(".journey-moon-carrier");
+        if (carrier) carrier.style.animationPlayState = "paused";
+        visualTarget.classList.add("orbit-transition-target");
+        journeyMap.style.setProperty("--orbit-origin-x", `${originX}%`);
+        journeyMap.style.setProperty("--orbit-origin-y", `${originY}%`);
+        journeyMap.classList.add("orbit-transition");
+        document.body.classList.add("orbit-departing");
+        flight.getBoundingClientRect();
+        requestAnimationFrame(() => {
+            flight.classList.add("active");
+            journeyMap.classList.add("orbit-transition-active");
+        });
+        window.setTimeout(() => window.location.assign(destination), 800);
+    };
 
     const renderJourney = (key) => {
         const details = journeyData[key];
@@ -1329,11 +1410,18 @@ if (journeyConsole && journeyTitle && journeyTriggers.length) {
         if (!key) return;
 
         trigger.addEventListener("mouseenter", () => renderJourney(key));
+        trigger.addEventListener("mouseenter", prefetchCareerOrbit, { once: true });
         trigger.addEventListener("focus", () => renderJourney(key));
+        trigger.addEventListener("focus", prefetchCareerOrbit, { once: true });
+        trigger.addEventListener("click", (event) => {
+            event.stopPropagation();
+            enterCareerOrbit(key);
+        });
         trigger.addEventListener("keydown", (event) => {
             if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
-                renderJourney(key);
+                event.stopPropagation();
+                enterCareerOrbit(key);
             }
         });
     });

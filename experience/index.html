@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Orbit | Aditya Jhaveri</title>
+    <meta name="description" content="Explore Aditya Jhaveri's education and software engineering experience through an interactive 3D career orbit.">
+    <meta name="author" content="Aditya Jhaveri">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#050a12">
+    <link rel="canonical" href="https://adityajhaveri.com/experience/">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="Career Orbit | Aditya Jhaveri">
+    <meta property="og:description" content="An interactive 3D timeline of education, internships, and production engineering work.">
+    <meta property="og:url" content="https://adityajhaveri.com/experience/">
+    <meta property="og:image" content="https://adityajhaveri.com/images/me.jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/career-orbit.css">
+    <link rel="stylesheet" href="/assets/site-cursor.css">
+</head>
+<body>
+    <script>
+        (() => {
+            const arrivals = {
+                bits: ["BITS Pilani", "#b51f2e", "#f2b134"],
+                paypal: ["PayPal", "#1769aa", "#f7fbff"],
+                aidash: ["AiDash", "#082b62", "#2f80ed"],
+                sainapse: ["Sainapse", "#149f91", "#8af3dc"],
+                nyu: ["NYU Tandon", "#57068c", "#9a55c7"],
+                gemss: ["NYU GEMSS", "#7137a8", "#f4efff"]
+            };
+            try {
+                const stored = JSON.parse(sessionStorage.getItem("career-orbit-transition") || "null");
+                const arrival = stored && arrivals[stored.key];
+                if (!arrival || Date.now() - stored.startedAt > 6000) return;
+                document.body.dataset.orbitArrival = stored.key;
+                document.body.classList.add("orbit-arriving");
+                document.body.style.setProperty("--arrival-primary", arrival[1]);
+                document.body.style.setProperty("--arrival-secondary", arrival[2]);
+                window.addEventListener("DOMContentLoaded", () => {
+                    const label = document.getElementById("orbit-arrival-label");
+                    if (label) label.textContent = arrival[0];
+                });
+                sessionStorage.removeItem("career-orbit-transition");
+            } catch (error) {
+                // The career page remains usable when session storage is unavailable.
+            }
+        })();
+    </script>
+    <a class="skip-link" href="#career-panel">Skip to career details</a>
+    <div class="cursor" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
+    <div class="orbit-arrival" id="orbit-arrival" aria-hidden="true">
+        <strong id="orbit-arrival-label"></strong>
+    </div>
+
+    <header class="orbit-header">
+        <a class="orbit-brand" href="/" aria-label="Aditya Jhaveri home">&lt;AJ /&gt;</a>
+        <div class="orbit-header-meta">
+            <span>Career Orbit</span>
+            <span class="system-state"><i></i> System online</span>
+        </div>
+        <nav aria-label="Career orbit navigation">
+            <a href="/#about">Overview</a>
+            <a href="/#projects">Projects</a>
+            <a href="/#contact">Contact</a>
+        </nav>
+        <button class="orbit-theme" id="orbit-theme" type="button" aria-pressed="false" aria-label="Toggle matrix theme">
+            <span id="orbit-theme-label">Modern</span>
+        </button>
+    </header>
+
+    <main class="career-stage" id="career-stage">
+        <div class="canvas-shell" id="career-canvas" aria-label="Interactive 3D career timeline"></div>
+        <div class="scene-vignette" aria-hidden="true"></div>
+        <div class="world-label-layer" id="world-label-layer" aria-hidden="true"></div>
+
+        <section class="orbit-title" aria-labelledby="orbit-heading">
+            <p>Mission Archive / 2018 - 2026</p>
+            <h1 id="orbit-heading">Career Orbit</h1>
+            <span id="orbit-status">Six connected phases across education, analytics, ML, platforms, and internal software.</span>
+        </section>
+
+        <aside class="timeline-dock" aria-label="Career timeline">
+            <p class="dock-label">Timeline</p>
+            <div class="timeline-list" id="timeline-list"></div>
+        </aside>
+
+        <div class="scene-readout" aria-live="polite">
+            <span id="scene-year">2018 - 2026</span>
+            <strong id="scene-label">Engineering trajectory</strong>
+        </div>
+
+        <div class="loading-state" id="loading-state" role="status">Initializing career system...</div>
+
+        <aside class="career-panel" id="career-panel" aria-hidden="true" aria-labelledby="panel-title">
+            <div class="panel-command-bar">
+                <button type="button" class="back-command" id="orbit-back">&larr; Back to orbit</button>
+                <button type="button" class="close-command" id="orbit-close" aria-label="Close career details">&times;</button>
+            </div>
+            <div class="panel-scroll">
+                <p class="panel-kicker" id="panel-kicker"></p>
+                <h2 id="panel-title"></h2>
+                <p class="panel-role" id="panel-role"></p>
+                <p class="panel-summary" id="panel-summary"></p>
+                <div class="panel-metrics" id="panel-metrics"></div>
+                <section class="panel-section">
+                    <h3>Mission impact</h3>
+                    <ul id="panel-highlights"></ul>
+                </section>
+                <section class="panel-section">
+                    <h3>Systems and tools</h3>
+                    <div class="panel-stack" id="panel-stack"></div>
+                </section>
+            </div>
+        </aside>
+
+        <div class="fallback-system" id="fallback-system" hidden>
+            <p>The 3D renderer is unavailable. Career details remain accessible from the timeline.</p>
+        </div>
+    </main>
+
+    <script src="/assets/site-cursor.js"></script>
+    <script type="module" src="/assets/career-orbit.js"></script>
+</body>
+</html>

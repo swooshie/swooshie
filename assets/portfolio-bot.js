@@ -30,6 +30,7 @@
   const BOT_MEDITATION_MESSAGE = "Chat bot is under meditation right now. Please try again later.";
 
   const host = document.createElement("div");
+  host.id = "portfolio-bot-host";
   host.style.position = "fixed";
   host.style.bottom = "18px";
   host.style.right = "18px";

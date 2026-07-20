@@ -58,6 +58,7 @@ Next.js, TypeScript, Tailwind CSS, Framer Motion, Leaflet, OpenStreetMap, Nomina
 ### Links
 - Repo: https://github.com/swooshie/smart-task-manager
 - Live app: https://smart-task-manager-ashy.vercel.app/
+- Portfolio case study: https://adityajhaveri.com/projects/smart-task-manager/
 
 ---
 
@@ -101,6 +102,7 @@ Python, React, JavaScript, OpenRouter, NVIDIA Nemotron 70B, ElevenLabs, JSON
 
 ### Links
 - Repo: https://github.com/swooshie/poker-ai
+- Portfolio case study: https://adityajhaveri.com/projects/poker-ai/
 
 ---
 
@@ -225,7 +227,7 @@ A working portfolio assistant that answers from structured markdown context abou
 ---
 
 ## NYU Workflow Modernization (Apps Script/Sheets to Node.js/Express + MongoDB Atlas, Agent-AI Workflow Direction)
-**Context:** Ongoing modernization work at NYU GEMSS
+**Context:** Modernization work delivered during Aditya's NYU GEMSS Software Engineer role, Feb 2025-May 2026
 
 ### Business problem
 The legacy Google Apps Script Asset Management System (AMS) page, used by NYU Admissions managers to monitor staff, corporate devices, accessories, shipping, and department operations, became increasingly slow as Google Sheets volume, rows/columns, and sheet count grew.
@@ -265,9 +267,34 @@ JavaScript/TypeScript, Node.js, Express, MongoDB Atlas, HTML/CSS, Google Apps Sc
 Secure code execution API with strict isolation controls and cloud-ready deployment.
 Repo: https://github.com/swooshie/python-executor
 
-### Market Data Microservice
-Event-driven microservice for market data ingestion and analytics-ready processing.
-Repo: https://github.com/swooshie/market-data-microservice
+## Market Data Microservice
+**Context:** Production-style backend assessment demo for market data ingestion and analytics-ready processing
+
+#### What I built
+- FastAPI service for controlled quote polling, latest-price reads, and moving-average endpoints
+- Kafka event publishing and consumption to decouple ingestion from downstream processing
+- Redis caching for low-latency current reads
+- PostgreSQL persistence for raw and processed market records
+- Docker Compose environment for reproducible application and dependency setup
+- SlowAPI request limits plus pytest coverage for synchronous and asynchronous routes
+- GitHub Actions workflow for automated tests and Docker validation
+
+#### Architecture and tradeoffs
+- External quotes enter through a controlled polling path rather than being mixed into request handling
+- Kafka separates ingestion from consumers and derived processing
+- Redis serves hot latest-price reads while PostgreSQL preserves durable history and traceability
+- Containers and CI make the assessment reproducible for reviewers instead of requiring manually assembled infrastructure
+
+#### Outcome
+- Increased processing scalability by approximately 40% in the final design
+- Reduced average API response time by approximately 25%
+- Demonstrated event streaming, cache strategy, durable persistence, API design, rate limiting, containers, testing, and CI as one coherent backend workflow
+
+#### Links
+- Repo: https://github.com/swooshie/market-data-microservice
+- Portfolio case study: https://adityajhaveri.com/projects/market-data-service/
+
+## Additional Technical Projects (continued)
 
 ### Computer Vision Portfolio (CS-GY 6643)
 Coursework portfolio spanning restoration, segmentation, tracking, multimodal workflows, and geolocation.

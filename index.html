@@ -25,6 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/site-cursor.css">
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -1405,6 +1406,98 @@
             line-height: 1.2;
         }
 
+        .experience-preview-intro {
+            max-width: 760px;
+            margin: 0 auto 34px;
+            color: var(--text-muted);
+            font-size: 17px;
+            line-height: 1.75;
+            text-align: center;
+        }
+
+        .experience-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .experience-preview-card {
+            display: flex;
+            flex-direction: column;
+            min-height: 410px;
+            padding: 26px;
+        }
+
+        .experience-preview-copy {
+            margin: 0 0 20px;
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        .experience-preview-impact {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding: 14px 0;
+            border-top: 1px solid rgba(var(--accent-rgb), 0.18);
+            border-bottom: 1px solid rgba(var(--accent-rgb), 0.18);
+        }
+
+        .experience-preview-impact strong {
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 27px;
+        }
+
+        .experience-preview-impact span {
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .experience-preview-card .tech-stack {
+            margin-bottom: 22px;
+        }
+
+        .experience-orbit-link {
+            width: fit-content;
+            margin-top: auto;
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .experience-orbit-link::after {
+            content: "  ->";
+        }
+
+        .experience-orbit-link:hover,
+        .experience-orbit-link:focus-visible {
+            text-decoration: underline;
+            text-underline-offset: 5px;
+        }
+
+        .experience-launch {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 820px) {
+            .experience-preview-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-preview-card {
+                min-height: 0;
+            }
+        }
+
         .projects-lead {
             max-width: 760px;
             margin: 0 auto 36px auto;
@@ -1509,6 +1602,46 @@
             overflow: hidden;
             background: rgba(255, 255, 255, 0.55);
             border: 1px solid rgba(var(--accent-rgb), 0.14);
+        }
+
+        .project-case-map {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            padding: 18px;
+            border: 1px solid rgba(var(--accent-rgb), 0.16);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.48);
+        }
+
+        .project-case-map span {
+            position: relative;
+            display: flex;
+            align-items: center;
+            min-height: 44px;
+            padding: 9px 10px 9px 28px;
+            border: 1px solid rgba(var(--accent-rgb), 0.16);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 11px;
+        }
+
+        .project-case-map span::before {
+            content: "";
+            position: absolute;
+            left: 11px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.35);
+        }
+
+        body.theme-matrix .project-case-map,
+        body.theme-matrix .project-case-map span {
+            background: rgba(10, 10, 10, 0.72);
         }
 
         .project-visual-shape::before,
@@ -2057,17 +2190,103 @@
             z-index: 1;
         }
 
+        .journey-map.orbit-transition {
+            z-index: 2;
+        }
+
+        .journey-map.orbit-transition .journey-map-svg {
+            transform-origin: var(--orbit-origin-x) var(--orbit-origin-y);
+            transition: transform 0.82s cubic-bezier(0.76, 0, 0.24, 1), filter 0.55s ease, opacity 0.45s ease;
+        }
+
+        .journey-map.orbit-transition-active .journey-map-svg {
+            transform: scale(1.35);
+            filter: saturate(0.72) brightness(0.34);
+            opacity: 0.28;
+        }
+
+        .journey-map.orbit-transition-active .journey-map-hint { opacity: 0; }
+
+        body.orbit-departing { overflow: hidden; }
+
+        #portfolio-bot-host {
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+
+        body.orbit-departing #portfolio-bot-host {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .journey-map.orbit-transition-active .journey-planet-dot:not(.orbit-transition-target),
+        .journey-map.orbit-transition-active .journey-moon-dot:not(.orbit-transition-target) {
+            opacity: 0.22;
+        }
+
+        .journey-map .orbit-transition-target {
+            filter: url(#journey-moon-glow) brightness(1.28) saturate(1.2);
+        }
+
+        .orbit-flight {
+            position: fixed;
+            inset: 0;
+            z-index: 9990;
+            overflow: hidden;
+            pointer-events: none;
+            background: transparent;
+        }
+
+        .orbit-flight::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            background-image:
+                radial-gradient(circle at 14% 18%, rgba(255,255,255,0.78) 0 1px, transparent 1.5px),
+                radial-gradient(circle at 73% 24%, rgba(188,212,255,0.7) 0 1px, transparent 1.5px),
+                radial-gradient(circle at 88% 67%, rgba(255,255,255,0.64) 0 1px, transparent 1.5px),
+                radial-gradient(circle at 32% 82%, rgba(188,212,255,0.58) 0 1px, transparent 1.5px);
+            transition: opacity 0.38s ease;
+        }
+
+        .orbit-flight-body {
+            position: absolute;
+            left: var(--flight-start-x);
+            top: var(--flight-start-y);
+            width: var(--flight-start-size);
+            height: var(--flight-start-size);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: radial-gradient(circle at 32% 28%, var(--flight-secondary), var(--flight-primary) 62%, color-mix(in srgb, var(--flight-primary) 62%, #000));
+            transform: translate(-50%, -50%);
+            transition:
+                left 0.82s cubic-bezier(0.76, 0, 0.24, 1),
+                top 0.82s cubic-bezier(0.76, 0, 0.24, 1),
+                width 0.82s cubic-bezier(0.76, 0, 0.24, 1),
+                height 0.82s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        .orbit-flight.active::before { opacity: 0.72; }
+
+        .orbit-flight.active .orbit-flight-body {
+            left: 50%;
+            top: 50%;
+            width: var(--flight-end-size);
+            height: var(--flight-end-size);
+        }
+
         .journey-sun-body {
             fill: url(#journey-sun-gradient);
             filter: url(#journey-sun-glow);
         }
 
         .journey-sun-halo {
-            fill: rgba(249, 115, 22, 0.08);
+            fill: rgba(255, 179, 43, 0.1);
         }
 
         .journey-sun-label {
-            fill: var(--accent-color);
+            fill: #ff9d2e;
             font-size: 11px;
             letter-spacing: 0.08em;
             text-transform: uppercase;
@@ -2075,16 +2294,27 @@
         }
 
         .journey-stage {
-            cursor: pointer;
+            cursor: inherit;
         }
+
+        .journey-stage.stage-bits { --journey-stage-rgb: 181, 31, 46; }
+        .journey-stage.stage-sainapse { --journey-stage-rgb: 20, 159, 145; }
+        .journey-stage.stage-nyu { --journey-stage-rgb: 87, 6, 140; }
+        .journey-moon-group[data-journey-target="paypal"] { --journey-moon-rgb: 23, 105, 170; }
+        .journey-moon-group[data-journey-target="aidash"] { --journey-moon-rgb: 47, 128, 237; }
+        .journey-moon-group[data-journey-target="gemss"] { --journey-moon-rgb: 113, 55, 168; }
 
         .journey-stage:focus-visible {
             outline: none;
         }
 
+        .journey-stage .journey-moon-group:focus-visible {
+            outline: none;
+        }
+
         .journey-stage .journey-orbit {
             fill: none;
-            stroke: rgba(var(--accent-rgb), 0.18);
+            stroke: rgba(var(--journey-stage-rgb), 0.28);
             stroke-width: 1.8;
             transition: stroke 0.25s ease, stroke-width 0.25s ease, filter 0.25s ease;
         }
@@ -2118,7 +2348,7 @@
 
         .journey-stage .journey-moon-orbit {
             fill: none;
-            stroke: rgba(var(--accent-rgb), 0.18);
+            stroke: rgba(var(--journey-moon-rgb), 0.34);
             stroke-width: 1.2;
         }
 
@@ -2129,7 +2359,36 @@
         }
 
         .journey-stage .journey-moon-group {
-            cursor: pointer;
+            cursor: inherit;
+        }
+
+        .journey-stage .journey-moon-carrier {
+            transform-box: view-box;
+            will-change: transform;
+        }
+
+        .journey-stage .paypal-carrier {
+            transform-origin: 280px 398px;
+            animation: journey-moon-clockwise 10s linear infinite;
+        }
+
+        .journey-stage .aidash-carrier {
+            transform-origin: 280px 398px;
+            animation: journey-moon-counterclockwise 13s linear infinite;
+        }
+
+        .journey-stage .gemss-carrier {
+            transform-origin: 562px 420px;
+            animation: journey-moon-clockwise 12s linear infinite;
+        }
+
+        @keyframes journey-moon-clockwise {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes journey-moon-counterclockwise {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
         }
 
         .journey-stage .journey-moon-dot {
@@ -2137,15 +2396,15 @@
         }
 
         .journey-stage .journey-moon-dot.paypal {
-            fill: #7dd3fc;
+            fill: url(#planet-paypal);
         }
 
         .journey-stage .journey-moon-dot.aidash {
-            fill: #facc15;
+            fill: url(#planet-aidash);
         }
 
         .journey-stage .journey-moon-dot.gemss {
-            fill: #f9a8d4;
+            fill: url(#planet-gemss);
         }
 
         .journey-stage .journey-stage-label {
@@ -2155,9 +2414,9 @@
         .journey-stage.active .journey-orbit,
         .journey-stage:hover .journey-orbit,
         .journey-stage:focus-visible .journey-orbit {
-            stroke: rgba(var(--accent-rgb), 0.44);
+            stroke: rgba(var(--journey-stage-rgb), 0.62);
             stroke-width: 2.4;
-            filter: drop-shadow(0 0 10px rgba(var(--accent-rgb), 0.18));
+            filter: drop-shadow(0 0 10px rgba(var(--journey-stage-rgb), 0.22));
         }
 
         .journey-stage.active .journey-planet-dot,
@@ -2169,14 +2428,14 @@
         .journey-stage.active .journey-moon-orbit,
         .journey-stage:hover .journey-moon-orbit,
         .journey-stage:focus-visible .journey-moon-orbit {
-            stroke: rgba(var(--accent-rgb), 0.26);
+            stroke: rgba(var(--journey-moon-rgb), 0.44);
         }
 
         .journey-stage .journey-moon-group.active .journey-moon-orbit,
         .journey-stage .journey-moon-group:hover .journey-moon-orbit,
         .journey-stage .journey-moon-group:focus-visible .journey-moon-orbit {
-            stroke: rgba(var(--accent-rgb), 0.42);
-            filter: drop-shadow(0 0 8px rgba(var(--accent-rgb), 0.16));
+            stroke: rgba(var(--journey-moon-rgb), 0.68);
+            filter: drop-shadow(0 0 8px rgba(var(--journey-moon-rgb), 0.22));
         }
 
         .journey-stage .journey-moon-group.active .journey-moon-dot,
@@ -4113,26 +4372,43 @@
                             <svg class="journey-map-svg" viewBox="0 0 900 580" aria-hidden="true">
                                 <defs>
                                     <radialGradient id="journey-sun-gradient" cx="50%" cy="50%">
-                                        <stop offset="0%" stop-color="#fff7ed"></stop>
-                                        <stop offset="18%" stop-color="#fde68a"></stop>
-                                        <stop offset="52%" stop-color="#f59e0b"></stop>
-                                        <stop offset="100%" stop-color="#ea580c"></stop>
+                                        <stop offset="0%" stop-color="#fffff0"></stop>
+                                        <stop offset="28%" stop-color="#fff7a8"></stop>
+                                        <stop offset="68%" stop-color="#ffb32b"></stop>
+                                        <stop offset="100%" stop-color="#ff7418"></stop>
                                     </radialGradient>
                                     <radialGradient id="planet-bits" cx="32%" cy="28%">
-                                        <stop offset="0%" stop-color="#f8fbff"></stop>
-                                        <stop offset="34%" stop-color="#4f91c9"></stop>
-                                        <stop offset="72%" stop-color="#0066ac"></stop>
-                                        <stop offset="100%" stop-color="#004b7d"></stop>
+                                        <stop offset="0%" stop-color="#fff5c4"></stop>
+                                        <stop offset="34%" stop-color="#f2b134"></stop>
+                                        <stop offset="72%" stop-color="#b51f2e"></stop>
+                                        <stop offset="100%" stop-color="#6f101d"></stop>
                                     </radialGradient>
                                     <radialGradient id="planet-sainapse" cx="32%" cy="28%">
-                                        <stop offset="0%" stop-color="#dcfce7"></stop>
-                                        <stop offset="38%" stop-color="#86efac"></stop>
-                                        <stop offset="100%" stop-color="#16a34a"></stop>
+                                        <stop offset="0%" stop-color="#eafffa"></stop>
+                                        <stop offset="38%" stop-color="#8af3dc"></stop>
+                                        <stop offset="76%" stop-color="#149f91"></stop>
+                                        <stop offset="100%" stop-color="#087368"></stop>
                                     </radialGradient>
                                     <radialGradient id="planet-nyu" cx="32%" cy="28%">
-                                        <stop offset="0%" stop-color="#ede9fe"></stop>
-                                        <stop offset="38%" stop-color="#c4b5fd"></stop>
-                                        <stop offset="100%" stop-color="#7c3aed"></stop>
+                                        <stop offset="0%" stop-color="#f4efff"></stop>
+                                        <stop offset="38%" stop-color="#9a55c7"></stop>
+                                        <stop offset="76%" stop-color="#57068c"></stop>
+                                        <stop offset="100%" stop-color="#360054"></stop>
+                                    </radialGradient>
+                                    <radialGradient id="planet-paypal" cx="32%" cy="28%">
+                                        <stop offset="0%" stop-color="#f7fbff"></stop>
+                                        <stop offset="42%" stop-color="#70bfff"></stop>
+                                        <stop offset="100%" stop-color="#1769aa"></stop>
+                                    </radialGradient>
+                                    <radialGradient id="planet-aidash" cx="32%" cy="28%">
+                                        <stop offset="0%" stop-color="#d7e9ff"></stop>
+                                        <stop offset="42%" stop-color="#2f80ed"></stop>
+                                        <stop offset="100%" stop-color="#082b62"></stop>
+                                    </radialGradient>
+                                    <radialGradient id="planet-gemss" cx="32%" cy="28%">
+                                        <stop offset="0%" stop-color="#f4efff"></stop>
+                                        <stop offset="44%" stop-color="#d8c3ef"></stop>
+                                        <stop offset="100%" stop-color="#7137a8"></stop>
                                     </radialGradient>
                                     <filter id="journey-sun-glow" x="-60%" y="-60%" width="220%" height="220%">
                                         <feGaussianBlur stdDeviation="14" result="blur"></feGaussianBlur>
@@ -4142,13 +4418,13 @@
                                         </feMerge>
                                     </filter>
                                     <filter id="planet-bits-glow" x="-60%" y="-60%" width="220%" height="220%">
-                                        <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#0066ac" flood-opacity="0.34"></feDropShadow>
+                                        <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#b51f2e" flood-opacity="0.34"></feDropShadow>
                                     </filter>
                                     <filter id="planet-sainapse-glow" x="-60%" y="-60%" width="220%" height="220%">
-                                        <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#22c55e" flood-opacity="0.32"></feDropShadow>
+                                        <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#149f91" flood-opacity="0.32"></feDropShadow>
                                     </filter>
                                     <filter id="planet-nyu-glow" x="-60%" y="-60%" width="220%" height="220%">
-                                        <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#7c3aed" flood-opacity="0.3"></feDropShadow>
+                                        <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#57068c" flood-opacity="0.3"></feDropShadow>
                                     </filter>
                                     <filter id="journey-moon-glow" x="-80%" y="-80%" width="260%" height="260%">
                                         <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#ffffff" flood-opacity="0.32"></feDropShadow>
@@ -4166,16 +4442,14 @@
                                     <g class="journey-moon-group" data-journey-target="paypal" tabindex="0" role="button" aria-label="PayPal internship">
                                         <circle class="journey-moon-orbit" cx="280" cy="398" r="76"></circle>
                                         <circle class="journey-moon-hit" cx="280" cy="398" r="76"></circle>
-                                        <g>
-                                            <animateTransform attributeName="transform" type="rotate" from="0 280 398" to="360 280 398" dur="10s" repeatCount="indefinite"></animateTransform>
+                                        <g class="journey-moon-carrier paypal-carrier">
                                             <circle class="journey-moon-dot paypal" cx="280" cy="322" r="8"></circle>
                                         </g>
                                     </g>
                                     <g class="journey-moon-group" data-journey-target="aidash" tabindex="0" role="button" aria-label="AiDash internship">
                                         <circle class="journey-moon-orbit" cx="280" cy="398" r="102"></circle>
                                         <circle class="journey-moon-hit" cx="280" cy="398" r="102"></circle>
-                                        <g>
-                                            <animateTransform attributeName="transform" type="rotate" from="360 280 398" to="0 280 398" dur="13s" repeatCount="indefinite"></animateTransform>
+                                        <g class="journey-moon-carrier aidash-carrier">
                                             <circle class="journey-moon-dot aidash" cx="280" cy="296" r="9"></circle>
                                         </g>
                                     </g>
@@ -4194,8 +4468,7 @@
                                     <g class="journey-moon-group" data-journey-target="gemss" tabindex="0" role="button" aria-label="NYU GEMSS role">
                                         <circle class="journey-moon-orbit" cx="562" cy="420" r="84"></circle>
                                         <circle class="journey-moon-hit" cx="562" cy="420" r="84"></circle>
-                                        <g>
-                                            <animateTransform attributeName="transform" type="rotate" from="0 562 420" to="360 562 420" dur="12s" repeatCount="indefinite"></animateTransform>
+                                        <g class="journey-moon-carrier gemss-carrier">
                                             <circle class="journey-moon-dot gemss" cx="562" cy="336" r="9"></circle>
                                         </g>
                                     </g>
@@ -4227,842 +4500,131 @@
 
         <section id="experience">
             <h2>&lt; Professional Experience /&gt;</h2>
-            <div class="experience-grid">
-                <div class="experience-card">
+            <p class="experience-preview-intro">A career path from forecasting and geospatial ML into distributed data platforms and internal product engineering. Select a phase to enter the full 3D career orbit.</p>
+            <div class="experience-preview-grid">
+                <article class="experience-card experience-preview-card">
                     <div class="experience-head">
-                        <div>
-                            <h3>Software Developer</h3>
-                            <div class="company">New York University</div>
-                            <div class="date">Feb 2025 - Present</div>
-                        </div>
+                        <div><h3>Software Engineer</h3><div class="company">New York University</div><div class="date">Feb 2025 - May 2026</div></div>
                         <div class="experience-badge">Internal SaaS / Ops</div>
                     </div>
-                    <p class="experience-summary">Developing workflow software for NYU's Global Enrollment Management and Student Success team, supporting enrollment operations, staff communications, and service processes used by campus administrators.</p>
-                    <div class="experience-sections">
-                        <div class="experience-block">
-                            <h4>Role Focus</h4>
-                            <p>Partner with EM tech admins to design and improve Google Cloud-based SaaS solutions across the full lifecycle: backend logic analysis, front-end development, documentation, alpha testing, and production optimization.</p>
-                        </div>
-                        <div class="experience-block">
-                            <h4>Impact Highlights</h4>
-                            <ul class="impact-list">
-                                <li>Sole engineer on NYU GEMSS's production Asset Management System, owning the full codebase, infrastructure, CI/CD pipeline, and Dockerized deployment for a system managing 8,000+ devices and 300+ employees across the Admissions department</li>
-                                <li>Drove phased AI-assisted migration from Google Apps Script to a Node.js/Express, TypeScript, and MongoDB architecture, building an MVC-structured REST API layer with 10+ endpoints and introducing real-time data sync while preserving Google Sheets access during transition</li>
-                                <li>Engineered a fault-tolerant concurrent form submission system for employee onboarding/offboarding workflows, cutting retry failures by 40% under peak load; replaced slow service-layer search with a set-theory-backed compound filtering engine, improving record lookup speed by 50% across 8,000+ device records</li>
-                            </ul>
-                        </div>
-                        <div class="experience-block">
-                            <h4>Stack & Skills</h4>
-                            <div class="tech-stack">
-                                <span>JavaScript</span>
-                                <span>TypeScript</span>
-                                <span>Google Apps Script</span>
-                                <span>Google Sheets API</span>
-                                <span>Node.js</span>
-                                <span>Express</span>
-                                <span>MongoDB</span>
-                                <span>Docker</span>
-                                <span>CI/CD</span>
-                                <span>MVC</span>
-                                <span>Hostinger</span>
-                                <span>HTML</span>
-                                <span>UI/UX</span>
-                                <span>Testing</span>
-                                <span>Technical Documentation</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="experience-card">
+                    <p class="experience-preview-copy">Sole engineer for production operational software supporting enrollment teams, 8,000+ devices, and 300+ employees.</p>
+                    <div class="experience-preview-impact"><strong>50%</strong><span>Faster record lookup across production device records</span></div>
+                    <div class="tech-stack"><span>TypeScript</span><span>Node.js</span><span>MongoDB</span><span>Docker</span></div>
+                    <a class="experience-orbit-link" href="/experience/?focus=gemss">Enter NYU GEMSS orbit</a>
+                </article>
+                <article class="experience-card experience-preview-card">
                     <div class="experience-head">
-                        <div>
-                            <h3>Software Development Engineer</h3>
-                            <div class="company">Sainapse</div>
-                            <div class="date">July 2022 - May 2024</div>
-                        </div>
+                        <div><h3>Software Development Engineer</h3><div class="company">Sainapse</div><div class="date">Jul 2022 - May 2024</div></div>
                         <div class="experience-badge">Data Platforms</div>
                     </div>
-                    <p class="experience-summary">Worked in Sainapse's Research, Technology and Platform department, building platform capabilities that supported large-scale data ingestion, transfer, and downstream analytics and ML workflows.</p>
-                    <div class="experience-sections">
-                        <div class="experience-block">
-                            <h4>Role Focus</h4>
-                            <p>Developed PoCs, solved complex production bugs, and implemented performance-focused platform improvements across microservices, storage systems, and data transfer pipelines on AWS (Linux).</p>
-                        </div>
-                        <div class="experience-block">
-                            <h4>Impact Highlights</h4>
-                            <ul class="impact-list">
-                                <li>Optimized microservice file transfers via Apache Kafka using byte-level serialization/deserialization and parallel file distribution, reducing time complexity by 50% and space complexity by 33%</li>
-                                <li>Spearheaded HDFS implementation in Java for high-volume ingestion, storing 3B+ daily records with Hive across 10+ microservices and improving average system performance by 37%</li>
-                                <li>Designed a batch data adapter attached to BigQuery tables, enabling on-demand transfer of 2B+ rows for downstream ML workflows including free-text search and deduplication</li>
-                                <li>Improved extraction speed from 3GB+ XLSX and DOCX files by 30% by updating parsing logic with the Apryse Java SDK</li>
-                                <li>Pioneered an Apache Thrift proof of concept for cross-language model development across Java, Python, and Scala</li>
-                                <li>Mentored 4 university interns on product architecture and core technology stack, enabling independent feature delivery</li>
-                            </ul>
-                        </div>
-                        <div class="experience-block">
-                            <h4>Stack & Skills</h4>
-                            <div class="tech-stack">
-                                <span>Java</span>
-                                <span>Apache Kafka</span>
-                                <span>HDFS</span>
-                                <span>Apache Hive</span>
-                                <span>AWS (Linux)</span>
-                                <span>BigQuery</span>
-                                <span>Apryse SDK</span>
-                                <span>Apache Thrift</span>
-                                <span>Python</span>
-                                <span>Scala</span>
-                                <span>Data Pipelines</span>
-                                <span>PoCs</span>
-                                <span>Mentorship</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="experience-card">
+                    <p class="experience-preview-copy">Built high-volume ingestion, Kafka transfer, and analytics infrastructure across production platform services.</p>
+                    <div class="experience-preview-impact"><strong>3B+</strong><span>Daily records supported with HDFS and Hive</span></div>
+                    <div class="tech-stack"><span>Java</span><span>Kafka</span><span>HDFS</span><span>BigQuery</span></div>
+                    <a class="experience-orbit-link" href="/experience/?focus=sainapse">Enter Sainapse orbit</a>
+                </article>
+                <article class="experience-card experience-preview-card">
                     <div class="experience-head">
-                        <div>
-                            <h3>Data Science Intern</h3>
-                            <div class="company">AiDash</div>
-                            <div class="date">Jan 2022 - June 2022</div>
-                        </div>
+                        <div><h3>Data Science Intern</h3><div class="company">AiDash</div><div class="date">Jan 2022 - Jun 2022</div></div>
                         <div class="experience-badge">GeoAI / Remote Sensing</div>
                     </div>
-                    <p class="experience-summary">Supported geospatial ML work at AiDash by developing vegetation classification methods and LANDSAT image classification workflows for remote-sensing use cases.</p>
-                    <div class="experience-sections">
-                        <div class="experience-block">
-                            <h4>Role Focus</h4>
-                            <p>Built statistical approaches for vegetation classification, trained and evaluated LANDSAT machine learning models, and assessed model quality using metrics such as accuracy, precision, recall, and F1 score.</p>
-                        </div>
-                        <div class="experience-block">
-                            <h4>Impact Highlights</h4>
-                            <ul class="impact-list">
-                                <li>Architected an end-to-end LANDSAT classification pipeline leveraging ResNet, Keras, and TensorFlow; reduced image processing time by 40% while maintaining 95% classification accuracy</li>
-                                <li>Devised a Python-based grassland classification method to improve land ranking, achieving 78% accuracy and ranking 1st among peer solutions</li>
-                                <li>Built a Python script to automate satellite image labeling in QGIS, reducing manual processing time by 80%</li>
-                                <li>Resolved geospatial data handling during onboarding by performing CRUD operations on 10,000+ shapefiles using GeoPandas and PostgreSQL</li>
-                            </ul>
-                        </div>
-                        <div class="experience-block">
-                            <h4>Stack & Skills</h4>
-                            <div class="tech-stack">
-                                <span>Python</span>
-                                <span>TensorFlow</span>
-                                <span>Keras</span>
-                                <span>ResNet</span>
-                                <span>LANDSAT</span>
-                                <span>QGIS</span>
-                                <span>GeoPandas</span>
-                                <span>PostgreSQL</span>
-                                <span>Geospatial ML</span>
-                                <span>Model Evaluation</span>
-                                <span>Precision/Recall/F1</span>
-                                <span>Data Labeling</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="experience-card">
+                    <p class="experience-preview-copy">Developed LANDSAT classification and labeling workflows for vegetation and remote-sensing use cases.</p>
+                    <div class="experience-preview-impact"><strong>95%</strong><span>Classification accuracy with 40% faster processing</span></div>
+                    <div class="tech-stack"><span>Python</span><span>TensorFlow</span><span>ResNet</span><span>QGIS</span></div>
+                    <a class="experience-orbit-link" href="/experience/?focus=aidash">Enter AiDash orbit</a>
+                </article>
+                <article class="experience-card experience-preview-card">
                     <div class="experience-head">
-                        <div>
-                            <h3>Data Analyst Intern</h3>
-                            <div class="company">PayPal</div>
-                            <div class="date">May 2020 - June 2020</div>
-                        </div>
+                        <div><h3>Data Analyst Intern</h3><div class="company">PayPal</div><div class="date">May 2020 - Jun 2020</div></div>
                         <div class="experience-badge">Forecasting / Analytics</div>
                     </div>
-                    <p class="experience-summary">Supported demand analytics at PayPal by developing and maintaining forecasting models to identify trends in customer demand behavior.</p>
-                    <div class="experience-sections">
-                        <div class="experience-block">
-                            <h4>Role Focus</h4>
-                            <p>Built forecasting models, evaluated regression performance across multiple loss functions, and translated findings into a clear presentation with a peer team.</p>
-                        </div>
-                        <div class="experience-block">
-                            <h4>Impact Highlights</h4>
-                            <ul class="impact-list">
-                                <li>Identified 10+ customer demand trends and developed forecasting models with R² values close to 0.9</li>
-                                <li>Achieved R² scores of 0.98, 0.91, and 0.85 for squared, absolute, and infinite loss functions in a linear regression problem, demonstrating robustness to outliers</li>
-                                <li>Collaborated with a team of 4 peers to deliver a comprehensive presentation on forecasting customer demand</li>
-                            </ul>
-                        </div>
-                        <div class="experience-block">
-                            <h4>Stack & Skills</h4>
-                            <div class="tech-stack">
-                                <span>Python</span>
-                                <span>Forecasting</span>
-                                <span>Linear Regression</span>
-                                <span>Regression</span>
-                                <span>Loss Functions</span>
-                                <span>R² Evaluation</span>
-                                <span>Model Evaluation</span>
-                                <span>Data Analysis</span>
-                                <span>Presentation</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <p class="experience-preview-copy">Built and evaluated customer-demand forecasting models across multiple regression loss settings.</p>
+                    <div class="experience-preview-impact"><strong>0.98</strong><span>Top reported R-squared across evaluated models</span></div>
+                    <div class="tech-stack"><span>Python</span><span>Forecasting</span><span>Regression</span><span>Statistics</span></div>
+                    <a class="experience-orbit-link" href="/experience/?focus=paypal">Enter PayPal orbit</a>
+                </article>
+            </div>
+            <div class="experience-launch">
+                <a class="btn btn-primary" href="/experience/">Explore the complete career orbit</a>
             </div>
         </section>
-
         <section id="projects">
-            <h2>&lt; Featured Projects /&gt;</h2>
-            <p class="projects-lead">
-                A few selected builds that best represent how I approach product constraints, backend systems, and measurable technical impact.
-            </p>
+            <h2>&lt; Selected Work /&gt;</h2>
+            <p class="projects-lead">Three case studies that show how I handle product constraints, system boundaries, and measurable outcomes. Each opens into the architecture and tradeoffs behind the build.</p>
             <div class="project-grid">
                 <article class="project-card featured">
                     <div class="project-visual smart-task">
-                        <span class="project-index">Selected Build 01</span>
-                        <div class="project-visual-shape" aria-hidden="true">
-                            <svg class="project-architecture" viewBox="0 0 260 200">
-                                <defs>
-                                    <marker id="arch-arrow-smart-task" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-                                        <path d="M0 0 L8 4 L0 8 Z" fill="rgba(20, 184, 166, 0.48)"></path>
-                                    </marker>
-                                </defs>
-                                <rect class="arch-stage" x="12" y="22" rx="18" ry="18" width="236" height="50"></rect>
-                                <text class="arch-caption" x="46" y="38" text-anchor="middle">WEB</text>
-                                <text class="arch-caption" x="130" y="38" text-anchor="middle">API</text>
-                                <text class="arch-caption" x="214" y="38" text-anchor="middle">CHAT</text>
-
-                                <path class="arch-bus" d="M44 98 H216"></path>
-                                <path class="arch-link" style="marker-end:url(#arch-arrow-smart-task)" d="M74 98 H102"></path>
-                                <path class="arch-link" style="marker-end:url(#arch-arrow-smart-task)" d="M158 98 H186"></path>
-                                <path class="arch-link" style="marker-end:url(#arch-arrow-smart-task)" d="M130 98 V130"></path>
-
-                                <rect class="arch-node cool" x="18" y="44" rx="12" ry="12" width="56" height="30"></rect>
-                                <text x="46" y="62" text-anchor="middle">NEXT</text>
-
-                                <rect class="arch-node strong" x="102" y="42" rx="14" ry="14" width="56" height="34"></rect>
-                                <text x="130" y="62" text-anchor="middle">.NET</text>
-
-                                <rect class="arch-node cool" x="186" y="44" rx="12" ry="12" width="56" height="30"></rect>
-                                <text x="214" y="62" text-anchor="middle">BOT</text>
-
-                                <rect class="arch-node" x="38" y="130" rx="14" ry="14" width="64" height="28"></rect>
-                                <text class="arch-label-tight" x="70" y="147" text-anchor="middle">MONGODB</text>
-
-                                <rect class="arch-node" x="112" y="130" rx="14" ry="14" width="48" height="28"></rect>
-                                <text x="136" y="147" text-anchor="middle">REDIS</text>
-
-                                <rect class="arch-node cool" x="170" y="130" rx="14" ry="14" width="52" height="28"></rect>
-                                <text x="196" y="147" text-anchor="middle">PLACES</text>
-
-                                <rect class="arch-chip" x="34" y="166" rx="10" ry="10" width="54" height="20"></rect>
-                                <text x="61" y="179" text-anchor="middle">JWT</text>
-
-                                <rect class="arch-chip" x="98" y="166" rx="10" ry="10" width="58" height="20"></rect>
-                                <text x="127" y="179" text-anchor="middle">CI/CD</text>
-
-                                <rect class="arch-chip" x="166" y="166" rx="10" ry="10" width="60" height="20"></rect>
-                                <text x="196" y="179" text-anchor="middle">TG BOT</text>
-                            </svg>
+                        <span class="project-index">Case Study 01</span>
+                        <div class="project-case-map" aria-label="Smart Task Manager architecture summary">
+                            <span>Next.js</span><span>.NET API</span><span>MongoDB</span><span>Redis</span><span>FastAPI</span><span>Telegram</span>
                         </div>
-                        <div class="project-visual-footer">
-                            <div>
-                                <strong>Role</strong>
-                                Full-stack architecture
-                            </div>
-                            <div>
-                                <strong>Focus</strong>
-                                Messaging + reminders
-                            </div>
-                        </div>
+                        <div class="project-visual-footer"><div><strong>Role</strong>Full-stack architecture</div><div><strong>Focus</strong>Messaging + reminders</div></div>
                     </div>
                     <div class="project-body">
-                        <div class="project-topline">
-                            <span class="project-type">Demo Product / Distributed System</span>
-                        </div>
-                        <div class="project-title-row">
-                            <h3>Smart Task Manager</h3>
-                            <p>Production-style task manager with AI suggestions, saved places, location-aware reminders, and Telegram-first chat actions across a Next.js frontend, ASP.NET Core API, MongoDB, Redis, and Python recommender.</p>
-                        </div>
+                        <div class="project-topline"><span class="project-type">Distributed Product System</span></div>
+                        <div class="project-title-row"><h3>Smart Task Manager</h3><p>Task management connected to AI suggestions, saved places, active-browser location checks, and Telegram-first actions across a production-style service architecture.</p></div>
                         <div class="project-metrics">
-                            <div class="project-metric">
-                                <strong>Chat</strong>
-                                <span>Telegram-first workflow with Linq retained as an optional fallback channel</span>
-                            </div>
-                            <div class="project-metric">
-                                <strong>70%</strong>
-                                <span>Lower recommendation latency from TF-IDF plus Redis caching</span>
-                            </div>
-                            <div class="project-metric">
-                                <strong>CI/CD</strong>
-                                <span>Multi-service validation across frontend, .NET API, and recommendation service</span>
-                            </div>
-                        </div>
-                        <div class="project-detail-grid">
-                            <div class="project-detail">
-                                <h4>What It Solves</h4>
-                                <p>Connects web task management with saved places and chat-based quick actions, so users can receive contextual reminders near a linked place and complete or snooze from messaging.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Why It Matters</h4>
-                                <p>Demonstrates product-aware architecture: the web app remains the control surface, messaging becomes the action surface, and browser location limits are handled explicitly instead of overclaimed as native geofencing.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>What I Built</h4>
-                                <ul>
-                                    <li>Next.js and TypeScript frontend with authenticated tasks, reusable saved places, browser current-location capture, OpenStreetMap search, and map pin selection</li>
-                                    <li>ASP.NET Core API with JWT auth, repository/service layers, MongoDB persistence, Redis caching, reminder decisioning, and provider-specific message dispatch</li>
-                                    <li>Telegram webhook flow for HELP, LIST, ADD, DONE, DONE ALL, DELETE, and SNOOZE commands, with Linq retained as an optional text-based fallback</li>
-                                </ul>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Engineering Highlights</h4>
-                                <ul>
-                                    <li>Grouped multiple nearby linked tasks into one reminder and limited triggers to tasks attached to the matched saved place</li>
-                                    <li>Used temporary reminder context and snooze state so chat replies can complete or defer the correct tasks</li>
-                                    <li>Kept AI suggestions resilient with TF-IDF, Redis caching, retry-scoped recommender calls, and safe fallback responses</li>
-                                </ul>
-                            </div>
+                            <div class="project-metric"><strong>70%</strong><span>Lower recommendation latency with TF-IDF and Redis</span></div>
+                            <div class="project-metric"><strong>3</strong><span>Application services with clear ownership boundaries</span></div>
+                            <div class="project-metric"><strong>CI/CD</strong><span>Validation and deployment across the complete stack</span></div>
                         </div>
                         <div class="project-actions">
-                            <div class="project-stack-inline">
-                                <span>Next.js</span>
-                                <span>TypeScript</span>
-                                <span>ASP.NET Core</span>
-                                <span>MongoDB</span>
-                                <span>Redis</span>
-                                <span>FastAPI</span>
-                                <span>Scikit-learn</span>
-                                <span>Telegram Bot API</span>
-                                <span>Leaflet</span>
-                                <span>OpenStreetMap</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/swooshie/smart-task-manager" class="project-link" target="_blank" rel="noopener">View Code</a>
-                                <a href="https://smart-task-manager-ashy.vercel.app/" class="project-link secondary" target="_blank" rel="noopener">Live App</a>
-                            </div>
+                            <div class="project-stack-inline"><span>Next.js</span><span>ASP.NET Core</span><span>MongoDB</span><span>Redis</span><span>FastAPI</span></div>
+                            <div class="project-links"><a href="/projects/smart-task-manager/" class="project-link">View Case Study</a><a href="https://smart-task-manager-ashy.vercel.app/" class="project-link secondary" target="_blank" rel="noopener">Live App</a><a href="https://github.com/swooshie/smart-task-manager" class="project-link secondary" target="_blank" rel="noopener">Code</a></div>
                         </div>
                     </div>
                 </article>
-
                 <article class="project-card featured">
                     <div class="project-visual">
-                        <span class="project-index">Selected Build 02</span>
-                        <div class="project-visual-shape" aria-hidden="true">
-                            <svg class="project-architecture" viewBox="0 0 260 200">
-                                <defs>
-                                    <marker id="arch-arrow-poker" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-                                        <path d="M0 0 L8 4 L0 8 Z" fill="rgba(168, 85, 247, 0.48)"></path>
-                                    </marker>
-                                </defs>
-                                <rect class="arch-stage" x="12" y="22" rx="18" ry="18" width="236" height="50"></rect>
-                                <text class="arch-caption" x="46" y="38" text-anchor="middle">Agents</text>
-                                <text class="arch-caption" x="130" y="38" text-anchor="middle">Event Log</text>
-                                <text class="arch-caption" x="214" y="38" text-anchor="middle">Replay</text>
-
-                                <path class="arch-bus" d="M44 98 H216"></path>
-                                <path class="arch-link" style="marker-end:url(#arch-arrow-poker)" d="M74 98 H102"></path>
-                                <path class="arch-link" style="marker-end:url(#arch-arrow-poker)" d="M158 98 H186"></path>
-                                <path class="arch-link" style="marker-end:url(#arch-arrow-poker)" d="M130 98 V130"></path>
-
-                                <rect class="arch-node cool" x="18" y="44" rx="12" ry="12" width="56" height="30"></rect>
-                                <text x="46" y="62" text-anchor="middle">LLM</text>
-
-                                <rect class="arch-node strong" x="102" y="42" rx="14" ry="14" width="56" height="34"></rect>
-                                <text x="130" y="62" text-anchor="middle">JSON</text>
-
-                                <rect class="arch-node cool" x="186" y="44" rx="12" ry="12" width="56" height="30"></rect>
-                                <text x="214" y="62" text-anchor="middle">REACT</text>
-
-                                <rect class="arch-node" x="22" y="130" rx="14" ry="14" width="58" height="28"></rect>
-                                <text class="arch-label-tight" x="51" y="147" text-anchor="middle">SEALED</text>
-
-                                <rect class="arch-node" x="90" y="130" rx="14" ry="14" width="80" height="28"></rect>
-                                <text class="arch-label-tight" x="130" y="147" text-anchor="middle">OPENROUTER</text>
-
-                                <rect class="arch-node" x="180" y="130" rx="14" ry="14" width="58" height="28"></rect>
-                                <text class="arch-label-tight" x="209" y="147" text-anchor="middle">VOICE</text>
-
-                                <rect class="arch-chip" x="22" y="166" rx="10" ry="10" width="50" height="20"></rect>
-                                <text x="47" y="179" text-anchor="middle">BLUFF</text>
-
-                                <rect class="arch-chip" x="82" y="166" rx="10" ry="10" width="50" height="20"></rect>
-                                <text x="107" y="179" text-anchor="middle">TRAP</text>
-
-                                <rect class="arch-chip" x="142" y="166" rx="10" ry="10" width="76" height="20"></rect>
-                                <text class="arch-label-tight" x="180" y="179" text-anchor="middle">HERO CALL</text>
-                            </svg>
+                        <span class="project-index">Case Study 02</span>
+                        <div class="project-case-map poker-map" aria-label="Poker AI architecture summary">
+                            <span>Private State</span><span>4 Agents</span><span>LLM</span><span>JSON Log</span><span>React</span><span>Voice</span>
                         </div>
-                        <div class="project-visual-footer">
-                            <div>
-                                <strong>Role</strong>
-                                Agentic architecture + backend
-                            </div>
-                            <div>
-                                <strong>Focus</strong>
-                                Multi-agent systems
-                            </div>
-                        </div>
+                        <div class="project-visual-footer"><div><strong>Role</strong>Agentic architecture</div><div><strong>Focus</strong>Sealed information</div></div>
                     </div>
                     <div class="project-body">
-                        <div class="project-topline">
-                            <span class="project-type">NYC Tech Week Hackathon - Top 8 Finalist</span>
-                        </div>
-                        <div class="project-title-row">
-                            <h3>Poker AI - Sealed-State Multi-Agent Simulation</h3>
-                            <p>Sealed-state multi-agent simulation where 4 LLM-powered agents play Texas Hold'em with fully isolated private memory and adversarial reasoning.</p>
-                        </div>
+                        <div class="project-topline"><span class="project-type">NYC Tech Week Hackathon</span></div>
+                        <div class="project-title-row"><h3>Poker AI</h3><p>Four LLM-powered agents play Texas Hold'em with isolated private memory, distinct behavior, deterministic playback, and post-hand reasoning reveals.</p></div>
                         <div class="project-metrics">
-                            <div class="project-metric">
-                                <strong>4</strong>
-                                <span>Agents with isolated private state and independent per-agent memory</span>
-                            </div>
-                            <div class="project-metric">
-                                <strong>Top 8</strong>
-                                <span>Out of 130 builders at NYC Tech Week, co-hosted by NVIDIA x a16z</span>
-                            </div>
-                            <div class="project-metric">
-                                <strong>0</strong>
-                                <span>Runtime LLM calls during demo because outputs were pre-generated offline</span>
-                            </div>
-                        </div>
-                        <div class="project-detail-grid">
-                            <div class="project-detail">
-                                <h4>What It Solves</h4>
-                                <p>Most multi-agent demos give all agents shared context. Here, each agent operates with sealed private state, knows only its own hole cards, remembers its own history, and builds its own read on the table.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Why It Matters</h4>
-                                <p>Poker is the demo surface. The architecture generalizes to sealed-information multi-agent problems like M&amp;A negotiation, litigation strategy, and competitive market simulation.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>What I Built</h4>
-                                <ul>
-                                    <li>Designed the agentic graph and backend skeleton with 4 distinct behavioral profiles and bluff rates from 0-40%</li>
-                                    <li>Built an offline OpenRouter pipeline using NVIDIA Nemotron 70B to produce a static JSON event log for React playback</li>
-                                    <li>Generated ElevenLabs MP3 narration per agent action with subtitle fallback if audio fails</li>
-                                </ul>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Reveal Layer</h4>
-                                <ul>
-                                    <li>Post-hand reveal modal surfaces each agent's full reasoning only after the hand concludes</li>
-                                    <li>Reasoning is tagged with BLUFF, TRAP, HERO_CALL, TILT, and OPTIMAL_FOLD labels</li>
-                                    <li>No agent sees another agent's reasoning before the post-hand reveal</li>
-                                </ul>
-                            </div>
+                            <div class="project-metric"><strong>Top 8</strong><span>Finalist among 130 builders</span></div>
+                            <div class="project-metric"><strong>4</strong><span>Agents with isolated state and memory</span></div>
+                            <div class="project-metric"><strong>0</strong><span>Runtime LLM calls during demo playback</span></div>
                         </div>
                         <div class="project-actions">
-                            <div class="project-stack-inline">
-                                <span>Python</span>
-                                <span>React</span>
-                                <span>LLM</span>
-                                <span>Multi-Agent</span>
-                                <span>ElevenLabs</span>
-                                <span>OpenRouter</span>
-                                <span>JSON</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/swooshie/poker-ai" class="project-link" target="_blank" rel="noopener">View Code</a>
-                            </div>
+                            <div class="project-stack-inline"><span>Python</span><span>React</span><span>OpenRouter</span><span>ElevenLabs</span><span>JSON</span></div>
+                            <div class="project-links"><a href="/projects/poker-ai/" class="project-link">View Case Study</a><a href="https://github.com/swooshie/poker-ai" class="project-link secondary" target="_blank" rel="noopener">Code</a></div>
                         </div>
                     </div>
                 </article>
-
                 <article class="project-card featured">
                     <div class="project-visual">
-                        <span class="project-index">Selected Build 03</span>
-                        <div class="project-visual-shape" aria-hidden="true">
-                            <svg class="project-architecture" viewBox="0 0 260 200">
-                                <defs>
-                                    <marker id="arch-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-                                        <path d="M0 0 L8 4 L0 8 Z" fill="rgba(37, 99, 235, 0.45)"></path>
-                                    </marker>
-                                </defs>
-                                <rect class="arch-stage" x="12" y="22" rx="18" ry="18" width="236" height="50"></rect>
-                                <text class="arch-caption" x="46" y="38" text-anchor="middle">Source</text>
-                                <text class="arch-caption" x="130" y="38" text-anchor="middle">Core</text>
-                                <text class="arch-caption" x="214" y="38" text-anchor="middle">Delivery</text>
-
-                                <path class="arch-bus" d="M44 98 H216"></path>
-                                <path class="arch-link" d="M74 98 H102"></path>
-                                <path class="arch-link" d="M158 98 H186"></path>
-                                <path class="arch-link" d="M130 98 V130"></path>
-
-                                <rect class="arch-node" x="18" y="44" rx="12" ry="12" width="56" height="30"></rect>
-                                <text class="arch-label-tight" x="46" y="62" text-anchor="middle">FINNHUB</text>
-
-                                <rect class="arch-node strong" x="102" y="42" rx="14" ry="14" width="56" height="34"></rect>
-                                <text x="130" y="62" text-anchor="middle">FASTAPI</text>
-
-                                <rect class="arch-node" x="186" y="44" rx="12" ry="12" width="56" height="30"></rect>
-                                <text class="arch-label-tight" x="214" y="62" text-anchor="middle">API / CI</text>
-
-                                <rect class="arch-node cool" x="38" y="130" rx="14" ry="14" width="56" height="28"></rect>
-                                <text x="66" y="147" text-anchor="middle">KAFKA</text>
-
-                                <rect class="arch-node" x="102" y="130" rx="14" ry="14" width="56" height="28"></rect>
-                                <text x="130" y="147" text-anchor="middle">REDIS</text>
-
-                                <rect class="arch-node" x="166" y="130" rx="14" ry="14" width="76" height="28"></rect>
-                                <text class="arch-label-tight" x="204" y="147" text-anchor="middle">POSTGRES</text>
-
-                                <rect class="arch-chip" x="102" y="166" rx="10" ry="10" width="56" height="20"></rect>
-                                <text x="130" y="179" text-anchor="middle">DOCKER</text>
-                            </svg>
+                        <span class="project-index">Case Study 03</span>
+                        <div class="project-case-map market-map" aria-label="Market Data Service architecture summary">
+                            <span>Finnhub</span><span>FastAPI</span><span>Kafka</span><span>Redis</span><span>PostgreSQL</span><span>Docker</span>
                         </div>
-                        <div class="project-visual-footer">
-                            <div>
-                                <strong>Role</strong>
-                                Backend architecture
-                            </div>
-                            <div>
-                                <strong>Focus</strong>
-                                Event-driven systems
-                            </div>
-                        </div>
+                        <div class="project-visual-footer"><div><strong>Role</strong>Backend architecture</div><div><strong>Focus</strong>Event-driven systems</div></div>
                     </div>
                     <div class="project-body">
-                        <div class="project-topline">
-                            <span class="project-type">Assessment Demo / Microservices</span>
-                        </div>
-                        <div class="project-title-row">
-                            <h3>Market Data Service</h3>
-                            <p>Production-style market ingestion microservice built to show how polling, event streaming, caching, persistence, and analytics-ready APIs fit together cleanly.</p>
-                        </div>
+                        <div class="project-topline"><span class="project-type">Assessment Demo / Microservices</span></div>
+                        <div class="project-title-row"><h3>Market Data Service</h3><p>Event-driven market ingestion with polling, streaming, low-latency caching, durable persistence, analytics-ready APIs, containers, tests, and CI.</p></div>
                         <div class="project-metrics">
-                            <div class="project-metric">
-                                <strong>40%</strong>
-                                <span>Higher processing scalability in the final design</span>
-                            </div>
-                            <div class="project-metric">
-                                <strong>25%</strong>
-                                <span>Lower average API response time</span>
-                            </div>
-                            <div class="project-metric">
-                                <strong>CI</strong>
-                                <span>Automated tests and Docker validation in GitHub Actions</span>
-                            </div>
-                        </div>
-                        <div class="project-detail-grid">
-                            <div class="project-detail">
-                                <h4>What It Solves</h4>
-                                <p>Demonstrates a real backend architecture for quote polling and derived analytics, instead of a single-script assessment submission.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Why It Matters</h4>
-                                <p>Shows API design, async event processing, service orchestration, caching strategy, and testability in one coherent system.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>What I Built</h4>
-                                <ul>
-                                    <li>FastAPI service for polling quotes, moving averages, and latest-price endpoints</li>
-                                    <li>Kafka publishing and consumption around market events and downstream processing</li>
-                                    <li>Redis cache plus PostgreSQL raw and processed persistence layers</li>
-                                </ul>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Engineering Highlights</h4>
-                                <ul>
-                                    <li>Docker Compose stack for reproducible local setup</li>
-                                    <li>SlowAPI rate limiting and pytest coverage across sync and async routes</li>
-                                    <li>GitHub Actions workflow for automated test and build validation</li>
-                                </ul>
-                            </div>
+                            <div class="project-metric"><strong>40%</strong><span>Higher processing scalability</span></div>
+                            <div class="project-metric"><strong>25%</strong><span>Lower average API response time</span></div>
+                            <div class="project-metric"><strong>CI</strong><span>Automated test and Docker validation</span></div>
                         </div>
                         <div class="project-actions">
-                            <div class="project-stack-inline">
-                                <span>FastAPI</span>
-                                <span>Kafka</span>
-                                <span>Redis</span>
-                                <span>PostgreSQL</span>
-                                <span>Docker</span>
-                                <span>Pytest</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/swooshie/market-data-microservice" class="project-link" target="_blank" rel="noopener">View Code</a>
-                            </div>
+                            <div class="project-stack-inline"><span>FastAPI</span><span>Kafka</span><span>Redis</span><span>PostgreSQL</span><span>Docker</span></div>
+                            <div class="project-links"><a href="/projects/market-data-service/" class="project-link">View Case Study</a><a href="https://github.com/swooshie/market-data-microservice" class="project-link secondary" target="_blank" rel="noopener">Code</a></div>
                         </div>
                     </div>
                 </article>
-
-                <article class="project-card featured">
-                    <div class="project-visual ai-suite">
-                        <span class="project-index">Selected Build 04</span>
-                        <div class="project-visual-shape" aria-hidden="true">
-                            <svg class="project-architecture" viewBox="0 0 260 200">
-                                <defs>
-                                    <marker id="arch-arrow-ai" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-                                        <path d="M0 0 L8 4 L0 8 Z" fill="rgba(56, 189, 248, 0.45)"></path>
-                                    </marker>
-                                </defs>
-                                <rect class="arch-stage" x="12" y="22" rx="18" ry="18" width="236" height="50"></rect>
-                                <text class="arch-caption" x="46" y="38" text-anchor="middle">Ingest</text>
-                                <text class="arch-caption" x="130" y="38" text-anchor="middle">Reasoning</text>
-                                <text class="arch-caption" x="214" y="38" text-anchor="middle">Serve</text>
-
-                                <path class="arch-bus" d="M44 98 H216"></path>
-                                <path class="arch-link" style="marker-end:url(#arch-arrow-ai)" d="M74 98 H102"></path>
-                                <path class="arch-link" style="marker-end:url(#arch-arrow-ai)" d="M158 98 H186"></path>
-                                <path class="arch-link" style="marker-end:url(#arch-arrow-ai)" d="M130 98 V130"></path>
-
-                                <rect class="arch-node" x="18" y="44" rx="12" ry="12" width="56" height="30"></rect>
-                                <text x="46" y="62" text-anchor="middle">ETL</text>
-
-                                <rect class="arch-node cool" x="102" y="42" rx="14" ry="14" width="56" height="34"></rect>
-                                <text x="130" y="62" text-anchor="middle">MODELS</text>
-
-                                <rect class="arch-node" x="186" y="44" rx="12" ry="12" width="56" height="30"></rect>
-                                <text x="214" y="62" text-anchor="middle">APP</text>
-
-                                <rect class="arch-node strong" x="70" y="130" rx="14" ry="14" width="64" height="28"></rect>
-                                <text x="102" y="147" text-anchor="middle">QDRANT</text>
-
-                                <rect class="arch-node cool" x="142" y="130" rx="14" ry="14" width="48" height="28"></rect>
-                                <text x="166" y="147" text-anchor="middle">PDDL</text>
-
-                                <rect class="arch-chip" x="18" y="166" rx="10" ry="10" width="50" height="20"></rect>
-                                <text x="43" y="179" text-anchor="middle">CLIP</text>
-
-                                <rect class="arch-chip" x="74" y="166" rx="10" ry="10" width="50" height="20"></rect>
-                                <text x="99" y="179" text-anchor="middle">BERT</text>
-
-                                <rect class="arch-chip" x="130" y="166" rx="10" ry="10" width="56" height="20"></rect>
-                                <text x="158" y="179" text-anchor="middle">SPACY</text>
-
-                                <rect class="arch-chip" x="192" y="166" rx="10" ry="10" width="50" height="20"></rect>
-                                <text x="217" y="179" text-anchor="middle">DB</text>
-                            </svg>
-                        </div>
-                        <div class="project-visual-footer">
-                            <div>
-                                <strong>Role</strong>
-                                End-to-end implementation
-                            </div>
-                            <div>
-                                <strong>Focus</strong>
-                                AI systems breadth
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-body">
-                        <div class="project-topline">
-                            <span class="project-type">Coursework / Multi-Assignment</span>
-                        </div>
-                        <div class="project-title-row">
-                            <h3>AI Project Suite</h3>
-                            <p>A concentrated portfolio of AI coursework turned into working implementations across anomaly detection, computer vision, planning, routing, retrieval, and video-data pipelines.</p>
-                        </div>
-                        <div class="project-metrics">
-                            <div class="project-metric">
-                                <strong>Multi</strong>
-                                <span>Planning, CV, anomaly detection, retrieval, and ETL in one suite</span>
-                            </div>
-                            <div class="project-metric">
-                                <strong>Docs</strong>
-                                <span>Notebook explanations designed for coursework review and discussion</span>
-                            </div>
-                            <div class="project-metric">
-                                <strong>Reuse</strong>
-                                <span>Practical code structure beyond one-off assignment submissions</span>
-                            </div>
-                        </div>
-                        <div class="project-detail-grid">
-                            <div class="project-detail">
-                                <h4>What It Solves</h4>
-                                <p>Transforms separate lecture topics into concrete systems, making the portfolio useful for technical interviews instead of just classroom grading.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Why It Matters</h4>
-                                <p>Shows breadth across both modeling and systems work, which is stronger than showcasing only one narrow AI problem.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>What I Built</h4>
-                                <ul>
-                                    <li>Anomalib workflows with PatchCore and EfficientAD plus related similarity-search work</li>
-                                    <li>Detection, tracking, and traffic-counting tasks including YOLOv4-CSP and Kalman filters</li>
-                                    <li>PDDL-based LLM routing paired with OpenRouter for runtime request decisions</li>
-                                </ul>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Pipeline Highlights</h4>
-                                <ul>
-                                    <li>Video ETL and featurization pipeline with MongoDB, OpenCLIP, BERT, spaCy, and Qdrant</li>
-                                    <li>Notebook-backed explanations for statistical modeling and optimization assignments</li>
-                                    <li>Reusable implementations spanning theory-heavy and systems-heavy AI work</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="project-actions">
-                            <div class="project-stack-inline">
-                                <span>Python</span>
-                                <span>Qdrant</span>
-                                <span>MongoDB</span>
-                                <span>OpenCLIP</span>
-                                <span>anomalib</span>
-                                <span>PDDL</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/swooshie/Artificial-Intelligence-Project" class="project-link" target="_blank" rel="noopener">View Code</a>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card featured">
-                    <div class="project-visual apple-wallet">
-                        <span class="project-index">Selected Build 05</span>
-                        <div class="project-visual-shape" aria-hidden="true">
-                            <svg class="project-architecture" viewBox="0 0 260 200">
-                                <defs>
-                                    <marker id="arch-arrow-wallet" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-                                        <path d="M0 0 L8 4 L0 8 Z" fill="rgba(249, 115, 22, 0.48)"></path>
-                                    </marker>
-                                </defs>
-                                <rect class="arch-stage" x="12" y="22" rx="18" ry="18" width="236" height="50"></rect>
-                                <text class="arch-caption" x="46" y="38" text-anchor="middle">Admin</text>
-                                <text class="arch-caption" x="130" y="38" text-anchor="middle">Workflow</text>
-                                <text class="arch-caption" x="214" y="38" text-anchor="middle">User</text>
-
-                                <path class="arch-bus" d="M44 98 H216"></path>
-                                <path class="arch-link" style="marker-end:url(#arch-arrow-wallet)" d="M74 98 H102"></path>
-                                <path class="arch-link" style="marker-end:url(#arch-arrow-wallet)" d="M158 98 H186"></path>
-                                <path class="arch-link" style="marker-end:url(#arch-arrow-wallet)" d="M130 98 V130"></path>
-
-                                <rect class="arch-node warm" x="18" y="44" rx="12" ry="12" width="56" height="30"></rect>
-                                <text x="46" y="62" text-anchor="middle">GAS</text>
-
-                                <rect class="arch-node strong" x="102" y="42" rx="14" ry="14" width="56" height="34"></rect>
-                                <text x="130" y="62" text-anchor="middle">FLOW</text>
-
-                                <rect class="arch-node warm" x="186" y="44" rx="12" ry="12" width="56" height="30"></rect>
-                                <text x="214" y="62" text-anchor="middle">USER</text>
-
-                                <rect class="arch-node" x="58" y="130" rx="14" ry="14" width="64" height="28"></rect>
-                                <text x="90" y="147" text-anchor="middle">SHEETS</text>
-
-                                <rect class="arch-node warm" x="132" y="130" rx="14" ry="14" width="64" height="28"></rect>
-                                <text x="164" y="147" text-anchor="middle">PASSKIT</text>
-
-                                <rect class="arch-chip" x="18" y="166" rx="10" ry="10" width="56" height="20"></rect>
-                                <text class="arch-label-tight" x="46" y="179" text-anchor="middle">MAILAPP</text>
-
-                                <rect class="arch-chip" x="90" y="166" rx="10" ry="10" width="28" height="20"></rect>
-                                <text x="104" y="179" text-anchor="middle">QR</text>
-
-                                <rect class="arch-chip" x="134" y="166" rx="10" ry="10" width="108" height="20"></rect>
-                                <text class="arch-label-tight" x="188" y="179" text-anchor="middle">APPLE WALLET</text>
-                            </svg>
-                        </div>
-                        <div class="project-visual-footer">
-                            <div>
-                                <strong>Role</strong>
-                                Full-stack workflow
-                            </div>
-                            <div>
-                                <strong>Focus</strong>
-                                Operational automation
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-body">
-                        <div class="project-topline">
-                            <span class="project-type">NYU / Workflow Automation</span>
-                        </div>
-                        <div class="project-title-row">
-                            <h3>Apple Wallet Coupon System</h3>
-                            <p>Admin workflow for creating, distributing, validating, and tracking Apple Wallet coupons across Google Apps Script, PassKit, Google Sheets, email, and SMS channels.</p>
-                        </div>
-                        <div class="project-metrics">
-                            <div class="project-metric">
-                                <strong>500+</strong>
-                                <span>Coupons generated through the automated workflow</span>
-                            </div>
-                            <div class="project-metric">
-                                <strong>40%</strong>
-                                <span>Operational efficiency improvement from automation</span>
-                            </div>
-                            <div class="project-metric">
-                                <strong>2-3w</strong>
-                                <span>Assessment delivery timeline under interview constraints</span>
-                            </div>
-                        </div>
-                        <div class="project-detail-grid">
-                            <div class="project-detail">
-                                <h4>What It Solves</h4>
-                                <p>Replaces manual coupon campaign setup and redemption tracking with a repeatable admin workflow and validation-backed redemption logic.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Why It Matters</h4>
-                                <p>Combines workflow design, third-party API integration, operational validation, and delivery speed under a realistic interview constraint.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>What I Built</h4>
-                                <ul>
-                                    <li>Campaign creation and management flow in Google Apps Script with configurable coupon settings</li>
-                                    <li>Coupon distribution via QR, email, and SMS with MailApp (Google Apps Script) and PassKit integration</li>
-                                    <li>Scanner-assisted redemption validation and Google Sheets-backed campaign records</li>
-                                </ul>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Execution Highlights</h4>
-                                <ul>
-                                    <li>Handled duplicate redemption and counter integrity validation in the workflow</li>
-                                    <li>Added expiry notification automation through self-triggering scripts</li>
-                                    <li>Built a responsive admin-facing UI for practical operations use</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="project-actions">
-                            <div class="project-stack-inline">
-                                <span>Google Apps Script</span>
-                                <span>PassKit</span>
-                                <span>Google Sheets</span>
-                                <span>MailApp</span>
-                                <span>Bootstrap</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/swooshie/apple-wallet-coupon-maker" class="project-link" target="_blank" rel="noopener">View Code</a>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
                 <div class="project-compact-grid">
-                    <article class="project-card compact">
-                        <div class="project-topline">
-                            <span class="project-type">Coursework / CV Portfolio</span>
-                        </div>
-                        <h3>Computer Vision Portfolio</h3>
-                        <p>Organized CV portfolio spanning restoration, segmentation, tracking, multimodal Kaggle workflows, and geolocation, with reproducibility notes and reusable scripts.</p>
-                        <div class="project-stack-inline">
-                            <span>PyTorch</span>
-                            <span>OpenCV</span>
-                            <span>CellPose</span>
-                            <span>YOLO</span>
-                            <span>Albumentations</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/swooshie/computer-vision" class="project-link secondary" target="_blank" rel="noopener">View Code</a>
-                        </div>
-                    </article>
-
-                    <article class="project-card compact">
-                        <div class="project-topline">
-                            <span class="project-type">Portfolio / Product Layer</span>
-                        </div>
-                        <h3>Portfolio Chatbot</h3>
-                        <p>Embedded recruiter-facing assistant for this site that retrieves context from structured markdown notes and responds with grounded portfolio answers.</p>
-                        <div class="project-stack-inline">
-                            <span>JavaScript</span>
-                            <span>PHP</span>
-                            <span>Markdown Retrieval</span>
-                            <span>Gemini API</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#chat" class="project-link secondary" data-open-portfolio-chat="true">Open Chat</a>
-                        </div>
-                    </article>
+                    <article class="project-card compact"><div class="project-topline"><span class="project-type">Coursework / AI Portfolio</span></div><h3>Artificial Intelligence Project Suite</h3><p>Planning, anomaly detection, image pipelines, retrieval, and explainability across a multi-assignment implementation suite.</p><div class="project-stack-inline"><span>Python</span><span>PyTorch</span><span>YOLO</span><span>FAISS</span><span>SHAP</span></div><div class="project-links"><a href="https://github.com/swooshie/Artificial-Intelligence-Project" class="project-link secondary" target="_blank" rel="noopener">View Code</a></div></article>
+                    <article class="project-card compact"><div class="project-topline"><span class="project-type">NYU / Workflow Automation</span></div><h3>Apple Wallet Coupon System</h3><p>End-to-end coupon creation and QR redemption workflow using Google Sheets as the operational system of record.</p><div class="project-stack-inline"><span>Apps Script</span><span>JavaScript</span><span>PassKit</span><span>Google Sheets</span></div><div class="project-links"><a href="https://github.com/swooshie/apple-wallet-coupon-maker" class="project-link secondary" target="_blank" rel="noopener">View Code</a></div></article>
+                    <article class="project-card compact"><div class="project-topline"><span class="project-type">Coursework / CV Portfolio</span></div><h3>Computer Vision Portfolio</h3><p>Restoration, segmentation, tracking, multimodal workflows, and geolocation with reproducibility notes and reusable scripts.</p><div class="project-stack-inline"><span>PyTorch</span><span>OpenCV</span><span>CellPose</span><span>YOLO</span></div><div class="project-links"><a href="https://github.com/swooshie/computer-vision" class="project-link secondary" target="_blank" rel="noopener">View Code</a></div></article>
+                    <article class="project-card compact"><div class="project-topline"><span class="project-type">Portfolio / Product Layer</span></div><h3>Portfolio Chatbot</h3><p>Recruiter-facing assistant that retrieves structured portfolio context and returns grounded answers through Gemini.</p><div class="project-stack-inline"><span>JavaScript</span><span>PHP</span><span>Markdown Retrieval</span><span>Gemini</span></div><div class="project-links"><a href="#chat" class="project-link secondary" data-open-portfolio-chat="true">Open Chat</a></div></article>
                 </div>
             </div>
         </section>
-
         <section id="skills">
             <h2>&lt; Technical Skills /&gt;</h2>
             <p class="skills-lead">I work across backend systems, data-heavy services, and internal product delivery. These are the capability areas I reach for most often, rather than an exhaustive inventory of every tool I have touched.</p>
@@ -5350,12 +4912,13 @@
     </div>
 
     <footer>
-        <p style="color: var(--footer-text);">&copy; 2025 Aditya Jhaveri. All rights reserved.</p>
+        <p style="color: var(--footer-text);">&copy; 2026 Aditya Jhaveri. All rights reserved.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha512-q+4liFwdPC/bNdhUpZx6aXDx/h77yEQtn4I1slHydcbZK34nLaR3cAeYSJshoxIOq3mjEf7xJE8YWIUHMn+oCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/animejs/dist/bundles/anime.umd.min.js"></script>
+    <script src="/assets/site-cursor.js"></script>
     <script>
       (function () {
         const bust = Date.now();
